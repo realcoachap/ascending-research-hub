@@ -1,0 +1,78 @@
+<!doctype html>
+<!-- Ascending Research Hub v0.1.0 — Theokoles ☠️ — 2026-05-20 -->
+<!-- WHY: Premium gateway page separating research education, tools, verification, and commerce destinations without dosing/protocol claims. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#07101d" />
+  <meta name="description" content="Ascending Research hub for research tools, education, batch verification, and compliant research-use destinations." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <title>Ascending Research Hub</title>
+  <style>
+    :root{--bg:#050a13;--ink:#f8fbff;--muted:rgba(248,251,255,.66);--faint:rgba(248,251,255,.43);--panel:rgba(255,255,255,.065);--panel2:rgba(255,255,255,.04);--line:rgba(255,255,255,.12);--gold:#f6b73c;--gold2:#ffe9a8;--cyan:#69e6ff;--violet:#a78bfa;--green:#76f7b0;--red:#ff8c8c;--shadow:0 32px 100px rgba(0,0,0,.42)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(circle at 8% 0%,rgba(246,183,60,.22),transparent 30%),radial-gradient(circle at 92% 8%,rgba(105,230,255,.16),transparent 28%),radial-gradient(circle at 50% 100%,rgba(167,139,250,.13),transparent 36%),var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,a{font:inherit}a{color:inherit}.noise{position:fixed;inset:0;pointer-events:none;opacity:.24;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");mix-blend-mode:soft-light}.wrap{width:min(1180px,calc(100% - 32px));margin:auto}.nav{display:flex;justify-content:space-between;gap:18px;align-items:center;padding:20px 0}.brand{display:flex;align-items:center;gap:12px}.mark{width:50px;height:50px;border:1px solid rgba(255,233,168,.28);border-radius:18px;background:linear-gradient(135deg,rgba(246,183,60,.25),rgba(105,230,255,.08));display:grid;place-items:center;font-weight:950;box-shadow:inset 0 0 30px rgba(246,183,60,.12)}.brand small{display:block;color:var(--faint);font-size:12px;margin-top:2px}.navLinks{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.pill{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid var(--line);background:rgba(255,255,255,.055);color:rgba(248,251,255,.76);border-radius:999px;padding:9px 12px;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.14em}.pill.gold{border-color:rgba(255,233,168,.3);background:rgba(246,183,60,.12);color:var(--gold2)}.hero{padding:30px 0 34px}.heroGrid{display:grid;grid-template-columns:.92fr 1.08fr;gap:28px;align-items:center}.eyebrow{display:inline-flex;gap:8px;align-items:center}.eyebrow:before{content:"";width:8px;height:8px;border-radius:99px;background:var(--green);box-shadow:0 0 20px var(--green)}h1{font-size:clamp(46px,7.4vw,88px);line-height:.88;letter-spacing:-.075em;margin:18px 0 0;font-weight:980}.lede{font-size:clamp(17px,2.1vw,21px);line-height:1.62;color:var(--muted);max-width:710px;margin:24px 0 0}.ctaRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}.btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border-radius:18px;padding:15px 18px;font-size:12px;font-weight:950;text-transform:uppercase;letter-spacing:.14em}.btn.primary{background:var(--gold);color:#09111f}.btn.secondary{border:1px solid var(--line);background:rgba(255,255,255,.045);color:var(--muted)}.mission{border:1px solid rgba(255,255,255,.16);background:linear-gradient(180deg,rgba(255,255,255,.095),rgba(255,255,255,.045));border-radius:36px;padding:12px;box-shadow:var(--shadow);backdrop-filter:blur(18px)}.missionInner{border:1px solid var(--line);background:rgba(7,16,29,.86);border-radius:28px;padding:20px}.route{display:flex;gap:13px;align-items:center;border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:22px;padding:14px;margin-top:10px}.route:first-child{margin-top:0}.routeIcon{width:44px;height:44px;border-radius:16px;display:grid;place-items:center;background:rgba(246,183,60,.1);border:1px solid rgba(255,233,168,.2);font-weight:950}.route strong{display:block}.route span{display:block;color:var(--faint);font-size:13px;margin-top:3px}.section{padding:34px 0}.sectionTitle{display:flex;justify-content:space-between;gap:18px;align-items:end;margin-bottom:14px}h2{font-size:clamp(31px,4vw,50px);line-height:1;letter-spacing:-.055em;margin:0}.destGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{position:relative;overflow:hidden;min-height:280px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.035));border-radius:28px;padding:20px;text-decoration:none;transition:.2s}.card:hover{transform:translateY(-4px);border-color:rgba(255,233,168,.32);background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.045))}.card:before{content:"";position:absolute;inset:0 0 auto;height:120px;background:linear-gradient(135deg,var(--a),transparent);opacity:.52}.card>*{position:relative}.status{display:flex;justify-content:space-between;align-items:center;gap:10px}.tag{border:1px solid var(--line);background:rgba(0,0,0,.16);border-radius:999px;padding:7px 9px;font-size:10px;font-weight:950;text-transform:uppercase;letter-spacing:.13em;color:var(--faint)}.tag.live{border-color:rgba(118,247,176,.25);background:rgba(118,247,176,.08);color:rgba(196,255,220,.9)}.orb{width:48px;height:48px;border-radius:18px;display:grid;place-items:center;background:rgba(255,255,255,.07);border:1px solid var(--line);font-size:22px}.card h3{font-size:25px;line-height:1.05;letter-spacing:-.04em;margin:54px 0 0}.card p{color:var(--muted);line-height:1.55;margin:14px 0 0}.open{display:inline-flex;margin-top:18px;color:var(--gold2);font-size:12px;font-weight:950;text-transform:uppercase;letter-spacing:.14em}.spine{display:grid;grid-template-columns:.88fr 1.12fr;gap:14px}.panel{border:1px solid var(--line);background:var(--panel);border-radius:28px;padding:20px}.panel h3{font-size:23px;margin:0 0 12px}.panel p,.panel li{color:var(--muted);line-height:1.6}.panel ul{margin:0;padding-left:20px}.splitList{display:grid;gap:10px}.rule{border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:18px;padding:13px}.rule b{display:block;color:var(--ink)}.rule span{display:block;color:var(--faint);font-size:13px;margin-top:4px}.footer{padding:22px 0 40px;color:var(--faint);font-size:12px}.install{cursor:pointer}.hidden{display:none!important}@media(max-width:960px){.heroGrid,.spine{grid-template-columns:1fr}.destGrid{grid-template-columns:repeat(2,1fr)}}@media(max-width:680px){.wrap{width:min(100% - 22px,1180px)}.nav{align-items:flex-start}.navLinks .pill:not(.gold){display:none}.destGrid{grid-template-columns:1fr}.card{min-height:238px}.sectionTitle{display:block}.sectionTitle .pill{margin-top:12px}.ctaRow .btn{width:100%}}
+  </style>
+</head>
+<body>
+  <div class="noise"></div>
+  <header class="wrap hero">
+    <nav class="nav" aria-label="Primary">
+      <div class="brand"><div class="mark">AR</div><div><strong>Ascending Research</strong><small>Hub v0.1.0 · research-use routing</small></div></div>
+      <div class="navLinks"><a class="pill" href="#destinations">Destinations</a><a class="pill" href="#spine">Compliance spine</a><button class="pill gold install hidden" id="installBtn">Install</button></div>
+    </nav>
+    <div class="heroGrid">
+      <section>
+        <span class="pill gold eyebrow">Research tools, references, and verification</span>
+        <h1>One clean gateway. Separate destinations. No confusion.</h1>
+        <p class="lede">A premium portal for education, calculation tools, batch verification, and research-use commerce — organized like mission control, worded like a serious lab resource.</p>
+        <div class="ctaRow"><a class="btn primary" href="#destinations">Open the hub</a><a class="btn secondary" href="https://realcoachap.github.io/research-concentration-calculator/">Launch calculator</a></div>
+      </section>
+      <aside class="mission" aria-label="Hub routing preview">
+        <div class="missionInner">
+          <div class="route"><div class="routeIcon">01</div><div><strong>Learn the concepts</strong><span>Education without commerce pressure.</span></div></div>
+          <div class="route"><div class="routeIcon">02</div><div><strong>Run the math</strong><span>Research concentration calculator and unit mapping.</span></div></div>
+          <div class="route"><div class="routeIcon">03</div><div><strong>Verify the batch</strong><span>COA lookup, lot numbers, transparency.</span></div></div>
+          <div class="route"><div class="routeIcon">04</div><div><strong>Visit research store</strong><span>Strict research-use-only commerce lane.</span></div></div>
+        </div>
+      </aside>
+    </div>
+  </header>
+  <main>
+    <section class="wrap section" id="destinations">
+      <div class="sectionTitle"><div><span class="pill gold">Destination cards</span><h2>Choose the right lane.</h2></div><span class="pill">Built for clean separation</span></div>
+      <div class="destGrid">
+        <a class="card" style="--a:rgba(246,183,60,.55)" href="https://realcoachap.github.io/research-concentration-calculator/"><div class="status"><span class="tag live">Live tool</span><div class="orb">∑</div></div><h3>Research Concentration Calculator</h3><p>Vial mass, reconstitution volume, unit mapping, reverse water-volume math, and visual clarity.</p><span class="open">Open calculator →</span></a>
+        <a class="card" style="--a:rgba(105,230,255,.46)" href="#education"><div class="status"><span class="tag">Preview lane</span><div class="orb">◇</div></div><h3>Education Library</h3><p>Research terminology, mechanisms, handling concepts, and safety-first explanations without product claims.</p><span class="open">Open soon →</span></a>
+        <a class="card" style="--a:rgba(118,247,176,.4)" href="#batch"><div class="status"><span class="tag">Trust lane</span><div class="orb">✓</div></div><h3>Batch + COA Verification</h3><p>Batch number lookup, third-party testing documents, purity records, and storage notes.</p><span class="open">Open soon →</span></a>
+        <a class="card" style="--a:rgba(167,139,250,.44)" href="#reference"><div class="status"><span class="tag">Reference lane</span><div class="orb">⌁</div></div><h3>Research Reference Notes</h3><p>Structured, citation-aware reference material framed for literacy — not human-use instructions.</p><span class="open">Open soon →</span></a>
+        <a class="card" style="--a:rgba(255,140,140,.4)" href="#store"><div class="status"><span class="tag">Separate property</span><div class="orb">R</div></div><h3>Research Compounds</h3><p>A strict research-use-only store lane with clear labels, COAs, batch info, and no protocol language.</p><span class="open">Route later →</span></a>
+        <a class="card" style="--a:rgba(255,233,168,.42)" href="#faq"><div class="status"><span class="tag">Clarity lane</span><div class="orb">?</div></div><h3>FAQ + Compliance</h3><p>Shipping, storage, lab handling, terms, research-only boundaries, and plain-language site rules.</p><span class="open">Open soon →</span></a>
+      </div>
+    </section>
+    <section class="wrap section" id="spine">
+      <div class="sectionTitle"><div><span class="pill gold">Compliance spine</span><h2>Useful without looking evasive.</h2></div></div>
+      <div class="spine">
+        <article class="panel"><h3>The principle</h3><p>The hub should feel like a professional directory: tools, education, verification, and commerce each have a clear purpose. The separation is real because the wording, UX, and links keep each lane disciplined.</p></article>
+        <article class="panel splitList">
+          <div class="rule"><b>Education lane</b><span>General literacy, mechanisms, terms, and research context. No buying pressure.</span></div>
+          <div class="rule"><b>Calculator lane</b><span>Arithmetic-only outputs: concentration, unit mapping, reverse volume math.</span></div>
+          <div class="rule"><b>Store lane</b><span>Research-use-only catalog, COAs, batch details, storage, terms. No protocol or dose language.</span></div>
+        </article>
+      </div>
+    </section>
+    <section class="wrap section">
+      <div class="panel"><h3>Launch sequence</h3><ul><li>First live link: Research Concentration Calculator.</li><li>Next build: COA / batch verification mockup.</li><li>Then: education library shell with peptide-neutral glossary and safety framing.</li><li>Final: route to store only after compliance copy is locked.</li></ul></div>
+    </section>
+  </main>
+  <footer class="wrap footer">Ascending Research Hub v0.1.0 — Built by Theokoles ☠️ — 2026-05-20. Research-use routing concept only; no medical advice, treatment claims, protocol instructions, or dosing recommendations.</footer>
+  <script>
+    // Ascending Research Hub v0.1.0 — Theokoles ☠️ — 2026-05-20
+    // WHY: Lightweight static hub with local-only behavior and optional PWA install prompt.
+    let deferredPrompt;const installBtn=document.getElementById('installBtn');
+    window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;installBtn.classList.remove('hidden')});
+    installBtn.addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;installBtn.classList.add('hidden')});
+    if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}
+  </script>
+</body>
+</html>
