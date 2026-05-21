@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-05-21
+### Fixed
+- Removed leftover COA-specific styles from the hub page after moving COA content to the dedicated page.
+
+
 ## [0.2.1] - 2026-05-21
 ### Changed
 - Moved Batch + COA Verification from an in-page section to a dedicated `coa.html` destination page.
