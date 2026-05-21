@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [0.3.3] - 2026-05-21
+### Fixed
+- Normalized floating dock HTML/CSS so hub and COA use the exact same shared dock component.
+
+
 ## [0.3.2] - 2026-05-21
 ### Changed
 - Standardized floating dock labels across pages: Hub, Calc, Learn, COA, Shop.

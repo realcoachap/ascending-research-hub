@@ -28,3 +28,6 @@
 ## 2026-05-21 Task: Uniform dock with Shop
 - [x] Standardize dock labels across hub and COA pages
 - [x] Add Shop dock button routed to store lane
+
+## 2026-05-21 Task: Normalize dock component
+- [x] Confirm hub and COA use identical floating dock HTML/CSS
