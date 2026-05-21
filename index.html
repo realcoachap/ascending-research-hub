@@ -1,6 +1,6 @@
 <!doctype html>
-<!-- Ascending Research Hub v0.1.0 — Theokoles ☠️ — 2026-05-20 -->
-<!-- WHY: Premium gateway page separating research education, tools, verification, and commerce destinations without dosing/protocol claims. -->
+<!-- Ascending Research Hub v0.1.1 — Theokoles ☠️ — 2026-05-21 -->
+<!-- WHY: Premium gateway page separating research education, tools, verification, and commerce destinations without dosing/protocol claims; now links the live peptide education preview as the education lane. -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -18,7 +18,7 @@
   <div class="noise"></div>
   <header class="wrap hero">
     <nav class="nav" aria-label="Primary">
-      <div class="brand"><div class="mark">AR</div><div><strong>Ascending Research</strong><small>Hub v0.1.0 · research-use routing</small></div></div>
+      <div class="brand"><div class="mark">AR</div><div><strong>Ascending Research</strong><small>Hub v0.1.1 · research-use routing</small></div></div>
       <div class="navLinks"><a class="pill" href="#destinations">Destinations</a><a class="pill" href="#spine">Compliance spine</a><button class="pill gold install hidden" id="installBtn">Install</button></div>
     </nav>
     <div class="heroGrid">
@@ -26,7 +26,7 @@
         <span class="pill gold eyebrow">Research tools, references, and verification</span>
         <h1>One clean gateway. Separate destinations. No confusion.</h1>
         <p class="lede">A premium portal for education, calculation tools, batch verification, and research-use commerce — organized like mission control, worded like a serious lab resource.</p>
-        <div class="ctaRow"><a class="btn primary" href="#destinations">Open the hub</a><a class="btn secondary" href="https://realcoachap.github.io/research-concentration-calculator/">Launch calculator</a></div>
+        <div class="ctaRow"><a class="btn primary" href="#destinations">Open the hub</a><a class="btn secondary" href="https://realcoachap.github.io/ascending-peptides-preview/">Open education preview</a><a class="btn secondary" href="https://realcoachap.github.io/research-concentration-calculator/">Launch calculator</a></div>
       </section>
       <aside class="mission" aria-label="Hub routing preview">
         <div class="missionInner">
@@ -43,7 +43,7 @@
       <div class="sectionTitle"><div><span class="pill gold">Destination cards</span><h2>Choose the right lane.</h2></div><span class="pill">Built for clean separation</span></div>
       <div class="destGrid">
         <a class="card" style="--a:rgba(246,183,60,.55)" href="https://realcoachap.github.io/research-concentration-calculator/"><div class="status"><span class="tag live">Live tool</span><div class="orb">∑</div></div><h3>Research Concentration Calculator</h3><p>Vial mass, reconstitution volume, unit mapping, reverse water-volume math, and visual clarity.</p><span class="open">Open calculator →</span></a>
-        <a class="card" style="--a:rgba(105,230,255,.46)" href="#education"><div class="status"><span class="tag">Preview lane</span><div class="orb">◇</div></div><h3>Education Library</h3><p>Research terminology, mechanisms, handling concepts, and safety-first explanations without product claims.</p><span class="open">Open soon →</span></a>
+        <a class="card" style="--a:rgba(105,230,255,.46)" href="https://realcoachap.github.io/ascending-peptides-preview/"><div class="status"><span class="tag live">Live preview</span><div class="orb">◇</div></div><h3>Education Library</h3><p>Research terminology, mechanisms, peptide profiles, and safety-first explanations without product claims.</p><span class="open">Open education preview →</span></a>
         <a class="card" style="--a:rgba(118,247,176,.4)" href="#batch"><div class="status"><span class="tag">Trust lane</span><div class="orb">✓</div></div><h3>Batch + COA Verification</h3><p>Batch number lookup, third-party testing documents, purity records, and storage notes.</p><span class="open">Open soon →</span></a>
         <a class="card" style="--a:rgba(167,139,250,.44)" href="#reference"><div class="status"><span class="tag">Reference lane</span><div class="orb">⌁</div></div><h3>Research Reference Notes</h3><p>Structured, citation-aware reference material framed for literacy — not human-use instructions.</p><span class="open">Open soon →</span></a>
         <a class="card" style="--a:rgba(255,140,140,.4)" href="#store"><div class="status"><span class="tag">Separate property</span><div class="orb">R</div></div><h3>Research Compounds</h3><p>A strict research-use-only store lane with clear labels, COAs, batch info, and no protocol language.</p><span class="open">Route later →</span></a>
@@ -62,12 +62,12 @@
       </div>
     </section>
     <section class="wrap section">
-      <div class="panel"><h3>Launch sequence</h3><ul><li>First live link: Research Concentration Calculator.</li><li>Next build: COA / batch verification mockup.</li><li>Then: education library shell with peptide-neutral glossary and safety framing.</li><li>Final: route to store only after compliance copy is locked.</li></ul></div>
+      <div class="panel"><h3>Launch sequence</h3><ul><li>First live link: Research Concentration Calculator.</li><li>Next build: COA / batch verification mockup.</li><li>Education library preview is now linked; next polish pass can add profile pages, glossary search, and newsletter capture.</li><li>Final: route to store only after compliance copy is locked.</li></ul></div>
     </section>
   </main>
-  <footer class="wrap footer">Ascending Research Hub v0.1.0 — Built by Theokoles ☠️ — 2026-05-20. Research-use routing concept only; no medical advice, treatment claims, protocol instructions, or dosing recommendations.</footer>
+  <footer class="wrap footer">Ascending Research Hub v0.1.1 — Built by Theokoles ☠️ — 2026-05-21. Research-use routing concept only; no medical advice, treatment claims, protocol instructions, or dosing recommendations.</footer>
   <script>
-    // Ascending Research Hub v0.1.0 — Theokoles ☠️ — 2026-05-20
+    // Ascending Research Hub v0.1.1 — Theokoles ☠️ — 2026-05-21
     // WHY: Lightweight static hub with local-only behavior and optional PWA install prompt.
     let deferredPrompt;const installBtn=document.getElementById('installBtn');
     window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;installBtn.classList.remove('hidden')});
