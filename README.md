@@ -1,6 +1,6 @@
 # Ascending Research Hub
 
-v0.3.0 — Theokoles ☠️ — 2026-05-21
+v0.3.1 — Theokoles ☠️ — 2026-05-21
 
 Premium static hub prototype for separating research education, calculation tools, batch verification, reference notes, FAQ/compliance, and a future research-use-only commerce lane.
 

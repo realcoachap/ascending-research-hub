@@ -20,3 +20,7 @@
 - [x] Add sticky menu bar to hub page
 - [x] Add sticky menu bar to COA page
 - [x] Include large tap targets and horizontal mobile scrolling
+
+## 2026-05-21 Task: Floating bottom dock
+- [x] Move hub navigation to bottom floating oval dock
+- [x] Move COA navigation to bottom floating oval dock

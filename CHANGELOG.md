@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-05-21
+### Changed
+- Replaced the top sticky menu with a floating long-oval bottom dock on the hub and COA pages.
+
+
 ## [0.3.0] - 2026-05-21
 ### Added
 - Added sticky, horizontally scrollable menu bars for easier clicking/tapping on the hub and COA pages.
