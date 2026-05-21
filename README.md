@@ -1,6 +1,6 @@
 # Ascending Research Hub
 
-v0.1.1 — Theokoles ☠️ — 2026-05-21
+v0.2.0 — Theokoles ☠️ — 2026-05-21
 
 Premium static hub prototype for separating research education, calculation tools, batch verification, reference notes, FAQ/compliance, and a future research-use-only commerce lane.
 
@@ -8,6 +8,9 @@ Premium static hub prototype for separating research education, calculation tool
 
 - Research Concentration Calculator: https://realcoachap.github.io/research-concentration-calculator/
 - Peptide Education Preview: https://realcoachap.github.io/ascending-peptides-preview/
+- Janoshik Public Tests: https://public.janoshik.com/
+- Finnrick Certificate Verify: https://www.finnrick.com/verify
+- Freedom Diagnostics Testing: https://freedomdiagnosticstesting.com/
 
 ## Guardrails
 

@@ -4,3 +4,9 @@
 - [x] Add visible link from peptide education preview back to Ascending Research Hub
 - [x] Link Ascending Research Hub education lane to live peptide education preview
 - [x] Verify static pages still render locally
+
+## 2026-05-21 Task: Build COA verification lane
+- [x] Add third-party lab portal cards
+- [x] Add COA reading checklist
+- [x] Keep wording compliance-safe and research-transparency focused
+- [ ] Future: add paste-a-COA/link checker mockup
