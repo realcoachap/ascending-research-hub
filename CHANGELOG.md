@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-05-21
+### Added
+- Added sticky, horizontally scrollable menu bars for easier clicking/tapping on the hub and COA pages.
+- Added direct menu access to Calculator, Education, COA checks, and Compliance destinations.
+
+
 ## [0.2.2] - 2026-05-21
 ### Fixed
 - Removed leftover COA-specific styles from the hub page after moving COA content to the dedicated page.
