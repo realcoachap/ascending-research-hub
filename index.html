@@ -1,6 +1,6 @@
 <!doctype html>
-<!-- Ascending Research Hub v0.2.0 — Theokoles ☠️ — 2026-05-21 -->
-<!-- WHY: Premium gateway page separating research education, tools, third-party COA verification, and commerce destinations without dosing/protocol claims. -->
+<!-- Ascending Research Hub v0.2.1 — Theokoles ☠️ — 2026-05-21 -->
+<!-- WHY: Premium gateway page separating research education, tools, third-party COA verification, and commerce destinations without dosing/protocol claims; COA now routes to a dedicated lab directory page. -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -18,8 +18,8 @@
   <div class="noise"></div>
   <header class="wrap hero">
     <nav class="nav" aria-label="Primary">
-      <div class="brand"><div class="mark">AR</div><div><strong>Ascending Research</strong><small>Hub v0.2.0 · research-use routing</small></div></div>
-      <div class="navLinks"><a class="pill" href="#destinations">Destinations</a><a class="pill" href="#batch">COA checks</a><a class="pill" href="#spine">Compliance spine</a><button class="pill gold install hidden" id="installBtn">Install</button></div>
+      <div class="brand"><div class="mark">AR</div><div><strong>Ascending Research</strong><small>Hub v0.2.1 · research-use routing</small></div></div>
+      <div class="navLinks"><a class="pill" href="#destinations">Destinations</a><a class="pill" href="coa.html">COA checks</a><a class="pill" href="#spine">Compliance spine</a><button class="pill gold install hidden" id="installBtn">Install</button></div>
     </nav>
     <div class="heroGrid">
       <section>
@@ -44,26 +44,13 @@
       <div class="destGrid">
         <a class="card" style="--a:rgba(246,183,60,.55)" href="https://realcoachap.github.io/research-concentration-calculator/"><div class="status"><span class="tag live">Live tool</span><div class="orb">∑</div></div><h3>Research Concentration Calculator</h3><p>Vial mass, reconstitution volume, unit mapping, reverse water-volume math, and visual clarity.</p><span class="open">Open calculator →</span></a>
         <a class="card" style="--a:rgba(105,230,255,.46)" href="https://realcoachap.github.io/ascending-peptides-preview/"><div class="status"><span class="tag live">Live preview</span><div class="orb">◇</div></div><h3>Education Library</h3><p>Research terminology, mechanisms, peptide profiles, and safety-first explanations without product claims.</p><span class="open">Open education preview →</span></a>
-        <a class="card" style="--a:rgba(118,247,176,.4)" href="#batch"><div class="status"><span class="tag live">Trust lane</span><div class="orb">✓</div></div><h3>Batch + COA Verification</h3><p>Direct links to independent lab portals plus a simple checklist for reading public COAs.</p><span class="open">Open verification →</span></a>
+        <a class="card" style="--a:rgba(118,247,176,.4)" href="coa.html"><div class="status"><span class="tag live">Trust lane</span><div class="orb">✓</div></div><h3>Batch + COA Verification</h3><p>Dedicated lab directory for independent public COA portals and verification basics.</p><span class="open">Open COA page →</span></a>
         <a class="card" style="--a:rgba(167,139,250,.44)" href="#reference"><div class="status"><span class="tag">Reference lane</span><div class="orb">⌁</div></div><h3>Research Reference Notes</h3><p>Structured, citation-aware reference material framed for literacy — not human-use instructions.</p><span class="open">Open soon →</span></a>
         <a class="card" style="--a:rgba(255,140,140,.4)" href="#store"><div class="status"><span class="tag">Separate property</span><div class="orb">R</div></div><h3>Research Compounds</h3><p>A strict research-use-only store lane with clear labels, COAs, batch info, and no protocol language.</p><span class="open">Route later →</span></a>
         <a class="card" style="--a:rgba(255,233,168,.42)" href="#faq"><div class="status"><span class="tag">Clarity lane</span><div class="orb">?</div></div><h3>FAQ + Compliance</h3><p>Shipping, storage, lab handling, terms, research-only boundaries, and plain-language site rules.</p><span class="open">Open soon →</span></a>
       </div>
     </section>
 
-    <section class="wrap section" id="batch">
-      <div class="sectionTitle"><div><span class="pill gold">Batch + COA verification</span><h2>Check the paper trail.</h2></div><span class="pill">External lab portals</span></div>
-      <div class="spine">
-        <article class="panel callout"><h3>Verify before you trust.</h3><p>Use independent lab portals to check public COAs, certificate IDs, accession numbers, company names, and batch documentation. This section is a transparency directory, not an endorsement of any product, vendor, or research compound.</p></article>
-        <article class="panel"><h3>What to match</h3><ul><li>Compound name and labeled amount</li><li>Batch, lot, certificate, or accession ID</li><li>Test date and issuing laboratory</li><li>Purity and identity methods such as HPLC and LC-MS</li></ul></article>
-      </div>
-      <div class="labGrid" style="margin-top:14px">
-        <a class="labCard" href="https://public.janoshik.com/"><div><div class="labTop"><span class="tag live">Public tests</span><div class="labLogo">JA</div></div><h3>Janoshik Analytical</h3><p>Search publicly available test results from Janoshik's public archive.</p></div><span class="open">Open Janoshik public tests →</span></a>
-        <a class="labCard" href="https://www.finnrick.com/verify"><div><div class="labTop"><span class="tag live">Certificate verify</span><div class="labLogo">FR</div></div><h3>Finnrick</h3><p>Verify a Finnrick certificate by entering the certificate ID on their verification page.</p></div><span class="open">Open Finnrick verify →</span></a>
-        <a class="labCard" href="https://freedomdiagnosticstesting.com/"><div><div class="labTop"><span class="tag live">COA lookup</span><div class="labLogo">FD</div></div><h3>Freedom Diagnostics</h3><p>Use their public transparency tools to search COAs by accession number or company name.</p></div><span class="open">Open Freedom Diagnostics →</span></a>
-      </div>
-      <div class="panel" style="margin-top:14px"><h3>Fast COA reading checklist</h3><div class="verifySteps"><div class="verifyStep"><b>Match identity</b><span>Confirm the compound name matches the COA and label.</span></div><div class="verifyStep"><b>Match the batch</b><span>Compare lot, accession, certificate, or batch identifiers.</span></div><div class="verifyStep"><b>Check the methods</b><span>Look for purity and identity testing, commonly HPLC and LC-MS.</span></div><div class="verifyStep"><b>Check freshness</b><span>Review test date, lab source, and whether the document is public/verifiable.</span></div></div></div>
-    </section>
     <section class="wrap section" id="spine">
       <div class="sectionTitle"><div><span class="pill gold">Compliance spine</span><h2>Useful without looking evasive.</h2></div></div>
       <div class="spine">
@@ -76,12 +63,12 @@
       </div>
     </section>
     <section class="wrap section">
-      <div class="panel"><h3>Launch sequence</h3><ul><li>First live link: Research Concentration Calculator.</li><li>COA / batch verification lane is now live with independent lab portal links.</li><li>Education library preview is now linked; next polish pass can add profile pages, glossary search, and newsletter capture.</li><li>Final: route to store only after compliance copy is locked.</li></ul></div>
+      <div class="panel"><h3>Launch sequence</h3><ul><li>First live link: Research Concentration Calculator.</li><li>COA / batch verification now routes to a dedicated lab directory page.</li><li>Education library preview is now linked; next polish pass can add profile pages, glossary search, and newsletter capture.</li><li>Final: route to store only after compliance copy is locked.</li></ul></div>
     </section>
   </main>
-  <footer class="wrap footer">Ascending Research Hub v0.2.0 — Built by Theokoles ☠️ — 2026-05-21. Research-use routing concept only; no medical advice, treatment claims, protocol instructions, or dosing recommendations.</footer>
+  <footer class="wrap footer">Ascending Research Hub v0.2.1 — Built by Theokoles ☠️ — 2026-05-21. Research-use routing concept only; no medical advice, treatment claims, protocol instructions, or dosing recommendations.</footer>
   <script>
-    // Ascending Research Hub v0.2.0 — Theokoles ☠️ — 2026-05-21
+    // Ascending Research Hub v0.2.1 — Theokoles ☠️ — 2026-05-21
     // WHY: Lightweight static hub with local-only behavior and optional PWA install prompt.
     let deferredPrompt;const installBtn=document.getElementById('installBtn');
     window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;installBtn.classList.remove('hidden')});

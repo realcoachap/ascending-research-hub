@@ -1,11 +1,12 @@
 # Ascending Research Hub
 
-v0.2.0 — Theokoles ☠️ — 2026-05-21
+v0.2.1 — Theokoles ☠️ — 2026-05-21
 
 Premium static hub prototype for separating research education, calculation tools, batch verification, reference notes, FAQ/compliance, and a future research-use-only commerce lane.
 
 ## Current live destinations
 
+- COA Verification Page: https://realcoachap.github.io/ascending-research-hub/coa.html
 - Research Concentration Calculator: https://realcoachap.github.io/research-concentration-calculator/
 - Peptide Education Preview: https://realcoachap.github.io/ascending-peptides-preview/
 - Janoshik Public Tests: https://public.janoshik.com/
