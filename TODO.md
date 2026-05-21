@@ -31,3 +31,8 @@
 
 ## 2026-05-21 Task: Normalize dock component
 - [x] Confirm hub and COA use identical floating dock HTML/CSS
+
+## 2026-05-21 Task: Premium benchmark pass
+- [x] Add dedicated shop preview page
+- [x] Upgrade hub positioning and trust architecture
+- [x] Route Shop dock button to shop page

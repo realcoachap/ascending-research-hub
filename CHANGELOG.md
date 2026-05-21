@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-05-21
+### Added
+- Added dedicated `shop.html` research-use commerce preview page.
+- Upgraded hub hero, proof points, trust architecture section, and Shop routing for a more premium benchmark-beating direction.
+
+
 ## [0.3.3] - 2026-05-21
 ### Fixed
 - Normalized floating dock HTML/CSS so hub and COA use the exact same shared dock component.
