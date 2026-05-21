@@ -1,6 +1,6 @@
 <!doctype html>
-<!-- Ascending Research Hub v0.3.1 — Theokoles ☠️ — 2026-05-21 -->
-<!-- WHY: Premium gateway page separating research education, tools, third-party COA verification, and commerce destinations with a floating oval bottom nav for easy navigation. -->
+<!-- Ascending Research Hub v0.3.2 — Theokoles ☠️ — 2026-05-21 -->
+<!-- WHY: Premium gateway page separating research education, tools, third-party COA verification, and commerce destinations with a uniform floating oval bottom nav. -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -17,7 +17,7 @@
 <body>
   <div class="noise"></div>
   <header class="wrap hero">
-    <nav class="nav" aria-label="Brand"><div class="brand"><div class="mark">AR</div><div><strong>Ascending Research</strong><small>Hub v0.3.1 · research-use routing</small></div></div><button class="pill gold install hidden" id="installBtn">Install</button></nav>
+    <nav class="nav" aria-label="Brand"><div class="brand"><div class="mark">AR</div><div><strong>Ascending Research</strong><small>Hub v0.3.2 · research-use routing</small></div></div><button class="pill gold install hidden" id="installBtn">Install</button></nav>
     <div class="heroGrid">
       <section>
         <span class="pill gold eyebrow">Research tools, references, and verification</span>
@@ -43,7 +43,7 @@
         <a class="card" style="--a:rgba(105,230,255,.46)" href="https://realcoachap.github.io/ascending-peptides-preview/"><div class="status"><span class="tag live">Live preview</span><div class="orb">◇</div></div><h3>Education Library</h3><p>Research terminology, mechanisms, peptide profiles, and safety-first explanations without product claims.</p><span class="open">Open education preview →</span></a>
         <a class="card" style="--a:rgba(118,247,176,.4)" href="coa.html"><div class="status"><span class="tag live">Trust lane</span><div class="orb">✓</div></div><h3>Batch + COA Verification</h3><p>Dedicated lab directory for independent public COA portals and verification basics.</p><span class="open">Open COA page →</span></a>
         <a class="card" style="--a:rgba(167,139,250,.44)" href="#reference"><div class="status"><span class="tag">Reference lane</span><div class="orb">⌁</div></div><h3>Research Reference Notes</h3><p>Structured, citation-aware reference material framed for literacy — not human-use instructions.</p><span class="open">Open soon →</span></a>
-        <a class="card" style="--a:rgba(255,140,140,.4)" href="#store"><div class="status"><span class="tag">Separate property</span><div class="orb">R</div></div><h3>Research Compounds</h3><p>A strict research-use-only store lane with clear labels, COAs, batch info, and no protocol language.</p><span class="open">Route later →</span></a>
+        <a class="card" id="store" style="--a:rgba(255,140,140,.4)" href="#store"><div class="status"><span class="tag">Separate property</span><div class="orb">R</div></div><h3>Research Compounds</h3><p>A strict research-use-only store lane with clear labels, COAs, batch info, and no protocol language.</p><span class="open">Route later →</span></a>
         <a class="card" style="--a:rgba(255,233,168,.42)" href="#faq"><div class="status"><span class="tag">Clarity lane</span><div class="orb">?</div></div><h3>FAQ + Compliance</h3><p>Shipping, storage, lab handling, terms, research-only boundaries, and plain-language site rules.</p><span class="open">Open soon →</span></a>
       </div>
     </section>
@@ -63,10 +63,10 @@
       <div class="panel"><h3>Launch sequence</h3><ul><li>First live link: Research Concentration Calculator.</li><li>COA / batch verification now routes to a dedicated lab directory page.</li><li>Education library preview is now linked; next polish pass can add profile pages, glossary search, and newsletter capture.</li><li>Final: route to store only after compliance copy is locked.</li></ul></div>
     </section>
   </main>
-  <footer class="wrap footer">Ascending Research Hub v0.3.1 — Built by Theokoles ☠️ — 2026-05-21. Research-use routing concept only; no medical advice, treatment claims, protocol instructions, or dosing recommendations.</footer>
-  <nav class="floatingDock" aria-label="Primary destinations"><a class="active" href="index.html">Hub</a><a href="https://realcoachap.github.io/research-concentration-calculator/">Calc</a><a href="https://realcoachap.github.io/ascending-peptides-preview/">Education</a><a href="coa.html">COA</a><a href="#spine">Trust</a></nav>
+  <footer class="wrap footer">Ascending Research Hub v0.3.2 — Built by Theokoles ☠️ — 2026-05-21. Research-use routing concept only; no medical advice, treatment claims, protocol instructions, or dosing recommendations.</footer>
+  <nav class="floatingDock" aria-label="Primary destinations"><a class="active" href="https://realcoachap.github.io/ascending-research-hub/">Hub</a><a href="https://realcoachap.github.io/research-concentration-calculator/">Calc</a><a href="https://realcoachap.github.io/ascending-peptides-preview/">Learn</a><a href="https://realcoachap.github.io/ascending-research-hub/coa.html">COA</a><a href="https://realcoachap.github.io/ascending-research-hub/#store">Shop</a></nav>
   <script>
-    // Ascending Research Hub v0.3.1 — Theokoles ☠️ — 2026-05-21
+    // Ascending Research Hub v0.3.2 — Theokoles ☠️ — 2026-05-21
     // WHY: Lightweight static hub with local-only behavior and optional PWA install prompt.
     let deferredPrompt;const installBtn=document.getElementById('installBtn');
     window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;installBtn.classList.remove('hidden')});

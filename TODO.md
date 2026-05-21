@@ -24,3 +24,7 @@
 ## 2026-05-21 Task: Floating bottom dock
 - [x] Move hub navigation to bottom floating oval dock
 - [x] Move COA navigation to bottom floating oval dock
+
+## 2026-05-21 Task: Uniform dock with Shop
+- [x] Standardize dock labels across hub and COA pages
+- [x] Add Shop dock button routed to store lane

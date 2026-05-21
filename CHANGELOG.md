@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.3.2] - 2026-05-21
+### Changed
+- Standardized floating dock labels across pages: Hub, Calc, Learn, COA, Shop.
+- Added Shop dock button routed to the hub store lane.
+
+
 ## [0.3.1] - 2026-05-21
 ### Changed
 - Replaced the top sticky menu with a floating long-oval bottom dock on the hub and COA pages.
