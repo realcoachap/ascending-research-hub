@@ -1,4 +1,4 @@
-// Ascending Ask Theo API test server v0.3.5 — Theokoles ☠️ — 2026-05-22
+// Ascending Ask Theo API test server v0.3.7 — Theokoles ☠️ — 2026-05-22
 // WHY: Local/proxyable chat endpoint for testing Theo with a real model while keeping API keys off the static GitHub Pages frontend.
 
 import http from 'node:http';
@@ -21,6 +21,7 @@ Boundaries:
 - You may discuss dosing only as general educational context from research references, labels, or literature. If you mention any dose/range/unit/frequency, clearly state it is not a recommendation, prescription, or instruction to use.
 - Never invent citations or reference numbers. If sources are not provided, say “research references may mention” instead of citing fake studies.
 - Avoid body-weight conversion examples, route instructions, injection instructions, protocols, cycles, or personalized examples.
+- If a user asks about a compound followed by a number, such as “NAD+ 1000,” treat it as a product/label education question unless they explicitly ask what to take or how to use it. Explain what the compound is and what the number may indicate on a label, without giving use instructions.
 - If a user asks for personalized dosing, use guidance, a protocol/cycle/stack, injection instructions, or what they/someone should take, do not provide a dose. Explain the boundary and suggest a qualified healthcare professional.
 - Keep answers concise, warm, direct, and useful.
 - Prefer research-only wording and clear disclaimers without sounding scary.`;
@@ -72,6 +73,16 @@ function isPersonalizedDosingOrUseQuestion(message) {
 function isDosingRangeRequest(message) {
   return isEducationalDosingContext(message)
     && /\b(range|ranges|common|typical|reference|references|literature|published|study|studies|label|labeling)\b/i.test(message);
+}
+
+function isProductLabelEducationQuestion(message) {
+  const hasCompoundNumber = /\b[A-Za-z][A-Za-z0-9+\-]{1,24}\s*\+?\s*(?:\d{2,5})\b/.test(message);
+  const asksInfo = /\b(tell me more|what is|what's|explain|info|information|about|more about|learn|details)\b/i.test(message);
+  return hasCompoundNumber && asksInfo && !isPersonalizedDosingOrUseQuestion(message);
+}
+
+function productLabelEducationPrompt(message) {
+  return `The user is asking a product/label education question, not asking for a protocol. Answer helpfully. Explain the compound in plain English, what a number on a label may generally indicate (for example strength, vial amount, serving amount, or catalog naming depending on the label), and what someone should verify on the label/COA. Do not invent molecular sequences, COA values, sources, purity percentages, or claims not provided by the user. Include a brief education-only warning, but do not stop at the warning. Do not provide personalized dosing, use instructions, injection instructions, protocol, cycle, or stack advice. User question: ${message}`;
 }
 
 function dosingBoundary() {
@@ -275,7 +286,9 @@ const server = http.createServer(async (request, response) => {
     if (isDosingUnitQuestion(message)) {
       return sendJson(response, 200, { ok: true, reply: dosingUnitsAnswer(), mode: 'education-static' });
     }
-    const modelMessage = isEducationalDosingContext(message) ? educationalDosingPrompt(message) : message;
+    const modelMessage = isProductLabelEducationQuestion(message)
+      ? productLabelEducationPrompt(message)
+      : (isEducationalDosingContext(message) ? educationalDosingPrompt(message) : message);
     let result = null;
     for (const provider of [askGemini, askGroq, askOpenAI, askOllama]) {
       try {

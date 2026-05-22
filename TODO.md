@@ -55,5 +55,6 @@
 - [x] Tune dosing guardrails for educational reference context vs personalized protocol guidance
 - [x] Add fast cloud-first provider path for Theo API
 - [x] Keep local Ollama as fallback instead of primary response path
+- [x] Loosen product/label-number education questions such as NAD+ 1000
 - [ ] Future: replace temporary tunnel with production stable API domain
 - [ ] Future: connect Theo to real knowledge base and production safe AI backend

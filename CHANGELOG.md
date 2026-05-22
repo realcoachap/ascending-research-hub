@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [0.5.6] - 2026-05-22
+### Changed
+- Loosened Theo guardrails for compound-plus-label-number questions like “tell me more about NAD+ 1000” so they answer as product/label education instead of stopping at a warning.
+
+
 ## [0.5.5] - 2026-05-22
 ### Changed
 - Added Gemini/Groq cloud-first provider order for much faster Theo responses, with OpenAI/Ollama fallback.
