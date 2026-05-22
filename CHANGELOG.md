@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [0.5.3] - 2026-05-22
+### Changed
+- Pointed Ask Theo frontend at the hosted HTTPS test API endpoint for mobile/browser testing.
+
+
 ## [0.5.2] - 2026-05-22
 ### Changed
 - Updated Theo API server to use local Ollama/Qwen by default when no OpenAI key is present.

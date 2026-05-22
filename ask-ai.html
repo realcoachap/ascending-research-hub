@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Research Ask AI v0.2.0 — Theokoles ☠️ — 2026-05-22 -->
+<!-- Ascending Research Ask AI v0.2.1 — Theokoles ☠️ — 2026-05-22 -->
 <!-- WHY: Chat-room style Theo education coach surface with a testable API wire-up, separated from shop commerce and framed with education-only medical boundaries. -->
 <html lang="en">
 <head>
@@ -16,7 +16,7 @@
 <body>
   <div class="noise"></div>
   <header class="wrap">
-    <nav class="nav" aria-label="Brand"><a class="brand" href="index.html"><div class="mark">AR</div><div><strong>Ascending Research</strong><small>Ask Theo v0.2.0 · test chat</small></div></a><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="pill" data-lang-toggle type="button">Español</button><a class="pill gold" href="index.html">Back to hub</a></div></nav>
+    <nav class="nav" aria-label="Brand"><a class="brand" href="index.html"><div class="mark">AR</div><div><strong>Ascending Research</strong><small>Ask Theo v0.2.1 · hosted API test</small></div></a><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="pill" data-lang-toggle type="button">Español</button><a class="pill gold" href="index.html">Back to hub</a></div></nav>
   </header>
   <main class="wrap">
     <section class="chatRoom" aria-label="Ask Theo chat room">
@@ -29,11 +29,11 @@
       <section class="chatMain">
         <div class="chatHead"><div class="coachId"><div class="avatar">☠️</div><div><b>Theo</b><span>Peptide education coach</span></div></div><div class="toolbar"><button class="ghostBtn" id="setEndpoint" type="button">Endpoint</button><button class="ghostBtn keep" id="clearChat" type="button">Clear</button></div></div>
         <div class="messages" id="messages" aria-live="polite"></div>
-        <div class="composerWrap"><form class="composer" id="chatForm"><input id="chatInput" autocomplete="off" placeholder="Message Theo..." /><button type="submit">Send</button></form><div class="hint">Testing wire: same-origin <code>/api/ask-theo</code>, or set a custom endpoint with the Endpoint button.</div></div>
+        <div class="composerWrap"><form class="composer" id="chatForm"><input id="chatInput" autocomplete="off" placeholder="Message Theo..." /><button type="submit">Send</button></form><div class="hint">Testing wire: hosted Theo API is active. Use Endpoint only if you want to override it.</div></div>
       </section>
     </section>
   </main>
-  <footer class="wrap footer">Ascending Research Ask Theo v0.2.0 — Built by Theokoles ☠️ — 2026-05-22. Educational information only; no medical advice, treatment claims, protocol instructions, prescriptions, or dosing recommendations.</footer>
+  <footer class="wrap footer">Ascending Research Ask Theo v0.2.1 — Built by Theokoles ☠️ — 2026-05-22. Educational information only; no medical advice, treatment claims, protocol instructions, prescriptions, or dosing recommendations.</footer>
   <nav class="floatingDock" aria-label="Primary destinations"><a href="https://realcoachap.github.io/ascending-research-hub/">Hub</a><a href="https://realcoachap.github.io/research-concentration-calculator/">Calc</a><a class="active" href="https://realcoachap.github.io/ascending-research-hub/ask-ai.html">Ask AI</a><a href="https://realcoachap.github.io/ascending-research-hub/coa.html">COA</a><a href="https://realcoachap.github.io/ascending-research-hub/shop.html">Shop</a></nav>
 
 <script>
@@ -51,12 +51,13 @@
 })();
 </script>
 <script>
-// Ask Theo wired chat client v0.2.0 — Theokoles ☠️ — 2026-05-22
+// Ask Theo wired chat client v0.2.1 — Theokoles ☠️ — 2026-05-22
 // WHY: Provides a real chat-room interaction model and calls a testable API endpoint when available, with safe local fallback when it is not.
 (function(){
   const messages=document.getElementById('messages'); const input=document.getElementById('chatInput'); const form=document.getElementById('chatForm'); const quick=document.getElementById('quickPrompts'); const apiMode=document.getElementById('apiMode');
   const endpointKey='ascending-theo-endpoint'; const history=[];
-  const defaultEndpoint=window.ASCENDING_THEO_API_URL || localStorage.getItem(endpointKey) || '/api/ask-theo';
+  const hostedEndpoint='https://just-serum-paul-guarantees.trycloudflare.com/api/ask-theo';
+  const defaultEndpoint=window.ASCENDING_THEO_API_URL || hostedEndpoint || localStorage.getItem(endpointKey) || '/api/ask-theo';
   let endpoint=defaultEndpoint;
   const intro='<b>Hey, I’m Theo — your peptide education coach.</b>\n\nI can help explain research compounds, wellness concepts, product terminology, storage basics, COA verification, and general educational information in plain English.\n\nQuick note before we start: everything here is for educational and informational purposes only. I’m not a doctor, and nothing I say should be taken as medical advice, a diagnosis, a prescription, or instructions to use any compound. Any dosing information discussed is general educational context only and should not replace guidance from a qualified healthcare professional.\n\nWhat would you like to learn about today?';
   function now(){return new Date().toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});}

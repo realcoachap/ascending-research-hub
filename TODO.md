@@ -51,4 +51,6 @@
 - [x] Run Theo locally on Ollama/Qwen3 8B
 - [x] Add hard API safety block for dosing/protocol questions
 - [x] Upgrade Ask Theo UI to feel more like a chat room
+- [x] Host Theo API behind HTTPS test endpoint for mobile/browser testing
+- [ ] Future: replace temporary tunnel with production stable API domain
 - [ ] Future: connect Theo to real knowledge base and production safe AI backend
