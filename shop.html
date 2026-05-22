@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Research Shop Preview v0.1.0 — Theokoles ☠️ — 2026-05-21 -->
+<!-- Ascending Research Shop Preview v0.1.1 — Theokoles ☠️ — 2026-05-21 -->
 <!-- WHY: Dedicated research-use-only shop concept page that separates commerce from education/tools and keeps compliance boundaries visible. -->
 <html lang="en">
 <head>
@@ -16,7 +16,7 @@
 <body>
   <div class="noise"></div>
   <header class="wrap hero">
-    <nav class="nav" aria-label="Brand"><a class="brand" href="index.html"><div class="mark">AR</div><div><strong>Ascending Research</strong><small>Shop preview v0.1.0</small></div></a><a class="pill gold" href="index.html">Back to hub</a></nav>
+    <nav class="nav" aria-label="Brand"><a class="brand" href="index.html"><div class="mark">AR</div><div><strong>Ascending Research</strong><small>Shop preview v0.1.1</small></div></a><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="pill" data-lang-toggle type="button">Español</button><a class="pill gold" href="index.html">Back to hub</a></div></nav>
     <span class="pill gold eyebrow">Research-use commerce lane</span>
     <h1>Shop only after trust is visible.</h1>
     <p class="lede">A premium research-use-only store concept where product cards are built around labels, COAs, batch data, storage notes, and compliance boundaries — not hype or protocol claims.</p>
@@ -38,7 +38,40 @@
       <div class="panel"><h3>Next build pass</h3><ul><li>Product-card template with COA slot and batch metadata.</li><li>Research-use terms strip above any future checkout path.</li><li>COA link validation and lab-source badges.</li><li>Optional comparison table after compliance copy is approved.</li></ul></div>
     </section>
   </main>
-  <footer class="wrap footer">Ascending Research Shop Preview v0.1.0 — Built by Theokoles ☠️ — 2026-05-21. Research-use commerce concept only; no medical advice, treatment claims, protocol instructions, product endorsement, or dosing recommendations.</footer>
+  <footer class="wrap footer">Ascending Research Shop Preview v0.1.1 — Built by Theokoles ☠️ — 2026-05-21. Research-use commerce concept only; no medical advice, treatment claims, protocol instructions, product endorsement, or dosing recommendations.</footer>
   <nav class="floatingDock" aria-label="Primary destinations"><a href="https://realcoachap.github.io/ascending-research-hub/">Hub</a><a href="https://realcoachap.github.io/research-concentration-calculator/">Calc</a><a href="https://realcoachap.github.io/ascending-peptides-preview/">Learn</a><a href="https://realcoachap.github.io/ascending-research-hub/coa.html">COA</a><a class="active" href="https://realcoachap.github.io/ascending-research-hub/shop.html">Shop</a></nav>
+
+<script>
+// Ascending bilingual UI v0.1.0 — Theokoles ☠️ — 2026-05-21
+// WHY: Client-side EN/ES toggle keeps static GitHub Pages simple while preserving a persistent language preference.
+(function(){
+  const translations={"Hub": "Inicio", "Calc": "Calc", "Learn": "Aprender", "COA": "COA", "Shop": "Tienda", "Ascending Research": "Ascending Research", "Back to hub": "Volver al hub", "Install": "Instalar", "Install App": "Instalar app", "Shop preview v0.1.0": "Vista de tienda v0.1.1", "Research-use commerce lane": "Vía comercial para uso investigativo", "Shop only after trust is visible.": "Tienda solo cuando la confianza sea visible.", "A premium research-use-only store concept where product cards are built around labels, COAs, batch data, storage notes, and compliance boundaries — not hype or protocol claims.": "Un concepto premium de tienda solo para uso investigativo donde las tarjetas de producto se construyen alrededor de etiquetas, COAs, datos de lote, notas de almacenamiento y límites de cumplimiento — no hype ni claims de protocolo.", "Check COA portals": "Revisar portales COA", "Open education first": "Abrir educación primero", "Commerce gate": "Puerta de comercio", "Future catalog architecture": "Arquitectura futura de catálogo", "Premium cards, hard boundaries.": "Tarjetas premium, límites firmes.", "Concept only": "Solo concepto", "COA required": "COA requerido", "Research compound card": "Tarjeta de compuesto de investigación", "Compound name, labeled amount, batch ID, storage notes, COA link, and research-use-only label.": "Nombre del compuesto, cantidad etiquetada, ID de lote, notas de almacenamiento, enlace COA y etiqueta de solo investigación.", "No dosing · no protocols": "Sin dosis · sin protocolos", "Batch visible": "Lote visible", "Verification block": "Bloque de verificación", "Every product surface should show the batch/lot lane before checkout trust decisions happen.": "Toda superficie de producto debe mostrar la vía de batch/lote antes de cualquier decisión de confianza.", "COA-first UX": "UX con COA primero", "Separated": "Separado", "Education elsewhere": "Educación en otro lugar", "Mechanisms and learning stay in Learn. Arithmetic stays in Calc. Commerce stays here.": "Los mecanismos y aprendizaje quedan en Aprender. La aritmética queda en Calc. El comercio queda aquí.", "Clean separation": "Separación limpia", "Next build pass": "Próxima fase", "Product-card template with COA slot and batch metadata.": "Plantilla de tarjeta con espacio COA y metadatos de lote.", "Research-use terms strip above any future checkout path.": "Franja de términos de uso investigativo sobre cualquier ruta futura de checkout.", "COA link validation and lab-source badges.": "Validación de enlaces COA e insignias de fuente de laboratorio.", "Optional comparison table after compliance copy is approved.": "Tabla comparativa opcional después de aprobar el texto de cumplimiento."};
+  const placeholders={"Search peptides, mechanisms, safety terms": "Buscar péptidos, mecanismos o términos de seguridad"};
+  const key='ascending-lang';
+  const nodes=[];
+  function collect(node){
+    const skip=['SCRIPT','STYLE','NOSCRIPT'];
+    if(skip.includes(node.nodeName)) return;
+    if(node.nodeType===3){ const raw=node.nodeValue; const trimmed=raw.trim(); if(trimmed) nodes.push([node, raw, trimmed]); return; }
+    node.childNodes.forEach(collect);
+  }
+  function setTextNode(node, raw, trimmed, lang){
+    const next=lang==='es' && translations[trimmed] ? translations[trimmed] : trimmed;
+    node.nodeValue=raw.replace(trimmed,next);
+  }
+  function apply(lang){
+    document.documentElement.lang=lang;
+    nodes.forEach(([node,raw,trimmed])=>setTextNode(node,raw,trimmed,lang));
+    document.querySelectorAll('[data-lang-toggle]').forEach(btn=>btn.textContent=lang==='es'?'English':'Español');
+    document.querySelectorAll('input[placeholder],textarea[placeholder]').forEach(el=>{const original=el.dataset.placeholderOriginal || el.getAttribute('placeholder'); el.dataset.placeholderOriginal=original; el.setAttribute('placeholder', lang==='es' && placeholders[original] ? placeholders[original] : original);});
+    window.dispatchEvent(new CustomEvent('ascending-language-change',{detail:{lang}}));
+  }
+  window.setAscendingLang=function(lang){ localStorage.setItem(key,lang); apply(lang); };
+  window.toggleAscendingLang=function(){ window.setAscendingLang((localStorage.getItem(key)==='es')?'en':'es'); };
+  collect(document.body);
+  document.querySelectorAll('[data-lang-toggle]').forEach(btn=>btn.addEventListener('click',window.toggleAscendingLang));
+  apply(localStorage.getItem(key)==='es'?'es':'en');
+})();
+</script>
 </body>
 </html>

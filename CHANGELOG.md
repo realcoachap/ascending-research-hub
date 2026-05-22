@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-05-21
+### Added
+- Added persistent English/Spanish language toggle to hub, COA, and shop preview pages.
+- Added Spanish translations for the shared floating dock and compliance/trust copy.
+
+
 ## [0.4.0] - 2026-05-21
 ### Added
 - Added dedicated `shop.html` research-use commerce preview page.

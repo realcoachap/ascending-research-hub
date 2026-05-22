@@ -36,3 +36,7 @@
 - [x] Add dedicated shop preview page
 - [x] Upgrade hub positioning and trust architecture
 - [x] Route Shop dock button to shop page
+
+## 2026-05-21 Task: Spanish translation pass
+- [x] Add persistent EN/ES toggle to hub, COA, and shop pages
+- [x] Translate visible static hub/COA/shop copy and shared dock labels
