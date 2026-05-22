@@ -1,4 +1,4 @@
-// Ascending Ask Theo API test server v0.4.0 — Theokoles ☠️ — 2026-05-22
+// Ascending Ask Theo API test server v0.4.0 — Theo 🧪 — 2026-05-22
 // WHY: Local/proxyable chat endpoint for testing Theo with a real model while keeping API keys off the static GitHub Pages frontend.
 
 import http from 'node:http';

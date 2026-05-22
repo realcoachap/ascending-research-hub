@@ -1,6 +1,6 @@
 # Theo Knowledge Pipeline
 
-v0.1.0 — Theokoles ☠️ — 2026-05-22
+v0.1.0 — Theo 🧪 — 2026-05-22
 
 WHY: Ask Theo needs a curated source brain for trusted researchers, social content, transcripts, labels, COAs, and peer-reviewed papers.
 

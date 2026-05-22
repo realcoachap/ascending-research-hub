@@ -1,6 +1,6 @@
 # Theo Source Intake Template
 
-v0.1.0 — Theokoles ☠️ — 2026-05-22
+v0.1.0 — Theo 🧪 — 2026-05-22
 
 Use this format when sending or saving source notes for Theo.
 

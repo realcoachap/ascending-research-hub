@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Theo source ingestion helper v0.1.0 — Theokoles ☠️ — 2026-05-22
+// Theo source ingestion helper v0.1.0 — Theo 🧪 — 2026-05-22
 // WHY: Adds trusted papers/transcripts/labels/social research notes into Theo's local retrieval chunks without needing a database yet.
 
 import fs from 'node:fs';
@@ -50,7 +50,7 @@ if (!fs.existsSync(textPath)) throw new Error(`Text file not found: ${textPath}`
 fs.mkdirSync(knowledgeDir, { recursive: true });
 const registry = fs.existsSync(sourcesPath)
   ? JSON.parse(fs.readFileSync(sourcesPath, 'utf8'))
-  : { version: '0.1.0', updated: new Date().toISOString().slice(0, 10), builder: 'Theokoles ☠️', sources: [] };
+  : { version: '0.1.0', updated: new Date().toISOString().slice(0, 10), builder: 'Theo 🧪', sources: [] };
 
 const sourceId = crypto.createHash('sha256').update(`${url}\n${title}`).digest('hex').slice(0, 16);
 const source = {

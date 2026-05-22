@@ -1,6 +1,6 @@
 # Theo Knowledge Base
 
-v0.1.0 — Theokoles ☠️ — 2026-05-22
+v0.1.0 — Theo 🧪 — 2026-05-22
 
 WHY: Curated source brain for Ask Theo so answers can synthesize trusted papers, researcher content, transcripts, labels, COAs, and vetted education sources instead of relying only on a generic model.
 

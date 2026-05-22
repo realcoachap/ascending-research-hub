@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [0.5.9] - 2026-05-22
+### Changed
+- Rebranded public-facing Theo visuals from skull/Shadow styling to lab/science 🧪 styling for Ascending Research.
+
+
 ## [0.5.8] - 2026-05-22
 ### Changed
 - Condensed Ask Theo layout: moved online/API status into the chat header and placed FAQ quick prompts below the chat so Theo Chat sits higher and feels primary.
