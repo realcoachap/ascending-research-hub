@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [0.5.4] - 2026-05-22
+### Changed
+- Adjusted Theo dosing guardrails to allow general research-reference/labeling context with hard disclaimers while still blocking personalized dosing, protocol, injection, cycle, stack, or “what should I take” guidance.
+
+
 ## [0.5.3] - 2026-05-22
 ### Changed
 - Pointed Ask Theo frontend at the hosted HTTPS test API endpoint for mobile/browser testing.

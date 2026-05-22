@@ -1,4 +1,4 @@
-// Ascending Ask Theo API test server v0.2.1 — Theokoles ☠️ — 2026-05-22
+// Ascending Ask Theo API test server v0.2.2 — Theokoles ☠️ — 2026-05-22
 // WHY: Local/proxyable chat endpoint for testing Theo with a real model while keeping API keys off the static GitHub Pages frontend.
 
 import http from 'node:http';
@@ -16,8 +16,8 @@ Your job is educational literacy only: explain terminology, research concepts, C
 Boundaries:
 - Do not provide medical advice, diagnosis, prescriptions, treatment plans, or instructions to use any compound.
 - Do not tell users what to take, how much to take, when to take it, or how to run a protocol.
-- If dosing, dosage, cycle, protocol, side effects in a personal-use context, disease treatment, pregnancy, minors, emergencies, or contraindications come up, respond with a brief safety boundary and suggest discussing with a qualified healthcare professional.
-- You may explain dosing language as general educational context, but never personalize it.
+- You may discuss dosing only as general educational context from research references, labels, or literature. If you mention any dose/range/unit/frequency, clearly state it is not a recommendation, prescription, or instruction to use.
+- If a user asks for personalized dosing, use guidance, a protocol/cycle/stack, injection instructions, or what they/someone should take, do not provide a dose. Explain the boundary and suggest a qualified healthcare professional.
 - Keep answers concise, warm, direct, and useful.
 - Prefer research-only wording and clear disclaimers without sounding scary.`;
 
@@ -52,19 +52,33 @@ function cleanMessage(value) {
   return String(value || '').replace(/\s+/g, ' ').trim().slice(0, MAX_MESSAGE_CHARS);
 }
 
-function isDosingOrUseQuestion(message) {
-  return /\b(dose|dosing|dosage|how much|how many|take|use it|inject|injection|cycle|protocol|stack|frequency|per day|daily|weekly|mcg|mg|iu|bpc|tb-500|semaglutide|tirzepatide)\b/i.test(message)
-    && /\b(should|can i|do i|someone|person|human|take|use|inject|dose|protocol|cycle|stack|how much|how many)\b/i.test(message);
+function isDosingTopic(message) {
+  return /\b(dose|dosing|dosage|how much|how many|cycle|protocol|stack|frequency|per day|daily|weekly|mcg|mg|iu)\b/i.test(message);
+}
+
+function isEducationalDosingContext(message) {
+  return isDosingTopic(message)
+    && /\b(education|educational|general|reference|references|research|literature|published|study|studies|label|labeling|common|typical|explain|meaning|units|context)\b/i.test(message);
+}
+
+function isPersonalizedDosingOrUseQuestion(message) {
+  return /\b(should i|should you|can i|can you|do i|for me|my dose|my dosage|my weight|my goal|someone take|person take|human take|what should|how much should|tell me how much|protocol|cycle|stack|inject|injection instructions|use it|take it)\b/i.test(message);
 }
 
 function dosingBoundary() {
-  return 'Educational boundary: I can’t provide dosing, protocol, injection, cycle, stack, or “how much should someone take” guidance. That would need to be reviewed with a qualified healthcare professional. I can help explain terminology, research-only label language, COA checks, storage basics, or what dosing units like mg/mcg mean in general educational context — without recommending use.';
+  return 'Educational boundary: I can discuss dosing only as general educational context from research references or labeling — not as a recommendation, prescription, protocol, or instruction to use any compound. I can’t tell you, or anyone, what to take or how to use it. A qualified healthcare professional should review any real-world dosing decision.';
+}
+
+function educationalDosingPrompt(message) {
+  return `Answer this as general educational context only. If you mention dosing ranges, units, or frequencies, frame them as examples from research references/literature or labeling, not instructions. Include a clear warning that it is not medical advice, not a prescription, and not a recommendation to use any compound. Do not personalize. User question: ${message}`;
 }
 
 function localFallback(message) {
   const q = message.toLowerCase();
   if (/dose|dosing|dosage|how much|take|cycle|protocol/.test(q)) {
-    return 'Educational boundary: dosing depends on individual context and should be reviewed with a licensed healthcare professional. I can explain what dosing language means in research references, but I can’t prescribe, personalize, or tell anyone what to take.';
+    return isEducationalDosingContext(message)
+      ? 'Educational dosing context: I can explain dosing ranges or units only as general research-reference information. This is not medical advice, not a prescription, and not an instruction or recommendation to use any compound.'
+      : dosingBoundary();
   }
   if (/coa|certificate|batch|lot|verify|lab/.test(q)) {
     return 'COA basics: a COA is a certificate of analysis — the paper trail for identity, purity, batch/lot ID, test date, lab source, and methods such as HPLC or LC-MS. The key move is matching the COA details against the product label and batch information.';
@@ -155,13 +169,14 @@ const server = http.createServer(async (request, response) => {
     const message = cleanMessage(payload.message);
     const history = Array.isArray(payload.history) ? payload.history : [];
     if (!message) return sendJson(response, 400, { error: 'Message is required' });
-    if (isDosingOrUseQuestion(message)) {
+    if (isPersonalizedDosingOrUseQuestion(message)) {
       return sendJson(response, 200, { ok: true, reply: dosingBoundary(), mode: 'safety-boundary' });
     }
-    let result = await askOpenAI(message, history);
+    const modelMessage = isEducationalDosingContext(message) ? educationalDosingPrompt(message) : message;
+    let result = await askOpenAI(modelMessage, history);
     if (!result) {
       try {
-        result = await askOllama(message, history);
+        result = await askOllama(modelMessage, history);
       } catch (ollamaError) {
         console.warn('[ask-theo] Ollama unavailable, using local fallback:', ollamaError.message);
         result = { text: localFallback(message), mode: 'local-fallback' };

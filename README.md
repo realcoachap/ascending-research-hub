@@ -1,8 +1,8 @@
 # Ascending Research Hub
 
-v0.5.3 — Theokoles ☠️ — 2026-05-22
+v0.5.4 — Theokoles ☠️ — 2026-05-22
 
-Premium static hub prototype for separating Ask Theo AI education, calculation tools, batch verification, reference notes, FAQ/compliance, and a future research-use-only commerce lane. Includes a local/proxyable Theo API test server at `api/ask-theo-server.mjs` with Ollama/Qwen local mode, hosted HTTPS tunnel test endpoint, and API-layer dosing boundary guardrails.
+Premium static hub prototype for separating Ask Theo AI education, calculation tools, batch verification, reference notes, FAQ/compliance, and a future research-use-only commerce lane. Includes a local/proxyable Theo API test server at `api/ask-theo-server.mjs` with Ollama/Qwen local mode, hosted HTTPS tunnel test endpoint, and API-layer dosing guardrails that allow educational research-reference context while blocking personalized/protocol guidance.
 
 ## Current live destinations
 
