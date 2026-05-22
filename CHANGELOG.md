@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [0.5.8] - 2026-05-22
+### Changed
+- Condensed Ask Theo layout: moved online/API status into the chat header and placed FAQ quick prompts below the chat so Theo Chat sits higher and feels primary.
+
+
 ## [0.5.7] - 2026-05-22
 ### Added
 - Added Theo knowledge base scaffold: source registry, chunk store, source intake template, ingestion helper script, and knowledge pipeline doc.
