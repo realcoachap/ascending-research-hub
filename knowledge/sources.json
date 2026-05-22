@@ -1,0 +1,17 @@
+{
+  "version": "0.1.0",
+  "updated": "2026-05-22",
+  "builder": "Theokoles ☠️",
+  "sources": [
+    {
+      "id": "96a455a52de39044",
+      "title": "Role of NAD+ and Related Precursors in Age-Related Degenerative Diseases",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/29634344/",
+      "platform": "PubMed",
+      "tier": "peer_reviewed",
+      "author": "Braidy et al.",
+      "topic": "nad",
+      "added": "2026-05-22T14:47:24.258Z"
+    }
+  ]
+}

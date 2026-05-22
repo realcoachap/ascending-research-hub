@@ -1,7 +1,9 @@
-// Ascending Ask Theo API test server v0.3.7 — Theokoles ☠️ — 2026-05-22
+// Ascending Ask Theo API test server v0.4.0 — Theokoles ☠️ — 2026-05-22
 // WHY: Local/proxyable chat endpoint for testing Theo with a real model while keeping API keys off the static GitHub Pages frontend.
 
 import http from 'node:http';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const PORT = Number(process.env.PORT || 8787);
 const MODEL = process.env.OPENAI_MODEL || 'gpt-4.1-mini';
@@ -12,6 +14,8 @@ const OLLAMA_URL = process.env.OLLAMA_URL || 'http://127.0.0.1:11434';
 const ALLOW_ORIGIN = process.env.ALLOW_ORIGIN || '*';
 const MAX_MESSAGE_CHARS = 1200;
 const MAX_HISTORY_ITEMS = 12;
+const KNOWLEDGE_CHUNKS_PATH = process.env.THEO_KNOWLEDGE_CHUNKS || path.join(process.cwd(), 'knowledge', 'theo-chunks.jsonl');
+const MAX_KNOWLEDGE_CHUNKS = 5;
 
 const SYSTEM_PROMPT = `You are Theo, Ascending Research's peptide education coach.
 Your job is educational literacy only: explain terminology, research concepts, COA/batch verification, storage/handling basics, mechanism summaries, and how to think about research-use information in plain English.
@@ -24,6 +28,7 @@ Boundaries:
 - If a user asks about a compound followed by a number, such as “NAD+ 1000,” treat it as a product/label education question unless they explicitly ask what to take or how to use it. Explain what the compound is and what the number may indicate on a label, without giving use instructions.
 - If a user asks for personalized dosing, use guidance, a protocol/cycle/stack, injection instructions, or what they/someone should take, do not provide a dose. Explain the boundary and suggest a qualified healthcare professional.
 - Keep answers concise, warm, direct, and useful.
+- When source context is provided, synthesize it and mention the source title/tier in plain English. Do not overstate social media claims as proven research.
 - Prefer research-only wording and clear disclaimers without sounding scary.`;
 
 function sendJson(response, status, payload) {
@@ -55,6 +60,55 @@ function readBody(request) {
 
 function cleanMessage(value) {
   return String(value || '').replace(/\s+/g, ' ').trim().slice(0, MAX_MESSAGE_CHARS);
+}
+
+
+function loadKnowledgeChunks() {
+  try {
+    if (!fs.existsSync(KNOWLEDGE_CHUNKS_PATH)) return [];
+    return fs.readFileSync(KNOWLEDGE_CHUNKS_PATH, 'utf8')
+      .split('\n')
+      .filter(Boolean)
+      .map(line => JSON.parse(line))
+      .filter(row => row.content && row.title && row.tier);
+  } catch (error) {
+    console.warn('[ask-theo] failed to load knowledge chunks:', error.message);
+    return [];
+  }
+}
+
+function tokens(text) {
+  return String(text || '').toLowerCase().match(/[a-z0-9+\-]{3,}/g) || [];
+}
+
+function retrieveKnowledge(message) {
+  const queryTokens = new Set(tokens(message));
+  if (!queryTokens.size) return [];
+  return loadKnowledgeChunks()
+    .map(chunk => {
+      const chunkTokens = tokens(`${chunk.title} ${chunk.topic || ''} ${chunk.content}`);
+      let score = 0;
+      for (const token of chunkTokens) if (queryTokens.has(token)) score += 1;
+      if (chunk.tier === 'peer_reviewed') score += 2;
+      if (chunk.tier === 'clinical_reference') score += 1.5;
+      if (chunk.tier === 'social_claim') score -= 0.5;
+      return { ...chunk, score };
+    })
+    .filter(chunk => chunk.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, MAX_KNOWLEDGE_CHUNKS);
+}
+
+function sourceContext(chunks) {
+  if (!chunks.length) return '';
+  const blocks = chunks.map((chunk, index) => `[Source ${index + 1}: ${chunk.title} | tier=${chunk.tier} | platform=${chunk.platform || 'unknown'} | url=${chunk.url}]\n${chunk.content}`);
+  return `\n\nUse the following curated source context when relevant. Distinguish peer-reviewed evidence from researcher/social/media claims, and do not invent citations beyond these sources.\n\n${blocks.join('\n\n')}`;
+}
+
+function knowledgeStats() {
+  const chunks = loadKnowledgeChunks();
+  const sources = new Set(chunks.map(chunk => chunk.sourceId));
+  return { chunks: chunks.length, sources: sources.size };
 }
 
 function isDosingTopic(message) {
@@ -272,7 +326,7 @@ async function askOllama(message, history) {
 
 const server = http.createServer(async (request, response) => {
   if (request.method === 'OPTIONS') return sendJson(response, 204, {});
-  if (request.method === 'GET' && request.url === '/health') return sendJson(response, 200, { ok: true, service: 'ask-theo', model: geminiKey() ? GEMINI_MODEL : (process.env.GROQ_API_KEY ? GROQ_MODEL : (process.env.OPENAI_API_KEY ? MODEL : OLLAMA_MODEL)), provider: geminiKey() ? 'gemini' : (process.env.GROQ_API_KEY ? 'groq' : (process.env.OPENAI_API_KEY ? 'openai' : 'ollama')) });
+  if (request.method === 'GET' && request.url === '/health') return sendJson(response, 200, { ok: true, service: 'ask-theo', model: geminiKey() ? GEMINI_MODEL : (process.env.GROQ_API_KEY ? GROQ_MODEL : (process.env.OPENAI_API_KEY ? MODEL : OLLAMA_MODEL)), provider: geminiKey() ? 'gemini' : (process.env.GROQ_API_KEY ? 'groq' : (process.env.OPENAI_API_KEY ? 'openai' : 'ollama')), knowledge: knowledgeStats() });
   if (request.method !== 'POST' || request.url !== '/api/ask-theo') return sendJson(response, 404, { error: 'Not found' });
 
   try {
@@ -286,9 +340,12 @@ const server = http.createServer(async (request, response) => {
     if (isDosingUnitQuestion(message)) {
       return sendJson(response, 200, { ok: true, reply: dosingUnitsAnswer(), mode: 'education-static' });
     }
-    const modelMessage = isProductLabelEducationQuestion(message)
+    const retrieved = retrieveKnowledge(message);
+    const context = sourceContext(retrieved);
+    const baseMessage = isProductLabelEducationQuestion(message)
       ? productLabelEducationPrompt(message)
       : (isEducationalDosingContext(message) ? educationalDosingPrompt(message) : message);
+    const modelMessage = `${baseMessage}${context}`;
     let result = null;
     for (const provider of [askGemini, askGroq, askOpenAI, askOllama]) {
       try {
@@ -302,7 +359,7 @@ const server = http.createServer(async (request, response) => {
     if (isDosingRangeRequest(message)) {
       result.text = sanitizeEducationalDosingReply(result.text);
     }
-    return sendJson(response, 200, { ok: true, reply: result.text, mode: result.mode });
+    return sendJson(response, 200, { ok: true, reply: result.text, mode: result.mode, sources: retrieved.map(({ id, title, url, tier, platform }) => ({ id, title, url, tier, platform })) });
   } catch (error) {
     console.error('[ask-theo]', error);
     return sendJson(response, 500, { error: 'Theo test endpoint failed', detail: error.message });

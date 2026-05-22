@@ -58,3 +58,11 @@
 - [x] Loosen product/label-number education questions such as NAD+ 1000
 - [ ] Future: replace temporary tunnel with production stable API domain
 - [ ] Future: connect Theo to real knowledge base and production safe AI backend
+
+
+## 2026-05-22 Task: Theo curated source brain
+- [x] Add source registry and chunk store
+- [x] Add ingestion helper for transcripts/papers/labels/social notes
+- [x] Wire Theo API to retrieve curated source context
+- [ ] Future: add transcript fetchers for YouTube/Rumble/X where APIs/exports allow
+- [ ] Future: add source review UI and evidence scoring

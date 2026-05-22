@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.5.7] - 2026-05-22
+### Added
+- Added Theo knowledge base scaffold: source registry, chunk store, source intake template, ingestion helper script, and knowledge pipeline doc.
+- Wired Theo API to retrieve relevant curated source chunks and include source metadata in API responses.
+
+
 ## [0.5.6] - 2026-05-22
 ### Changed
 - Loosened Theo guardrails for compound-plus-label-number questions like “tell me more about NAD+ 1000” so they answer as product/label education instead of stopping at a warning.

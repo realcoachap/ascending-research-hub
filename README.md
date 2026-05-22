@@ -1,6 +1,6 @@
 # Ascending Research Hub
 
-v0.5.6 — Theokoles ☠️ — 2026-05-22
+v0.5.7 — Theokoles ☠️ — 2026-05-22
 
 Premium static hub prototype for separating Ask Theo AI education, calculation tools, batch verification, reference notes, FAQ/compliance, and a future research-use-only commerce lane. Includes a local/proxyable Theo API test server at `api/ask-theo-server.mjs` with Gemini/Groq cloud-first mode, Ollama/Qwen local fallback, hosted HTTPS tunnel test endpoint, and API-layer dosing guardrails that allow educational research-reference context while blocking personalized/protocol guidance.
 
@@ -37,3 +37,7 @@ PORT=8787 OLLAMA_MODEL=qwen3:8b node api/ask-theo-server.mjs
 Then open `ask-ai.html` from a local static server on the same origin/proxy, or use the page's Endpoint button to set `http://127.0.0.1:8787/api/ask-theo`. If no API key is set, the server returns safe local fallback responses so the chat wire can still be tested.
 
 Current hosted test endpoint: `https://just-serum-paul-guarantees.trycloudflare.com/api/ask-theo`
+
+## Theo knowledge ingestion
+
+Theo now supports a local curated source store in `knowledge/` plus `scripts/add-theo-source.mjs`. Feed it transcripts, paper abstracts, notes, labels, or COA text; the API retrieves relevant chunks and passes source context into answers.
