@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.5.5] - 2026-05-22
+### Changed
+- Added Gemini/Groq cloud-first provider order for much faster Theo responses, with OpenAI/Ollama fallback.
+- Added deterministic handling for dosing-unit questions and post-filtering for unsafe educational dosing-range output.
+
+
 ## [0.5.4] - 2026-05-22
 ### Changed
 - Adjusted Theo dosing guardrails to allow general research-reference/labeling context with hard disclaimers while still blocking personalized dosing, protocol, injection, cycle, stack, or “what should I take” guidance.
