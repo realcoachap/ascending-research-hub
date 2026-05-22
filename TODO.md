@@ -48,5 +48,7 @@
 - [x] Change Hub education card and shared dock label from Learn to Ask AI
 - [x] Keep shop lane separate from AI education lane
 - [x] Add local/proxyable API test server for wired chat testing
+- [x] Run Theo locally on Ollama/Qwen3 8B
+- [x] Add hard API safety block for dosing/protocol questions
 - [x] Upgrade Ask Theo UI to feel more like a chat room
 - [ ] Future: connect Theo to real knowledge base and production safe AI backend

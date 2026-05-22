@@ -1,10 +1,12 @@
-// Ascending Ask Theo API test server v0.1.0 — Theokoles ☠️ — 2026-05-22
+// Ascending Ask Theo API test server v0.2.1 — Theokoles ☠️ — 2026-05-22
 // WHY: Local/proxyable chat endpoint for testing Theo with a real model while keeping API keys off the static GitHub Pages frontend.
 
 import http from 'node:http';
 
 const PORT = Number(process.env.PORT || 8787);
 const MODEL = process.env.OPENAI_MODEL || 'gpt-4.1-mini';
+const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'qwen3:8b';
+const OLLAMA_URL = process.env.OLLAMA_URL || 'http://127.0.0.1:11434';
 const ALLOW_ORIGIN = process.env.ALLOW_ORIGIN || '*';
 const MAX_MESSAGE_CHARS = 1200;
 const MAX_HISTORY_ITEMS = 12;
@@ -50,6 +52,15 @@ function cleanMessage(value) {
   return String(value || '').replace(/\s+/g, ' ').trim().slice(0, MAX_MESSAGE_CHARS);
 }
 
+function isDosingOrUseQuestion(message) {
+  return /\b(dose|dosing|dosage|how much|how many|take|use it|inject|injection|cycle|protocol|stack|frequency|per day|daily|weekly|mcg|mg|iu|bpc|tb-500|semaglutide|tirzepatide)\b/i.test(message)
+    && /\b(should|can i|do i|someone|person|human|take|use|inject|dose|protocol|cycle|stack|how much|how many)\b/i.test(message);
+}
+
+function dosingBoundary() {
+  return 'Educational boundary: I can’t provide dosing, protocol, injection, cycle, stack, or “how much should someone take” guidance. That would need to be reviewed with a qualified healthcare professional. I can help explain terminology, research-only label language, COA checks, storage basics, or what dosing units like mg/mcg mean in general educational context — without recommending use.';
+}
+
 function localFallback(message) {
   const q = message.toLowerCase();
   if (/dose|dosing|dosage|how much|take|cycle|protocol/.test(q)) {
@@ -65,7 +76,7 @@ function localFallback(message) {
 }
 
 async function askOpenAI(message, history) {
-  if (!process.env.OPENAI_API_KEY) return { text: localFallback(message), mode: 'local-fallback' };
+  if (!process.env.OPENAI_API_KEY) return null;
 
   const input = [
     { role: 'system', content: SYSTEM_PROMPT },
@@ -100,9 +111,43 @@ async function askOpenAI(message, history) {
   return { text: text || localFallback(message), mode: 'openai' };
 }
 
+async function askOllama(message, history) {
+  const messages = [
+    { role: 'system', content: SYSTEM_PROMPT },
+    ...history.slice(-MAX_HISTORY_ITEMS).map(item => ({
+      role: item.role === 'assistant' ? 'assistant' : 'user',
+      content: cleanMessage(item.content),
+    })).filter(item => item.content),
+    { role: 'user', content: message },
+  ];
+
+  const apiResponse = await fetch(`${OLLAMA_URL}/api/chat`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      model: OLLAMA_MODEL,
+      messages,
+      stream: false,
+      options: {
+        temperature: 0.35,
+        num_predict: 520,
+      },
+    }),
+  });
+
+  if (!apiResponse.ok) {
+    const detail = await apiResponse.text();
+    throw new Error(`Ollama ${apiResponse.status}: ${detail.slice(0, 300)}`);
+  }
+
+  const data = await apiResponse.json();
+  const text = data.message?.content?.trim();
+  return { text: text || localFallback(message), mode: 'ollama' };
+}
+
 const server = http.createServer(async (request, response) => {
   if (request.method === 'OPTIONS') return sendJson(response, 204, {});
-  if (request.method === 'GET' && request.url === '/health') return sendJson(response, 200, { ok: true, service: 'ask-theo', model: process.env.OPENAI_API_KEY ? MODEL : 'local-fallback' });
+  if (request.method === 'GET' && request.url === '/health') return sendJson(response, 200, { ok: true, service: 'ask-theo', model: process.env.OPENAI_API_KEY ? MODEL : OLLAMA_MODEL, provider: process.env.OPENAI_API_KEY ? 'openai' : 'ollama' });
   if (request.method !== 'POST' || request.url !== '/api/ask-theo') return sendJson(response, 404, { error: 'Not found' });
 
   try {
@@ -110,7 +155,18 @@ const server = http.createServer(async (request, response) => {
     const message = cleanMessage(payload.message);
     const history = Array.isArray(payload.history) ? payload.history : [];
     if (!message) return sendJson(response, 400, { error: 'Message is required' });
-    const result = await askOpenAI(message, history);
+    if (isDosingOrUseQuestion(message)) {
+      return sendJson(response, 200, { ok: true, reply: dosingBoundary(), mode: 'safety-boundary' });
+    }
+    let result = await askOpenAI(message, history);
+    if (!result) {
+      try {
+        result = await askOllama(message, history);
+      } catch (ollamaError) {
+        console.warn('[ask-theo] Ollama unavailable, using local fallback:', ollamaError.message);
+        result = { text: localFallback(message), mode: 'local-fallback' };
+      }
+    }
     return sendJson(response, 200, { ok: true, reply: result.text, mode: result.mode });
   } catch (error) {
     console.error('[ask-theo]', error);
@@ -120,5 +176,5 @@ const server = http.createServer(async (request, response) => {
 
 server.listen(PORT, () => {
   console.log(`Ask Theo test server listening on http://127.0.0.1:${PORT}`);
-  console.log(process.env.OPENAI_API_KEY ? `Model: ${MODEL}` : 'OPENAI_API_KEY not set; using local fallback responses.');
+  console.log(process.env.OPENAI_API_KEY ? `OpenAI model: ${MODEL}` : `Ollama model: ${OLLAMA_MODEL} at ${OLLAMA_URL}`);
 });

@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.5.2] - 2026-05-22
+### Changed
+- Updated Theo API server to use local Ollama/Qwen by default when no OpenAI key is present.
+- Added API-layer safety boundary for dosing/protocol/use questions before model calls.
+
+
 ## [0.5.1] - 2026-05-22
 ### Added
 - Added `api/ask-theo-server.mjs`, a local/proxyable Theo API test server with OpenAI Responses API support and safe fallback mode.
