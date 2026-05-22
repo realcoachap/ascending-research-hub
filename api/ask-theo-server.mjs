@@ -1,4 +1,4 @@
-// Ascending Ask Theo API test server v0.4.0 — Theo 🧪 — 2026-05-22
+// Ascending Ask Theo API test server v0.4.1 — Theo 🧪 — 2026-05-22
 // WHY: Local/proxyable chat endpoint for testing Theo with a real model while keeping API keys off the static GitHub Pages frontend.
 
 import http from 'node:http';
@@ -28,8 +28,20 @@ Boundaries:
 - If a user asks about a compound followed by a number, such as “NAD+ 1000,” treat it as a product/label education question unless they explicitly ask what to take or how to use it. Explain what the compound is and what the number may indicate on a label, without giving use instructions.
 - If a user asks for personalized dosing, use guidance, a protocol/cycle/stack, injection instructions, or what they/someone should take, do not provide a dose. Explain the boundary and suggest a qualified healthcare professional.
 - Keep answers concise, warm, direct, and useful.
+- You can respond in English, Spanish, Portuguese, French, Italian, German, and other major languages when requested. If asked what languages you speak, say you can explain research education topics in multiple languages and that the user can switch languages anytime.
+- When a response language is requested, answer in that language while keeping safety boundaries clear.
 - When source context is provided, synthesize it and mention the source title/tier in plain English. Do not overstate social media claims as proven research.
 - Prefer research-only wording and clear disclaimers without sounding scary.`;
+
+function requestedLanguage(payload) {
+  const raw = String(payload.language || '').toLowerCase().trim();
+  const allowed = { en: 'English', es: 'Spanish', pt: 'Portuguese', fr: 'French', it: 'Italian', de: 'German' };
+  return allowed[raw] ? { code: raw, name: allowed[raw] } : { code: 'en', name: 'English' };
+}
+
+function languageInstruction(language) {
+  return `\n\nResponse language: ${language.name}. Answer naturally in ${language.name}. If the user asks about languages, say Theo can explain research education topics in multiple languages and the chat language can be switched anytime.`;
+}
 
 function sendJson(response, status, payload) {
   const body = JSON.stringify(payload);
@@ -333,19 +345,20 @@ const server = http.createServer(async (request, response) => {
     const payload = JSON.parse(await readBody(request) || '{}');
     const message = cleanMessage(payload.message);
     const history = Array.isArray(payload.history) ? payload.history : [];
+    const language = requestedLanguage(payload);
     if (!message) return sendJson(response, 400, { error: 'Message is required' });
     if (isPersonalizedDosingOrUseQuestion(message)) {
-      return sendJson(response, 200, { ok: true, reply: dosingBoundary(), mode: 'safety-boundary' });
+      return sendJson(response, 200, { ok: true, reply: dosingBoundary(), mode: 'safety-boundary', language: language.code });
     }
     if (isDosingUnitQuestion(message)) {
-      return sendJson(response, 200, { ok: true, reply: dosingUnitsAnswer(), mode: 'education-static' });
+      return sendJson(response, 200, { ok: true, reply: dosingUnitsAnswer(), mode: 'education-static', language: language.code });
     }
     const retrieved = retrieveKnowledge(message);
     const context = sourceContext(retrieved);
     const baseMessage = isProductLabelEducationQuestion(message)
       ? productLabelEducationPrompt(message)
       : (isEducationalDosingContext(message) ? educationalDosingPrompt(message) : message);
-    const modelMessage = `${baseMessage}${context}`;
+    const modelMessage = `${baseMessage}${context}${languageInstruction(language)}`;
     let result = null;
     for (const provider of [askGemini, askGroq, askOpenAI, askOllama]) {
       try {
@@ -359,7 +372,7 @@ const server = http.createServer(async (request, response) => {
     if (isDosingRangeRequest(message)) {
       result.text = sanitizeEducationalDosingReply(result.text);
     }
-    return sendJson(response, 200, { ok: true, reply: result.text, mode: result.mode, sources: retrieved.map(({ id, title, url, tier, platform }) => ({ id, title, url, tier, platform })) });
+    return sendJson(response, 200, { ok: true, reply: result.text, mode: result.mode, language: language.code, sources: retrieved.map(({ id, title, url, tier, platform }) => ({ id, title, url, tier, platform })) });
   } catch (error) {
     console.error('[ask-theo]', error);
     return sendJson(response, 500, { error: 'Theo test endpoint failed', detail: error.message });

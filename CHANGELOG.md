@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [0.5.11] - 2026-05-22
+### Added
+- Added in-chat Theo language controls under the chat composer for English, Spanish, Portuguese, and French responses.
+
+### Changed
+- Updated Theo API prompt so he clearly supports multilingual education responses instead of saying he is English-only.
+
+
 ## [0.5.10] - 2026-05-22
 ### Changed
 - Standardized the English/Spanish toggle across pages as a compact globe icon control.
