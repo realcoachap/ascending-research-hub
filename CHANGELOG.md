@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [0.5.12] - 2026-05-22
+### Added
+- Added persistent Light / Balanced / Dark theme toggle across Hub, Ask Theo, COA, and Shop pages.
+
+
 ## [0.5.11] - 2026-05-22
 ### Added
 - Added in-chat Theo language controls under the chat composer for English, Spanish, Portuguese, and French responses.

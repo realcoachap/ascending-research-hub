@@ -1,7 +1,7 @@
 {
   "name": "Ascending Research Hub",
   "short_name": "AR Hub",
-  "description": "Premium research-use gateway for tools, education, verification, and compliant destination routing. v0.5.11 — Theo 🧪 — 2026-05-22.",
+  "description": "Premium research-use gateway for tools, education, verification, and compliant destination routing. v0.5.12 — Theo 🧪 — 2026-05-22.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
