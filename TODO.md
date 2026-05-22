@@ -47,4 +47,6 @@
 - [x] Include education-only intro and dosing/medical disclaimer
 - [x] Change Hub education card and shared dock label from Learn to Ask AI
 - [x] Keep shop lane separate from AI education lane
-- [ ] Future: connect Theo to real knowledge base and safe AI backend
+- [x] Add local/proxyable API test server for wired chat testing
+- [x] Upgrade Ask Theo UI to feel more like a chat room
+- [ ] Future: connect Theo to real knowledge base and production safe AI backend

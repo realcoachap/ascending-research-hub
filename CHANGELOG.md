@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [0.5.1] - 2026-05-22
+### Added
+- Added `api/ask-theo-server.mjs`, a local/proxyable Theo API test server with OpenAI Responses API support and safe fallback mode.
+
+### Changed
+- Upgraded `ask-ai.html` into a fuller chat-room layout with sidebar, online status, message avatars, typing state, endpoint configuration, clear-chat action, and API-backed send flow.
+
+
 ## [0.5.0] - 2026-05-22
 ### Added
 - Added `ask-ai.html`, a first-run Theo education coach prototype with medical/dosing disclaimers, quick prompts, and static educational responses.
