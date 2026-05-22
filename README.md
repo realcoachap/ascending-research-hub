@@ -1,11 +1,12 @@
 # Ascending Research Hub
 
-v0.4.1 — Theokoles ☠️ — 2026-05-21
+v0.5.0 — Theokoles ☠️ — 2026-05-22
 
-Premium static hub prototype for separating research education, calculation tools, batch verification, reference notes, FAQ/compliance, and a future research-use-only commerce lane.
+Premium static hub prototype for separating Ask Theo AI education, calculation tools, batch verification, reference notes, FAQ/compliance, and a future research-use-only commerce lane.
 
 ## Current live destinations
 
+- Ask Theo AI Coach: https://realcoachap.github.io/ascending-research-hub/ask-ai.html
 - Shop Preview Page: https://realcoachap.github.io/ascending-research-hub/shop.html
 - COA Verification Page: https://realcoachap.github.io/ascending-research-hub/coa.html
 - Research Concentration Calculator: https://realcoachap.github.io/research-concentration-calculator/

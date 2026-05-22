@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-05-22
+### Added
+- Added `ask-ai.html`, a first-run Theo education coach prototype with medical/dosing disclaimers, quick prompts, and static educational responses.
+
+### Changed
+- Changed the primary Hub education destination and shared bottom dock label from Learn to Ask AI.
+- Updated hub copy to position Theo as the education-first AI layer separate from the shop lane.
+
+
 ## [0.4.1] - 2026-05-21
 ### Added
 - Added persistent English/Spanish language toggle to hub, COA, and shop preview pages.

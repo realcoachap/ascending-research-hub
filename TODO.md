@@ -40,3 +40,11 @@
 ## 2026-05-21 Task: Spanish translation pass
 - [x] Add persistent EN/ES toggle to hub, COA, and shop pages
 - [x] Translate visible static hub/COA/shop copy and shared dock labels
+
+
+## 2026-05-22 Task: Ask Theo AI education coach
+- [x] Add first-run Ask Theo chat prototype page
+- [x] Include education-only intro and dosing/medical disclaimer
+- [x] Change Hub education card and shared dock label from Learn to Ask AI
+- [x] Keep shop lane separate from AI education lane
+- [ ] Future: connect Theo to real knowledge base and safe AI backend
