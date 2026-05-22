@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [0.5.10] - 2026-05-22
+### Changed
+- Standardized the English/Spanish toggle across pages as a compact globe icon control.
+
+
 ## [0.5.9] - 2026-05-22
 ### Changed
 - Rebranded public-facing Theo visuals from skull/Shadow styling to lab/science 🧪 styling for Ascending Research.
