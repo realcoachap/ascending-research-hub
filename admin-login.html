@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Shop Admin Login v0.8.12 - Theo ☠️ - 2026-05-31 -->
+<!-- Ascending Shop Admin Login v0.8.14 - Theo ☠️ - 2026-05-31 -->
 <!-- WHY: Separate operator login route backed by Supabase Auth and an allow-listed admin role. -->
 <html lang="en">
 <head>
@@ -137,6 +137,7 @@
       color: var(--muted);
       font-size: 13px;
     }
+    .is-hidden { display: none; }
     @media (max-width: 820px) {
       body { place-items: start center; }
     }
@@ -157,6 +158,15 @@
         </label>
         <button class="btn primary" type="submit">Enter admin console</button>
       </form>
+      <form class="form is-hidden" id="resetForm">
+        <label>New password
+          <input id="newPassword" type="password" autocomplete="new-password" placeholder="New password" minlength="8">
+        </label>
+        <label>Confirm password
+          <input id="confirmPassword" type="password" autocomplete="new-password" placeholder="Confirm password" minlength="8">
+        </label>
+        <button class="btn primary" type="submit">Set admin password</button>
+      </form>
       <div class="result" id="result" role="status"></div>
       <div class="links">
         <a href="auth.html">Customer login/register</a>
@@ -167,9 +177,11 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script>
-    // Ascending Shop Admin Login v0.8.12 - Theo ☠️ - 2026-05-31
+    // Ascending Shop Admin Login v0.8.14 - Theo ☠️ - 2026-05-31
     // WHY: Keeps admin separate from customer auth and verifies the Supabase admin allow-list before opening the console.
     const adminSessionKey = "aa-admin-session-v0.8.12";
+    const adminForm = document.getElementById("adminForm");
+    const resetForm = document.getElementById("resetForm");
     const result = document.getElementById("result");
     const isPublicStatic = location.hostname.includes("github.io");
     const storeHref = location.hostname.includes("github.io") ? "ascending-aminos-store-latest.html" : "index.html";
@@ -204,6 +216,50 @@
       const body = await response.json();
       if (!response.ok || !body.ok) throw new Error(body.error || "Admin login failed.");
       return body.admin;
+    }
+
+    async function activeAdminFromSession() {
+      const { data: sessionData, error: sessionError } = await supabaseClient.auth.getSession();
+      const session = sessionData?.session;
+      if (sessionError || !session?.user) throw new Error("Reset session could not be verified. Please open the latest password reset email link.");
+
+      const { data: profile, error: profileError } = await supabaseClient
+        .from("aa_admin_profiles")
+        .select("user_id,email,role,status")
+        .eq("user_id", session.user.id)
+        .eq("status", "active")
+        .maybeSingle();
+
+      if (profileError || !profile) throw new Error("Admin access is not enabled for this account.");
+      return { session, profile };
+    }
+
+    function storeAdminSession(session, profile) {
+      localStorage.setItem(adminSessionKey, JSON.stringify({
+        email: profile.email || session.user.email,
+        role: profile.role || "admin",
+        provider: "supabase",
+        userId: session.user.id,
+        createdAt: new Date().toISOString(),
+        expiresAt: session.expires_at ? new Date(session.expires_at * 1000).toISOString() : new Date(Date.now() + 60 * 60 * 1000).toISOString()
+      }));
+    }
+
+    async function prepareRecoverySession() {
+      if (!supabaseClient) throw new Error("Supabase admin auth is not configured for this build.");
+      const hash = new URLSearchParams(location.hash.replace(/^#/, ""));
+      const query = new URLSearchParams(location.search);
+      if (query.get("code")) {
+        const { error } = await supabaseClient.auth.exchangeCodeForSession(query.get("code"));
+        if (error) throw error;
+      } else if (hash.get("access_token") && hash.get("refresh_token")) {
+        const { error } = await supabaseClient.auth.setSession({
+          access_token: hash.get("access_token"),
+          refresh_token: hash.get("refresh_token")
+        });
+        if (error) throw error;
+      }
+      await activeAdminFromSession();
     }
 
     async function supabaseAdminLogin(email, password) {
@@ -244,6 +300,22 @@
       };
     }
 
+    async function initRecoveryMode() {
+      const hash = new URLSearchParams(location.hash.replace(/^#/, ""));
+      const query = new URLSearchParams(location.search);
+      const isRecovery = hash.get("type") === "recovery" || query.get("type") === "recovery" || query.has("code");
+      if (!isRecovery) return;
+      adminForm.classList.add("is-hidden");
+      resetForm.classList.remove("is-hidden");
+      document.getElementById("adminTitle").textContent = "Set admin password";
+      showResult("Password reset link verified. Enter a new admin password.");
+      try {
+        await prepareRecoverySession();
+      } catch (error) {
+        showResult(error.message, true);
+      }
+    }
+
     document.getElementById("adminForm").addEventListener("submit", async event => {
       event.preventDefault();
       const email = document.getElementById("adminEmail").value.trim().toLowerCase();
@@ -271,6 +343,26 @@
         showResult(error.message, true);
       }
     });
+
+    resetForm.addEventListener("submit", async event => {
+      event.preventDefault();
+      const password = document.getElementById("newPassword").value;
+      const confirmation = document.getElementById("confirmPassword").value;
+      try {
+        if (password.length < 8) throw new Error("Use at least 8 characters.");
+        if (password !== confirmation) throw new Error("Passwords do not match.");
+        const { error } = await supabaseClient.auth.updateUser({ password });
+        if (error) throw error;
+        const { session, profile } = await activeAdminFromSession();
+        storeAdminSession(session, profile);
+        showResult("Admin password updated. Opening console.");
+        setTimeout(() => { window.location.href = next; }, 700);
+      } catch (error) {
+        showResult(error.message, true);
+      }
+    });
+
+    initRecoveryMode();
   </script>
 </body>
 </html>
