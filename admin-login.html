@@ -1,0 +1,282 @@
+<!doctype html>
+<!-- Ascending Shop Admin Login v0.7.0 - Theo ☠️ - 2026-05-31 -->
+<!-- WHY: Separate operator login route for the Ascending admin console; customer auth stays on auth.html. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#050914" />
+  <title>Ascending Admin Login</title>
+  <style>
+    :root {
+      --bg: #050914;
+      --panel: rgba(255,255,255,.075);
+      --line: rgba(255,255,255,.14);
+      --ink: #f8fbff;
+      --muted: rgba(248,251,255,.7);
+      --blue: #3d73ff;
+      --cyan: #8fc4ff;
+      --green: #78e8ad;
+      --red: #ff8d8d;
+      --radius: 8px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(61,115,255,.26), transparent 34%),
+        radial-gradient(circle at 88% 18%, rgba(143,196,255,.16), transparent 30%),
+        linear-gradient(180deg, #050914 0%, #081120 52%, #03060c 100%);
+      display: grid;
+      place-items: center;
+      padding: 18px;
+    }
+    a { color: var(--cyan); text-decoration: none; }
+    button, input { font: inherit; }
+    .shell {
+      width: min(980px, 100%);
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.1), var(--panel));
+      box-shadow: 0 30px 100px rgba(0,0,0,.44);
+      padding: 22px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink);
+      margin-bottom: 42px;
+    }
+    .mark {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(143,196,255,.28);
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(61,115,255,.32), rgba(143,196,255,.08));
+      font-weight: 950;
+    }
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 99px;
+      background: var(--green);
+      box-shadow: 0 0 16px rgba(120,232,173,.65);
+    }
+    h1 {
+      margin: 16px 0 0;
+      font-size: clamp(40px, 7vw, 76px);
+      line-height: .9;
+      letter-spacing: -.05em;
+    }
+    h2 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      letter-spacing: -.03em;
+    }
+    p { color: var(--muted); line-height: 1.55; }
+    .list { display: grid; gap: 10px; margin-top: 24px; }
+    .list div {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px;
+      background: rgba(255,255,255,.045);
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .list b { color: var(--ink); display: block; margin-bottom: 4px; }
+    .form { display: grid; gap: 12px; }
+    label {
+      display: grid;
+      gap: 7px;
+      color: rgba(248,251,255,.54);
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+    input {
+      min-height: 48px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(0,0,0,.2);
+      color: var(--ink);
+      padding: 0 12px;
+      outline: 0;
+    }
+    input:focus {
+      border-color: rgba(143,196,255,.72);
+      box-shadow: 0 0 0 3px rgba(61,115,255,.16);
+    }
+    .btn {
+      min-height: 48px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.06);
+      color: var(--muted);
+      padding: 0 14px;
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .btn.primary {
+      border-color: transparent;
+      background: var(--blue);
+      color: #fff;
+    }
+    .result {
+      display: none;
+      border: 1px solid rgba(120,232,173,.32);
+      border-radius: var(--radius);
+      background: rgba(120,232,173,.08);
+      padding: 13px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .result.show { display: block; }
+    .result.error {
+      border-color: rgba(255,141,141,.34);
+      background: rgba(255,141,141,.09);
+    }
+    .links {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    @media (max-width: 820px) {
+      body { place-items: start center; }
+      .shell { grid-template-columns: 1fr; }
+      .brand { margin-bottom: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="panel">
+      <a class="brand" href="ascending-aminos-store-latest.html" aria-label="Back to Ascending Aminos shop">
+        <span class="mark">AA</span>
+        <span><strong>Ascending Aminos</strong><br><small>Separate operator access</small></span>
+      </a>
+      <span class="eyebrow">Admin route</span>
+      <h1>Operator console login.</h1>
+      <p>Customer login and admin login are intentionally separate. This admin preview unlocks product visibility, variant pricing, discount codes, and local audit history.</p>
+      <div class="list">
+        <div><b>Prototype note</b> Public GitHub Pages cannot secure real admin data. This sets a local preview session only; production needs server-side roles.</div>
+        <div><b>Guardrail</b> Supplier cost, private contacts, and payment-source details stay out of public static source.</div>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="adminTitle">
+      <span class="eyebrow">Admin login</span>
+      <h2 id="adminTitle">Sign in to admin</h2>
+      <p>Use this separate link for operator tasks. Customer account registration remains on the customer access page.</p>
+      <form class="form" id="adminForm">
+        <label>Email
+          <input id="adminEmail" type="email" autocomplete="username" placeholder="admin@ascending.test" required>
+        </label>
+        <label>Password
+          <input id="adminPassword" type="password" autocomplete="current-password" placeholder="Admin password" minlength="6" required>
+        </label>
+        <button class="btn primary" type="submit">Enter admin console</button>
+      </form>
+      <div class="result" id="result" role="status"></div>
+      <div class="links">
+        <a href="auth.html">Customer login/register</a>
+        <a href="ascending-aminos-store-latest.html">Back to shop</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Ascending Shop Admin Login v0.7.0 - Theo ☠️ - 2026-05-31
+    // WHY: Creates a separate local admin preview session and uses API auth when available.
+    const adminSessionKey = "aa-admin-session-v0.7.0";
+    const result = document.getElementById("result");
+    const next = new URLSearchParams(location.search).get("next") || "ascending-aminos-store-latest.html#admin";
+
+    function showResult(message, error = false) {
+      result.textContent = message;
+      result.classList.add("show");
+      result.classList.toggle("error", error);
+    }
+
+    async function apiLogin(email, password) {
+      const response = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({ email, password })
+      });
+      const body = await response.json();
+      if (!response.ok || !body.ok) throw new Error(body.error || "Admin login failed.");
+      return body.admin;
+    }
+
+    function staticPreviewAdmin(email) {
+      return {
+        email,
+        role: "admin",
+        provider: "static-preview",
+        createdAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString()
+      };
+    }
+
+    document.getElementById("adminForm").addEventListener("submit", async event => {
+      event.preventDefault();
+      const email = document.getElementById("adminEmail").value.trim().toLowerCase();
+      const password = document.getElementById("adminPassword").value;
+      try {
+        let admin;
+        try {
+          admin = await apiLogin(email, password);
+        } catch (error) {
+          if (location.hostname && !location.hostname.includes("github.io")) throw error;
+          if (password.length < 6) throw new Error("Enter at least 6 characters for the admin preview password.");
+          admin = staticPreviewAdmin(email || "admin-preview@ascending.local");
+        }
+        const session = {
+          email: admin.email || email,
+          role: "admin",
+          provider: admin.provider || "api",
+          createdAt: admin.createdAt || new Date().toISOString(),
+          expiresAt: admin.expiresAt || new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString()
+        };
+        localStorage.setItem(adminSessionKey, JSON.stringify(session));
+        showResult("Admin preview unlocked. Opening console.");
+        setTimeout(() => { window.location.href = next; }, 550);
+      } catch (error) {
+        showResult(error.message, true);
+      }
+    });
+  </script>
+</body>
+</html>
