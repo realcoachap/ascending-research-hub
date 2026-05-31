@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Shop Admin Login v0.8.10 - Theo ☠️ - 2026-05-31 -->
+<!-- Ascending Shop Admin Login v0.8.12 - Theo ☠️ - 2026-05-31 -->
 <!-- WHY: Separate operator login route backed by Supabase Auth and an allow-listed admin role. -->
 <html lang="en">
 <head>
@@ -167,9 +167,9 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script>
-    // Ascending Shop Admin Login v0.8.10 - Theo ☠️ - 2026-05-31
+    // Ascending Shop Admin Login v0.8.12 - Theo ☠️ - 2026-05-31
     // WHY: Keeps admin separate from customer auth and verifies the Supabase admin allow-list before opening the console.
-    const adminSessionKey = "aa-admin-session-v0.8.10";
+    const adminSessionKey = "aa-admin-session-v0.8.12";
     const result = document.getElementById("result");
     const isPublicStatic = location.hostname.includes("github.io");
     const storeHref = location.hostname.includes("github.io") ? "ascending-aminos-store-latest.html" : "index.html";
@@ -230,7 +230,7 @@
         metadata: {
           source_path: location.pathname,
           provider: "supabase",
-          gate_version: "v0.8.10"
+          gate_version: "v0.8.12"
         }
       });
 
