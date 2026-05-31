@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Aminos Customer Auth v0.7.10 - Theo 🧪 - 2026-05-31 -->
+<!-- Ascending Aminos Customer Auth v0.8.1 - Theo 🧪 - 2026-05-31 -->
 <!-- WHY: Purpose-built Ascending Aminos customer access page for the shop, rebuilt from scratch for legibility and brand fit. -->
 <html lang="en">
 <head>
@@ -684,7 +684,7 @@
 
         <div class="divider"><span data-copy="or">or</span></div>
 
-        <button class="btn" id="guestBtn" type="button" disabled data-copy="guest">Guest preview</button>
+        <button class="btn" id="guestBtn" type="button" disabled data-copy="guest">Guest access</button>
 
         <div class="benefits" aria-label="Member benefits">
           <div class="benefit"><strong data-copy="benefit1Title">Compliance trail</strong><span data-copy="benefit1Body">Gate, terms, and checkout attestations can stay tied to the account.</span></div>
@@ -702,7 +702,7 @@
               <span class="footer-emblem"><img src="assets/brand/ascending-aminos-logo-sharp-v0-1-0.png" alt="" /></span>
               <span><b>Ascending</b><small>Aminos</small></span>
             </div>
-            <p data-copy="footerBody">Clinical-luxury research storefront preview. Built around public lot verification, compliance-first access, and premium provenance.</p>
+            <p data-copy="footerBody">Clinical-luxury research access built around public lot verification, compliance-first entry, and premium provenance.</p>
           </div>
           <div class="site-footer-group">
             <b data-copy="footerCatalog">Catalog</b>
@@ -721,13 +721,13 @@
           <div class="site-footer-group">
             <b data-copy="footerLegal">Legal</b>
             <span data-copy="footerResearchPolicy">Research Use Policy</span>
-            <span data-copy="footerTerms">Terms placeholder</span>
-            <span data-copy="footerPrivacy">Privacy placeholder</span>
-            <span data-copy="footerContact">Contact placeholder</span>
+            <span data-copy="footerTerms">Terms of Access</span>
+            <span data-copy="footerPrivacy">Privacy Notice</span>
+            <span data-copy="footerContact">Contact / Access Review</span>
           </div>
         </div>
         <div class="site-legal">
-          <span>Ascending Aminos Customer Auth v0.7.10 - Theo 🧪 - 2026-05-31</span>
+          <span>Ascending Aminos Research Access</span>
           <span data-copy="footerNotice">Research Use Only / Not for human or animal consumption.</span>
         </div>
       </footer>
@@ -735,13 +735,13 @@
   </div>
 
   <script>
-    // Ascending Aminos Customer Auth v0.7.10 - Theo 🧪 - 2026-05-31
-    // WHY: Provides customer register/login/guest preview, with local static fallback when the API is not available.
+    // Ascending Aminos Customer Auth v0.8.1 - Theo 🧪 - 2026-05-31
+    // WHY: Provides customer register/login/guest access, with local static fallback when the API is not available.
     const storeHref = location.hostname.includes("github.io") ? "ascending-aminos-store-latest.html" : "index.html";
     const copy = {
       en: {
         brandSub: "Private research access",
-        footerBody: "Clinical-luxury research storefront preview. Built around public lot verification, compliance-first access, and premium provenance.",
+        footerBody: "Clinical-luxury research access built around public lot verification, compliance-first entry, and premium provenance.",
         footerCatalog: "Catalog",
         footerAllProducts: "All products",
         footerBlends: "Blends",
@@ -752,16 +752,16 @@
         footerCompliance: "Compliance",
         footerLegal: "Legal",
         footerResearchPolicy: "Research Use Policy",
-        footerTerms: "Terms placeholder",
-        footerPrivacy: "Privacy placeholder",
+        footerTerms: "Terms of Access",
+        footerPrivacy: "Privacy Notice",
         footerVerify: "Verify COA",
-        footerContact: "Contact placeholder",
+        footerContact: "Contact / Access Review",
         footerBatchAlerts: "Batch alerts",
         footerNotice: "Research Use Only / Not for human or animal consumption.",
         authEyebrow: "Account gate",
         authTitle: "Register or log in.",
         authLead: "Complete the required acknowledgements to unlock the form. This keeps account creation visually separate from the shop while matching the Ascending Aminos design system.",
-        discNotice: "Alpha note: production should store these acknowledgements as versioned compliance records tied to the account/session and repeat them again before checkout.",
+        discNotice: "These acknowledgements should be stored as versioned compliance records tied to the account/session and repeated again before checkout.",
         checkAge: "I confirm I am 21 years of age or older.",
         checkResearch: "I understand all products and information are for qualified laboratory research use only, not for human or animal consumption.",
         checkAdvice: "I understand Ascending Aminos does not provide medical advice, diagnosis, treatment guidance, dosing, cycles, or protocols.",
@@ -778,7 +778,7 @@
         submitRegister: "Create account and enter shop",
         submitLogin: "Log in and enter shop",
         or: "or",
-        guest: "Guest preview",
+        guest: "Guest access",
         benefit1Title: "Compliance trail",
         benefit1Body: "Gate, terms, and checkout attestations can stay tied to the account.",
         benefit2Title: "Member layer",
@@ -786,13 +786,13 @@
         benefit3Title: "COA records",
         benefit3Body: "Batch and COA visibility can follow purchases cleanly.",
         backLink: "Back to shop",
-        resultRegister: "Account alpha created. Opening gated shop catalog.",
-        resultLogin: "Login alpha accepted. Opening gated shop catalog.",
-        resultGuest: "Guest preview accepted. Checkout will require full attestations again."
+        resultRegister: "Account access created. Opening gated shop catalog.",
+        resultLogin: "Login accepted. Opening gated shop catalog.",
+        resultGuest: "Guest access accepted. Checkout will require full attestations again."
       },
       es: {
         brandSub: "Acceso privado investigativo",
-        footerBody: "Vista previa clinica-lujo para investigacion. Construida alrededor de verificacion publica de lote, acceso compliance-first y procedencia premium.",
+        footerBody: "Acceso clinica-lujo para investigacion, construido alrededor de verificacion publica de lote, entrada compliance-first y procedencia premium.",
         footerCatalog: "Catalogo",
         footerAllProducts: "Todos los productos",
         footerBlends: "Mezclas",
@@ -803,16 +803,16 @@
         footerCompliance: "Cumplimiento",
         footerLegal: "Legal",
         footerResearchPolicy: "Politica de uso investigativo",
-        footerTerms: "Terminos placeholder",
-        footerPrivacy: "Privacidad placeholder",
+        footerTerms: "Terminos de acceso",
+        footerPrivacy: "Aviso de privacidad",
         footerVerify: "Verificar COA",
-        footerContact: "Contacto placeholder",
+        footerContact: "Contacto / revision de acceso",
         footerBatchAlerts: "Alertas de lote",
         footerNotice: "Solo uso investigativo / No para consumo humano o animal.",
         authEyebrow: "Puerta de cuenta",
         authTitle: "Regístrate o inicia sesión.",
         authLead: "Completa las confirmaciones requeridas para desbloquear el formulario. Esto separa la creación de cuenta de la tienda y mantiene el sistema visual de Ascending Aminos.",
-        discNotice: "Nota alpha: en producción, estas confirmaciones deben guardarse como registros versionados ligados a la cuenta/sesión y repetirse antes del checkout.",
+        discNotice: "Estas confirmaciones deben guardarse como registros versionados ligados a la cuenta/sesion y repetirse antes del checkout.",
         checkAge: "Confirmo que tengo 21 años o más.",
         checkResearch: "Entiendo que todos los productos e información son solo para investigación de laboratorio calificada, no para consumo humano ni animal.",
         checkAdvice: "Entiendo que Ascending Aminos no ofrece consejo médico, diagnóstico, tratamiento, dosis, ciclos ni protocolos.",
@@ -829,7 +829,7 @@
         submitRegister: "Crear cuenta y entrar",
         submitLogin: "Iniciar sesión y entrar",
         or: "o",
-        guest: "Vista invitada",
+        guest: "Acceso invitado",
         benefit1Title: "Rastro de cumplimiento",
         benefit1Body: "Puerta, términos y declaraciones de checkout pueden quedar ligadas a la cuenta.",
         benefit2Title: "Capa miembro",
@@ -837,9 +837,9 @@
         benefit3Title: "Registros COA",
         benefit3Body: "La visibilidad de lotes y COAs puede seguir compras limpiamente.",
         backLink: "Volver a tienda",
-        resultRegister: "Cuenta alpha creada. Abriendo catálogo verificado.",
-        resultLogin: "Login alpha aceptado. Abriendo catálogo verificado.",
-        resultGuest: "Vista invitada aceptada. Checkout requerirá confirmaciones completas otra vez."
+        resultRegister: "Acceso de cuenta creado. Abriendo catalogo verificado.",
+        resultLogin: "Login aceptado. Abriendo catalogo verificado.",
+        resultGuest: "Acceso invitado aceptado. Checkout requerira confirmaciones completas otra vez."
       }
     };
 
@@ -901,7 +901,7 @@
 
     function saveAccess(mode, user) {
       const now = new Date().toISOString();
-      const label = user.provider === "guest" ? "Guest preview" : [user.firstName, user.lastName].filter(Boolean).join(" ") || user.email;
+      const label = user.provider === "guest" ? "Guest access" : [user.firstName, user.lastName].filter(Boolean).join(" ") || user.email;
       localStorage.setItem("ar-shop-gate", `accepted-v0.7.0-${now}`);
       localStorage.setItem("ar-shop-auth", JSON.stringify({
         mode,
@@ -917,7 +917,7 @@
       localStorage.setItem("ar-shop-account", JSON.stringify({
         mode,
         label,
-        benefit: mode === "guest" ? "Guest preview only. Checkout repeats attestations." : "Member alpha access unlocked.",
+        benefit: mode === "guest" ? "Guest access only. Checkout repeats attestations." : "Member access unlocked.",
         createdAt: now
       }));
     }
@@ -946,8 +946,8 @@
           user: {
             id: `${provider}-${Date.now()}`,
             email,
-            firstName: payload.firstName || (provider === "guest" ? "Guest" : "Preview"),
-            lastName: payload.lastName || (provider === "guest" ? "Preview" : "Account"),
+            firstName: payload.firstName || (provider === "guest" ? "Guest" : "Access"),
+            lastName: payload.lastName || (provider === "guest" ? "Access" : "Account"),
             provider,
             language: state.lang,
             status: provider === "guest" ? "guest" : "active",
