@@ -1,26 +1,27 @@
 <!doctype html>
-<!-- Ascending Shop Customer Auth v0.7.0 - Theo ☠️ - 2026-05-31 -->
-<!-- WHY: Separate customer login/register/guest-preview access page distinct from the admin login route. -->
+<!-- Ascending Aminos Customer Auth v0.7.4 - Theo ☠️ - 2026-05-31 -->
+<!-- WHY: Separate Ascending Aminos customer login/register/guest-preview access page, distinct from Ascending Fitness and the admin route. -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#050914" />
-  <title>Ascending Shop Access</title>
+  <title>Ascending Aminos Access</title>
   <style>
     :root {
       --bg: #050914;
-      --surface: #0b1322;
-      --panel: rgba(255,255,255,.07);
-      --panel-strong: rgba(255,255,255,.1);
+      --surface: #08111f;
+      --panel: rgba(255,255,255,.075);
+      --panel-strong: rgba(255,255,255,.12);
       --ink: #f8fbff;
       --muted: rgba(248,251,255,.72);
       --faint: rgba(248,251,255,.5);
       --line: rgba(255,255,255,.14);
-      --gold: #f6b73c;
-      --gold-soft: #ffe3a0;
-      --cyan: #6ce7ff;
-      --green: #78e8ad;
+      --blue: #2f55ff;
+      --blue-2: #6ca8ff;
+      --cyan: #8ed8ff;
+      --seal: #eef6ff;
+      --holo: linear-gradient(90deg,#2f55ff,#8ed8ff,#ffffff,#6ca8ff);
       --red: #ff8d8d;
       --shadow: 0 30px 100px rgba(0,0,0,.48);
       --radius: 8px;
@@ -34,9 +35,9 @@
       color: var(--ink);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at 18% 4%, rgba(246,183,60,.22), transparent 34%),
-        radial-gradient(circle at 86% 16%, rgba(108,231,255,.16), transparent 31%),
-        linear-gradient(180deg, #050914 0%, #081120 52%, #03060c 100%);
+        radial-gradient(circle at 12% 4%, rgba(47,85,255,.32), transparent 34%),
+        radial-gradient(circle at 86% 12%, rgba(142,216,255,.2), transparent 31%),
+        linear-gradient(180deg, #050914 0%, #081120 50%, #f5f8fd 50%, #eef4fb 100%);
     }
 
     button, input { font: inherit; }
@@ -69,24 +70,32 @@
       text-decoration: none;
     }
 
-    .mark {
-      width: 46px;
-      height: 46px;
-      border: 1px solid rgba(255,227,160,.3);
+    .brand-lockup {
+      width: 58px;
+      height: 58px;
+      border: 1px solid rgba(142,216,255,.32);
       border-radius: var(--radius);
       display: grid;
       place-items: center;
-      background: linear-gradient(135deg, rgba(246,183,60,.24), rgba(108,231,255,.08));
-      font-weight: 950;
+      background: rgba(255,255,255,.92);
+      box-shadow: 0 14px 38px rgba(0,0,0,.18);
+      overflow: hidden;
     }
 
+    .brand-lockup img {
+      width: 68px;
+      max-width: none;
+      display: block;
+    }
+
+    .brand strong { display:block; font-weight: 950; letter-spacing: -.02em; }
     .brand small { display: block; color: var(--faint); margin-top: 2px; }
 
     .lang {
       height: 38px;
-      border: 1px solid var(--line);
+      border: 1px solid rgba(142,216,255,.25);
       border-radius: var(--radius);
-      background: rgba(255,255,255,.055);
+      background: rgba(255,255,255,.075);
       color: var(--muted);
       padding: 0 12px;
       font-size: 12px;
@@ -103,7 +112,7 @@
 
     .toplinks a {
       min-height: 38px;
-      border: 1px solid var(--line);
+      border: 1px solid rgba(142,216,255,.25);
       border-radius: var(--radius);
       color: var(--muted);
       text-decoration: none;
@@ -112,7 +121,7 @@
       font-weight: 950;
       letter-spacing: .08em;
       text-transform: uppercase;
-      background: rgba(255,255,255,.055);
+      background: rgba(255,255,255,.075);
     }
 
     .main {
@@ -123,11 +132,25 @@
     }
 
     .panel {
-      border: 1px solid var(--line);
+      border: 1px solid rgba(142,216,255,.18);
       border-radius: var(--radius);
-      background: linear-gradient(180deg, var(--panel-strong), rgba(255,255,255,.045));
+      background:
+        linear-gradient(180deg, var(--panel-strong), rgba(255,255,255,.045)),
+        radial-gradient(circle at 90% 0%, rgba(47,85,255,.2), transparent 38%);
       box-shadow: var(--shadow);
       padding: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 3px;
+      background: var(--holo);
     }
 
     .disclaimer {
@@ -141,7 +164,7 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      color: var(--gold-soft);
+      color: var(--cyan);
       font-size: 12px;
       font-weight: 950;
       letter-spacing: .12em;
@@ -153,8 +176,8 @@
       width: 8px;
       height: 8px;
       border-radius: 99px;
-      background: var(--green);
-      box-shadow: 0 0 18px rgba(120,232,173,.65);
+      background: var(--seal);
+      box-shadow: 0 0 18px rgba(142,216,255,.65);
     }
 
     h1 {
@@ -174,10 +197,10 @@
     p { color: var(--muted); line-height: 1.55; }
 
     .notice {
-      border: 1px solid rgba(246,183,60,.28);
-      border-left: 4px solid var(--gold);
+      border: 1px solid rgba(142,216,255,.3);
+      border-left: 4px solid var(--blue-2);
       border-radius: var(--radius);
-      background: rgba(246,183,60,.08);
+      background: rgba(47,85,255,.1);
       padding: 13px 14px;
       color: var(--muted);
       line-height: 1.45;
@@ -206,7 +229,7 @@
       width: 18px;
       height: 18px;
       margin-top: 2px;
-      accent-color: var(--gold);
+      accent-color: var(--blue-2);
       flex: 0 0 auto;
     }
 
@@ -232,8 +255,8 @@
     }
 
     .status-dot.ready {
-      background: var(--green);
-      box-shadow: 0 0 14px rgba(120,232,173,.55);
+      background: var(--blue-2);
+      box-shadow: 0 0 14px rgba(142,216,255,.55);
     }
 
     .auth {
@@ -266,8 +289,8 @@
     }
 
     .tab.active {
-      background: var(--gold);
-      color: #08111f;
+      background: var(--blue);
+      color: #fff;
     }
 
     .form {
@@ -299,8 +322,8 @@
     }
 
     .field input:focus {
-      border-color: rgba(246,183,60,.72);
-      box-shadow: 0 0 0 3px rgba(246,183,60,.14);
+      border-color: rgba(142,216,255,.72);
+      box-shadow: 0 0 0 3px rgba(47,85,255,.18);
     }
 
     .field input:disabled, .btn:disabled {
@@ -329,8 +352,8 @@
 
     .btn.primary {
       border-color: transparent;
-      background: var(--gold);
-      color: #08111f;
+      background: linear-gradient(135deg,var(--blue),#2447ca);
+      color: #fff;
     }
 
     .btn.google {
@@ -386,9 +409,9 @@
 
     .result {
       display: none;
-      border: 1px solid rgba(120,232,173,.32);
+      border: 1px solid rgba(142,216,255,.34);
       border-radius: var(--radius);
-      background: rgba(120,232,173,.08);
+      background: rgba(47,85,255,.09);
       padding: 13px;
       color: var(--muted);
       line-height: 1.45;
@@ -400,7 +423,7 @@
       background: rgba(255,141,141,.09);
     }
 
-    .foot a { color: var(--gold-soft); text-decoration: none; }
+    .foot a { color: var(--cyan); text-decoration: none; }
 
     @media (max-width: 940px) {
       .main { grid-template-columns: 1fr; }
@@ -420,13 +443,13 @@
 <body>
   <div class="shell">
     <header class="topbar">
-      <a class="brand" href="auth.html" aria-label="Ascending Shop Access">
-        <span class="mark">AR</span>
-        <span><strong>Ascending Shop</strong><small data-copy="brandSub">Separate gated commerce access</small></span>
+      <a class="brand" href="auth.html" aria-label="Ascending Aminos Access">
+        <span class="brand-lockup"><img src="assets/brand/ascending-aminos-logo-sharp-v0-1-0.png" alt="" /></span>
+        <span><strong>Ascending Aminos</strong><small data-copy="brandSub">Research storefront account access</small></span>
       </a>
       <div class="toplinks">
-        <a href="ascending-aminos-store-latest.html" data-copy="shopLink">Shop</a>
-        <a href="admin-login.html?next=ascending-aminos-store-latest.html%23admin" data-copy="adminLink">Admin login</a>
+        <a href="index.html" data-copy="shopLink">Shop</a>
+        <a href="admin-login.html?next=index.html%23admin" data-copy="adminLink">Admin login</a>
         <button class="lang" id="langToggle" type="button">ES</button>
       </div>
     </header>
@@ -436,7 +459,7 @@
         <div>
           <span class="eyebrow" data-copy="discEyebrow">Required before login</span>
           <h1 id="disclaimerTitle" data-copy="discTitle">Research-use access only.</h1>
-          <p data-copy="discLead">Ascending Shop is a separate gated commerce environment. Before registration or login, every visitor must confirm the same baseline research-use terms.</p>
+          <p data-copy="discLead">Ascending Aminos is a separate gated research storefront. Before registration or login, every visitor must confirm the same baseline research-use terms.</p>
 
           <div class="notice" data-copy="discNotice">This page is an alpha flow. In production, these acknowledgements become versioned compliance records tied to the account/session and repeated again before checkout.</div>
 
@@ -451,7 +474,7 @@
             </label>
             <label class="check">
               <input type="checkbox" data-attest="advice" />
-              <span data-copy="checkAdvice">I understand Ascending Shop does not provide medical advice, diagnosis, treatment guidance, dosing, cycles, or protocols.</span>
+              <span data-copy="checkAdvice">I understand Ascending Aminos does not provide medical advice, diagnosis, treatment guidance, dosing, cycles, or protocols.</span>
             </label>
             <label class="check">
               <input type="checkbox" data-attest="truth" />
@@ -524,26 +547,26 @@
     </main>
 
     <footer class="foot">
-      <span>Ascending Shop Customer Auth v0.7.0 - Theo ☠️ - 2026-05-31</span>
-      <a href="ascending-aminos-store-latest.html" data-copy="backLink">Back to shop</a>
+      <span>Ascending Aminos Customer Auth v0.7.4 - Theo ☠️ - 2026-05-31</span>
+      <a href="index.html" data-copy="backLink">Back to shop</a>
     </footer>
   </div>
 
   <script>
-    // Ascending Shop Customer Auth v0.7.0 - Theo ☠️ - 2026-05-31
+    // Ascending Aminos Customer Auth v0.7.4 - Theo ☠️ - 2026-05-31
     // WHY: Provides customer register/login/guest preview, with local static fallback when the API is not available.
     const copy = {
       en: {
-        brandSub: "Separate gated commerce access",
+        brandSub: "Research storefront account access",
         shopLink: "Shop",
         adminLink: "Admin login",
         discEyebrow: "Required before login",
         discTitle: "Research-use access only.",
-        discLead: "Ascending Shop is a separate gated commerce environment. Before registration or login, every visitor must confirm the same baseline research-use terms.",
+        discLead: "Ascending Aminos is a separate gated research storefront. Before registration or login, every visitor must confirm the same baseline research-use terms.",
         discNotice: "This page is an alpha flow. In production, these acknowledgements become versioned compliance records tied to the account/session and repeated again before checkout.",
         checkAge: "I confirm I am 21 years of age or older.",
         checkResearch: "I understand all products and information are for qualified laboratory research use only, not for human or animal consumption.",
-        checkAdvice: "I understand Ascending Shop does not provide medical advice, diagnosis, treatment guidance, dosing, cycles, or protocols.",
+        checkAdvice: "I understand Ascending Aminos does not provide medical advice, diagnosis, treatment guidance, dosing, cycles, or protocols.",
         checkTruth: "I agree that account, order, and checkout information must be accurate and may be reviewed before fulfillment.",
         gateLocked: "Login locked until all acknowledgements are checked.",
         gateReady: "Disclaimer complete. Registration and login are unlocked.",
@@ -575,16 +598,16 @@
         resultGuest: "Guest preview accepted. Checkout will require full attestations again."
       },
       es: {
-        brandSub: "Acceso separado de comercio verificado",
+        brandSub: "Acceso de cuenta para tienda investigativa",
         shopLink: "Tienda",
         adminLink: "Login admin",
         discEyebrow: "Obligatorio antes del login",
         discTitle: "Acceso solo para investigación.",
-        discLead: "Ascending Shop es un entorno separado de comercio con acceso controlado. Antes de registrarse o iniciar sesión, cada visitante debe confirmar los términos base de uso investigativo.",
+        discLead: "Ascending Aminos es una tienda investigativa separada con acceso controlado. Antes de registrarse o iniciar sesión, cada visitante debe confirmar los términos base de uso investigativo.",
         discNotice: "Esta página es un flujo alpha. En producción, estas confirmaciones serán registros versionados ligados a la cuenta/sesión y se repetirán antes del checkout.",
         checkAge: "Confirmo que tengo 21 años o más.",
         checkResearch: "Entiendo que todos los productos e información son solo para investigación de laboratorio calificada, no para consumo humano ni animal.",
-        checkAdvice: "Entiendo que Ascending Shop no ofrece consejo médico, diagnóstico, tratamiento, dosis, ciclos ni protocolos.",
+        checkAdvice: "Entiendo que Ascending Aminos no ofrece consejo médico, diagnóstico, tratamiento, dosis, ciclos ni protocolos.",
         checkTruth: "Acepto que la información de cuenta, orden y checkout debe ser precisa y puede ser revisada antes del cumplimiento.",
         gateLocked: "Login bloqueado hasta marcar todas las confirmaciones.",
         gateReady: "Aviso completo. Registro y login desbloqueados.",
