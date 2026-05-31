@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Shop Admin Login v0.7.0 - Theo 🧪 - 2026-05-31 -->
+<!-- Ascending Shop Admin Login v0.7.1 - Theo 🧪 - 2026-05-31 -->
 <!-- WHY: Separate operator login route for the Ascending admin console; customer auth stays on auth.html. -->
 <html lang="en">
 <head>
@@ -181,7 +181,7 @@
 <body>
   <main class="shell">
     <section class="panel">
-      <a class="brand" href="ascending-aminos-store-latest.html" aria-label="Back to Ascending Aminos shop">
+      <a class="brand" href="index.html" aria-label="Back to Ascending Aminos shop" data-store-link>
         <span class="mark">AA</span>
         <span><strong>Ascending Aminos</strong><br><small>Separate operator access</small></span>
       </a>
@@ -210,17 +210,19 @@
       <div class="result" id="result" role="status"></div>
       <div class="links">
         <a href="auth.html">Customer login/register</a>
-        <a href="ascending-aminos-store-latest.html">Back to shop</a>
+        <a href="index.html" data-store-link>Back to shop</a>
       </div>
     </section>
   </main>
 
   <script>
-    // Ascending Shop Admin Login v0.7.0 - Theo 🧪 - 2026-05-31
+    // Ascending Shop Admin Login v0.7.1 - Theo 🧪 - 2026-05-31
     // WHY: Creates a separate local admin preview session and uses API auth when available.
     const adminSessionKey = "aa-admin-session-v0.7.0";
     const result = document.getElementById("result");
-    const next = new URLSearchParams(location.search).get("next") || "ascending-aminos-store-latest.html#admin";
+    const storeHref = location.hostname.includes("github.io") ? "ascending-aminos-store-latest.html" : "index.html";
+    const next = new URLSearchParams(location.search).get("next") || `${storeHref}#admin`;
+    document.querySelectorAll("[data-store-link]").forEach(link => { link.href = storeHref; });
 
     function showResult(message, error = false) {
       result.textContent = message;

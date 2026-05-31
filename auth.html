@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Aminos Customer Auth v0.7.8 - Theo 🧪 - 2026-05-31 -->
+<!-- Ascending Aminos Customer Auth v0.7.9 - Theo 🧪 - 2026-05-31 -->
 <!-- WHY: Purpose-built Ascending Aminos customer access page for the shop, rebuilt from scratch for legibility and brand fit. -->
 <html lang="en">
 <head>
@@ -744,8 +744,9 @@
   </div>
 
   <script>
-    // Ascending Aminos Customer Auth v0.7.8 - Theo 🧪 - 2026-05-31
+    // Ascending Aminos Customer Auth v0.7.9 - Theo 🧪 - 2026-05-31
     // WHY: Provides customer register/login/guest preview, with local static fallback when the API is not available.
+    const storeHref = location.hostname.includes("github.io") ? "ascending-aminos-store-latest.html" : "index.html";
     const copy = {
       en: {
         brandSub: "Private research access",
@@ -981,7 +982,7 @@
       saveAccess(mode, user);
       showResult(copy[state.lang][messageKey]);
       setTimeout(() => {
-        window.location.href = "index.html";
+        window.location.href = storeHref;
       }, 900);
     }
 
