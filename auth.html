@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Aminos Customer Auth v0.7.7 - Theo 🧪 - 2026-05-31 -->
+<!-- Ascending Aminos Customer Auth v0.7.8 - Theo 🧪 - 2026-05-31 -->
 <!-- WHY: Purpose-built Ascending Aminos customer access page for the shop, rebuilt from scratch for legibility and brand fit. -->
 <html lang="en">
 <head>
@@ -212,7 +212,6 @@
       align-items: center;
       gap: 13px;
       color: #fff;
-      text-decoration: none;
     }
 
     .footer-emblem {
@@ -273,16 +272,10 @@
       text-transform: uppercase;
     }
 
-    .site-footer-group a {
+    .site-footer-group span {
       color: rgba(141, 158, 188, .95);
       font-size: 13px;
       line-height: 1.35;
-      text-decoration: none;
-    }
-
-    .site-footer-group a:hover,
-    .site-footer-group a:focus-visible {
-      color: var(--cyan);
     }
 
     .site-legal {
@@ -714,36 +707,36 @@
       <footer class="site-footer" aria-label="Ascending Aminos footer">
         <div class="site-footer-grid">
           <div>
-            <a class="footer-brand" href="ascending-aminos-store-latest.html" aria-label="Back to Ascending Aminos catalog">
+            <div class="footer-brand" aria-label="Ascending Aminos">
               <span class="footer-emblem"><img src="assets/brand/ascending-aminos-logo-sharp-v0-1-0.png" alt="" /></span>
               <span><b>Ascending</b><small>Aminos</small></span>
-            </a>
+            </div>
             <p data-copy="footerBody">Clinical-luxury research storefront preview. Built around public lot verification, compliance-first access, and premium provenance.</p>
           </div>
           <div class="site-footer-group">
             <b data-copy="footerCatalog">Catalog</b>
-            <a href="ascending-aminos-store-latest.html#catalog" data-copy="footerAllProducts">All products</a>
-            <a href="ascending-aminos-store-latest.html#catalog" data-copy="footerBlends">Blends</a>
-            <a href="ascending-aminos-store-latest.html#catalog" data-copy="footerSingles">Single peptides</a>
-            <a href="ascending-aminos-store-latest.html#catalog" data-copy="footerDiluents">Diluents</a>
+            <span data-copy="footerAllProducts">All products</span>
+            <span data-copy="footerBlends">Blends</span>
+            <span data-copy="footerSingles">Single peptides</span>
+            <span data-copy="footerDiluents">Diluents</span>
           </div>
           <div class="site-footer-group">
             <b data-copy="footerTrust">Trust</b>
-            <a href="ascending-aminos-store-latest.html#verify" data-copy="footerVerify">Verify COA</a>
-            <a href="ascending-aminos-store-latest.html#trust" data-copy="footerTrustArchitecture">Trust architecture</a>
-            <a href="ascending-aminos-store-latest.html#compliance" data-copy="footerCompliance">Compliance</a>
-            <a href="ascending-aminos-store-latest.html#newsletter" data-copy="footerBatchAlerts">Batch alerts</a>
+            <span data-copy="footerVerify">Verify COA</span>
+            <span data-copy="footerTrustArchitecture">Trust architecture</span>
+            <span data-copy="footerCompliance">Compliance</span>
+            <span data-copy="footerBatchAlerts">Batch alerts</span>
           </div>
           <div class="site-footer-group">
             <b data-copy="footerLegal">Legal</b>
-            <a href="ascending-aminos-store-latest.html#compliance" data-copy="footerResearchPolicy">Research Use Policy</a>
-            <a href="ascending-aminos-store-latest.html#compliance" data-copy="footerTerms">Terms placeholder</a>
-            <a href="ascending-aminos-store-latest.html#compliance" data-copy="footerPrivacy">Privacy placeholder</a>
-            <a href="ascending-aminos-store-latest.html#newsletter" data-copy="footerContact">Contact placeholder</a>
+            <span data-copy="footerResearchPolicy">Research Use Policy</span>
+            <span data-copy="footerTerms">Terms placeholder</span>
+            <span data-copy="footerPrivacy">Privacy placeholder</span>
+            <span data-copy="footerContact">Contact placeholder</span>
           </div>
         </div>
         <div class="site-legal">
-          <span>Ascending Aminos Customer Auth v0.7.7 - Theo 🧪 - 2026-05-31</span>
+          <span>Ascending Aminos Customer Auth v0.7.8 - Theo 🧪 - 2026-05-31</span>
           <span data-copy="footerNotice">Research Use Only / Not for human or animal consumption.</span>
         </div>
       </footer>
@@ -751,7 +744,7 @@
   </div>
 
   <script>
-    // Ascending Aminos Customer Auth v0.7.7 - Theo 🧪 - 2026-05-31
+    // Ascending Aminos Customer Auth v0.7.8 - Theo 🧪 - 2026-05-31
     // WHY: Provides customer register/login/guest preview, with local static fallback when the API is not available.
     const copy = {
       en: {
