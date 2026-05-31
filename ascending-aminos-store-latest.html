@@ -1,6 +1,6 @@
 <!doctype html>
-<!-- Ascending Aminos Store v0.8.4 — Theo 🧪 — 2026-05-31 -->
-<!-- WHY: Clinical-luxury storefront with guest browsing, Supabase-backed request-review logic, and production-facing RUO/legal copy. -->
+<!-- Ascending Aminos Store v0.8.6 — Theo 🧪 — 2026-05-31 -->
+<!-- WHY: Clinical-luxury storefront gated behind access portal, with Supabase-backed request-review logic and production-facing RUO/legal copy. -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -1035,8 +1035,8 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script>
-    // Ascending Aminos Store v0.8.4 - Theo 🧪 - 2026-05-31
-    // WHY: Drives Supabase-backed customer access, product/variant admin controls, discount-code cart logic, and the public research catalog.
+    // Ascending Aminos Store v0.8.6 - Theo 🧪 - 2026-05-31
+    // WHY: Drives access-gated customer browsing, Supabase-backed request reviews, product controls, and discount-code cart logic.
     const copy = {
       en: {
         pageTitle: "Ascending Aminos - COA-First Research Storefront",
@@ -1990,7 +1990,7 @@
     const activeDiscountKey = "aa-store-active-discount-v0.7.0";
     const adminSessionKey = "aa-admin-session-v0.7.0";
     const adminAuditKey = "aa-admin-audit-v0.7.0";
-    const gateVersion = "v0.8.4";
+    const gateVersion = "v0.8.6";
     const supabaseConfig = window.ASCENDING_SUPABASE || {};
     const supabaseClient = supabaseIsConfigured() ? window.supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey) : null;
     let lang = localStorage.getItem("aa-store-lang-v0.5.0") || "en";
@@ -2099,7 +2099,8 @@
     adminProductId = products[0]?.id || null;
     adminDiscountId = discountCodes[0]?.id || null;
 
-    function init() {
+    async function init() {
+      if (!(await enforceStoreAccessGate())) return;
       applyLanguage();
       renderFilters();
       renderProducts();
@@ -2117,6 +2118,24 @@
         togglePanel("cart", true);
       }
       syncSupabaseSession();
+    }
+
+    async function enforceStoreAccessGate() {
+      if (hasCustomerAccess()) return true;
+      if (supabaseClient) {
+        try {
+          const { data: { session } } = await supabaseClient.auth.getSession();
+          if (session?.user) {
+            await syncSupabaseSession();
+            return true;
+          }
+        } catch (error) {
+          console.warn("Supabase access check failed", error);
+        }
+      }
+      // WHY: Coach requested the catalog live behind the access portal; guests can still enter through auth.html.
+      window.location.replace(authHrefWithNext(location.hash.replace(/^#/, "")));
+      return false;
     }
 
     function wireEvents() {

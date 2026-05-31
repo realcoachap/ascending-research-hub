@@ -1,6 +1,6 @@
 <!doctype html>
-<!-- Ascending Aminos Customer Auth v0.8.4 - Theo 🧪 - 2026-05-31 -->
-<!-- WHY: Purpose-built Ascending Aminos customer registration/login page for Supabase-backed account-gated review requests. -->
+<!-- Ascending Aminos Customer Auth v0.8.6 - Theo 🧪 - 2026-05-31 -->
+<!-- WHY: Purpose-built Ascending Aminos access portal for guest browsing plus Supabase-backed account-gated review requests. -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -736,8 +736,8 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script>
-    // Ascending Aminos Customer Auth v0.8.4 - Theo 🧪 - 2026-05-31
-    // WHY: Provides Supabase-backed customer register/login access plus guest browsing fallback when Supabase is not configured.
+    // Ascending Aminos Customer Auth v0.8.6 - Theo 🧪 - 2026-05-31
+    // WHY: Provides the required store access portal plus Supabase-backed customer register/login.
     const requestedNext = new URLSearchParams(location.search).get("next");
     const defaultStoreHref = location.hostname.includes("github.io") ? "ascending-aminos-store-latest.html" : "ascending-aminos-store-latest.html";
     const storeHref = requestedNext && !/^https?:\/\//i.test(requestedNext) ? requestedNext : defaultStoreHref;
@@ -855,7 +855,7 @@
 
     const $ = selector => document.querySelector(selector);
     const $$ = selector => Array.from(document.querySelectorAll(selector));
-    const gateVersion = "v0.8.4";
+    const gateVersion = "v0.8.6";
     const supabaseConfig = window.ASCENDING_SUPABASE || {};
     const supabaseClient = supabaseIsConfigured() ? window.supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey) : null;
 
