@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Shop Admin Login v0.8.14 - Theo ☠️ - 2026-05-31 -->
+<!-- Ascending Shop Admin Login v0.8.20 - Theo ☠️ - 2026-05-31 -->
 <!-- WHY: Separate operator login route backed by Supabase Auth and an allow-listed admin role. -->
 <html lang="en">
 <head>
@@ -185,7 +185,7 @@
     const result = document.getElementById("result");
     const isPublicStatic = location.hostname.includes("github.io");
     const storeHref = location.hostname.includes("github.io") ? "ascending-aminos-store-latest.html" : "index.html";
-    const next = new URLSearchParams(location.search).get("next") || `${storeHref}#admin`;
+    const next = safeReturnPath(new URLSearchParams(location.search).get("next"), `${storeHref}#admin`);
     const supabaseConfig = window.ASCENDING_SUPABASE || {};
     const supabaseClient = supabaseIsConfigured() ? window.supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey) : null;
     document.querySelectorAll("[data-store-link]").forEach(link => { link.href = storeHref; });
@@ -204,6 +204,19 @@
       result.textContent = message;
       result.classList.add("show");
       result.classList.toggle("error", error);
+    }
+
+    function safeReturnPath(value, fallback) {
+      // WHY: Admin login can receive a return target, but a verified login must never become an external or script redirect.
+      const raw = String(value || "").trim();
+      if (!raw || /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(raw)) return fallback;
+      try {
+        const resolved = new URL(raw, location.href);
+        if (resolved.origin !== location.origin) return fallback;
+        return `${resolved.pathname.split("/").pop() || fallback}${resolved.search}${resolved.hash}`;
+      } catch {
+        return fallback;
+      }
     }
 
     async function apiLogin(email, password) {

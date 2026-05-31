@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Aminos Customer Auth v0.8.6 - Theo 🧪 - 2026-05-31 -->
+<!-- Ascending Aminos Customer Auth v0.8.20 - Theo 🧪 - 2026-05-31 -->
 <!-- WHY: Purpose-built Ascending Aminos access portal for guest browsing plus Supabase-backed account-gated review requests. -->
 <html lang="en">
 <head>
@@ -738,9 +738,21 @@
   <script>
     // Ascending Aminos Customer Auth v0.8.6 - Theo 🧪 - 2026-05-31
     // WHY: Provides the required store access portal plus Supabase-backed customer register/login.
+    const defaultStoreHref = location.hostname.includes("github.io") ? "ascending-aminos-store-latest.html" : "index.html";
     const requestedNext = new URLSearchParams(location.search).get("next");
-    const defaultStoreHref = location.hostname.includes("github.io") ? "ascending-aminos-store-latest.html" : "ascending-aminos-store-latest.html";
-    const storeHref = requestedNext && !/^https?:\/\//i.test(requestedNext) ? requestedNext : defaultStoreHref;
+    function safeReturnPath(value, fallback) {
+      // WHY: Auth links can carry a return target, but they must never become an open redirect or script URL.
+      const raw = String(value || "").trim();
+      if (!raw || /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(raw)) return fallback;
+      try {
+        const resolved = new URL(raw, location.href);
+        if (resolved.origin !== location.origin) return fallback;
+        return `${resolved.pathname.split("/").pop() || fallback}${resolved.search}${resolved.hash}`;
+      } catch {
+        return fallback;
+      }
+    }
+    const storeHref = safeReturnPath(requestedNext, defaultStoreHref);
     const copy = {
       en: {
         brandSub: "Private research access",
