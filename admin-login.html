@@ -1,6 +1,6 @@
 <!doctype html>
-<!-- Ascending Shop Admin Login v0.8.0 - Theo 🧪 - 2026-05-31 -->
-<!-- WHY: Separate operator login route for the Ascending admin console; customer auth stays on auth.html. -->
+<!-- Ascending Shop Admin Login v0.8.7 - Theo ☠️ - 2026-05-31 -->
+<!-- WHY: Separate operator login route backed by Supabase Auth and an allow-listed admin role. -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -187,9 +187,9 @@
       </a>
       <span class="eyebrow">Admin route</span>
       <h1>Operator console login.</h1>
-      <p>Customer login and admin login are intentionally separate. Production admin access must be server-backed before it can unlock product, pricing, discount, or audit controls.</p>
+      <p>Customer login and admin login are intentionally separate. Production admin access uses Supabase Auth plus an allow-listed admin role before it unlocks operator controls.</p>
       <div class="list">
-        <div><b>Production note</b> Public GitHub Pages cannot secure real admin data. Static admin preview is disabled on the live site.</div>
+        <div><b>Production note</b> Public GitHub Pages can host the screen, but Supabase decides whether the account is actually an admin.</div>
         <div><b>Guardrail</b> Supplier cost, private contacts, and payment-source details stay out of public static source.</div>
       </div>
     </section>
@@ -215,15 +215,29 @@
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
   <script>
-    // Ascending Shop Admin Login v0.8.0 - Theo 🧪 - 2026-05-31
-    // WHY: Keeps admin separate from customer auth and blocks static public admin sessions before production backend launch.
-    const adminSessionKey = "aa-admin-session-v0.7.0";
+    // Ascending Shop Admin Login v0.8.7 - Theo ☠️ - 2026-05-31
+    // WHY: Keeps admin separate from customer auth and verifies the Supabase admin allow-list before opening the console.
+    const adminSessionKey = "aa-admin-session-v0.8.7";
     const result = document.getElementById("result");
     const isPublicStatic = location.hostname.includes("github.io");
     const storeHref = location.hostname.includes("github.io") ? "ascending-aminos-store-latest.html" : "index.html";
     const next = new URLSearchParams(location.search).get("next") || `${storeHref}#admin`;
+    const supabaseConfig = window.ASCENDING_SUPABASE || {};
+    const supabaseClient = supabaseIsConfigured() ? window.supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey) : null;
     document.querySelectorAll("[data-store-link]").forEach(link => { link.href = storeHref; });
+
+    function supabaseIsConfigured() {
+      return Boolean(
+        window.supabase?.createClient &&
+        supabaseConfig.url &&
+        supabaseConfig.anonKey &&
+        !String(supabaseConfig.url).includes("YOUR_") &&
+        !String(supabaseConfig.anonKey).includes("YOUR_")
+      );
+    }
 
     function showResult(message, error = false) {
       result.textContent = message;
@@ -243,19 +257,42 @@
       return body.admin;
     }
 
-    function staticPreviewAdmin(email) {
-      return {
-        email,
-        role: "admin",
-        provider: "static-preview",
-        createdAt: new Date().toISOString(),
-        expiresAt: new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString()
-      };
-    }
+    async function supabaseAdminLogin(email, password) {
+      if (!supabaseClient) throw new Error("Supabase admin auth is not configured for this build.");
+      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if (error || !data?.session?.user) throw new Error(error?.message || "Admin login failed.");
 
-    if (isPublicStatic) {
-      document.querySelectorAll("#adminForm input, #adminForm button").forEach(control => { control.disabled = true; });
-      showResult("Production admin requires server-side authentication. Static preview login is disabled on the live site.", true);
+      const { data: profile, error: profileError } = await supabaseClient
+        .from("aa_admin_profiles")
+        .select("user_id,email,role,status")
+        .eq("user_id", data.session.user.id)
+        .eq("status", "active")
+        .maybeSingle();
+
+      if (profileError || !profile) {
+        await supabaseClient.auth.signOut();
+        throw new Error("Admin access is not enabled for this account.");
+      }
+
+      await supabaseClient.from("aa_admin_audit_events").insert({
+        user_id: data.session.user.id,
+        email: profile.email || data.session.user.email || email,
+        event_type: "admin_login_completed",
+        metadata: {
+          source_path: location.pathname,
+          provider: "supabase",
+          gate_version: "v0.8.7"
+        }
+      });
+
+      return {
+        email: profile.email || data.session.user.email || email,
+        role: profile.role || "admin",
+        provider: "supabase",
+        userId: data.session.user.id,
+        createdAt: new Date().toISOString(),
+        expiresAt: data.session.expires_at ? new Date(data.session.expires_at * 1000).toISOString() : new Date(Date.now() + 60 * 60 * 1000).toISOString()
+      };
     }
 
     document.getElementById("adminForm").addEventListener("submit", async event => {
@@ -264,23 +301,22 @@
       const password = document.getElementById("adminPassword").value;
       try {
         let admin;
-        try {
+        if (supabaseClient) {
+          admin = await supabaseAdminLogin(email, password);
+        } else {
+          if (isPublicStatic) throw new Error("Production admin requires Supabase authentication.");
           admin = await apiLogin(email, password);
-        } catch (error) {
-          if (isPublicStatic) throw new Error("Production admin requires server-side authentication.");
-          if (location.hostname && !location.hostname.includes("github.io")) throw error;
-          if (password.length < 6) throw new Error("Enter at least 6 characters for the admin preview password.");
-          admin = staticPreviewAdmin(email || "admin-preview@ascending.local");
         }
         const session = {
           email: admin.email || email,
-          role: "admin",
+          role: admin.role || "admin",
           provider: admin.provider || "api",
+          userId: admin.userId || null,
           createdAt: admin.createdAt || new Date().toISOString(),
           expiresAt: admin.expiresAt || new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString()
         };
         localStorage.setItem(adminSessionKey, JSON.stringify(session));
-        showResult("Admin preview unlocked. Opening console.");
+        showResult("Admin access verified. Opening console.");
         setTimeout(() => { window.location.href = next; }, 550);
       } catch (error) {
         showResult(error.message, true);
