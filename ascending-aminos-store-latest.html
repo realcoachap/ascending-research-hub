@@ -1,12 +1,33 @@
 <!doctype html>
-<!-- Ascending Aminos Store v0.8.1 — Theo 🧪 — 2026-05-31 -->
-<!-- WHY: Clinical-luxury storefront with split customer/admin access, gated review logic, and production-facing RUO/legal copy. -->
+<!-- Ascending Aminos Store v0.8.2 — Theo 🧪 — 2026-05-31 -->
+<!-- WHY: Clinical-luxury storefront locked behind customer registration/login, gated review logic, and production-facing RUO/legal copy. -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#07101b" />
   <title>Ascending Aminos - COA-First Research Storefront</title>
+  <script>
+    // Ascending Aminos Registered Access Gate v0.8.2 - Theo 🧪 - 2026-05-31
+    // WHY: Coach requested the shop not be viewable unless customer access has been completed; static Pages gets a front-door lock until server auth is live.
+    (() => {
+      const authKeys = ["ar-shop-auth", "ar-shop-account"];
+      const parse = key => {
+        try { return JSON.parse(localStorage.getItem(key) || "null"); } catch { return null; }
+      };
+      const auth = parse("ar-shop-auth");
+      const account = parse("ar-shop-account");
+      const isRegistered = state => Boolean(state && state.mode && state.mode !== "guest" && state.provider !== "guest");
+      if (isRegistered(auth) || isRegistered(account)) return;
+      authKeys.forEach(key => {
+        const state = parse(key);
+        if (!state || state.mode === "guest" || state.provider === "guest") localStorage.removeItem(key);
+      });
+      localStorage.removeItem("ar-shop-gate");
+      const next = `${location.pathname.split("/").pop() || "index.html"}${location.search || ""}${location.hash || ""}`;
+      location.replace(`auth.html?next=${encodeURIComponent(next)}`);
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -761,9 +782,9 @@
         <div class="ops-grid">
           <article class="ops-panel">
             <h3 class="display" data-ui="accountGateTitle">Account Gate</h3>
-            <p data-ui="accountGateBody">Guests can browse after the RUO gate. Purchasing should require member access or a repeated checkout attestation.</p>
+            <p data-ui="accountGateBody">Registered customer access is required before browsing. Checkout still repeats attestations before any gated review.</p>
             <div class="mini-list">
-              <div><span data-ui="accountBrowse">Browse</span><strong data-ui="accountBrowseState">Open after gate</strong></div>
+              <div><span data-ui="accountBrowse">Browse</span><strong data-ui="accountBrowseState">Registered access</strong></div>
               <div><span data-ui="accountBenefits">Benefits</span><strong data-ui="accountBenefitsState">Members only</strong></div>
               <div><span data-ui="accountCheckout">Checkout</span><strong data-ui="accountCheckoutState">Repeat attestation</strong></div>
             </div>
@@ -841,7 +862,7 @@
         <div class="panel-top"><h2 class="display" style="font-size:34px;margin:0" data-ui="cartTitle">Order Review</h2><button class="icon-btn" data-close="cart" type="button" aria-label="Close cart" data-ui-aria="ariaCloseCart">X</button></div>
         <div class="cart-status">
           <div class="cart-chip"><span data-ui="cartItems">Items</span><b id="cart-summary-count">0 selected</b></div>
-          <div class="cart-chip"><span data-ui="cartAccess">Access</span><b id="cart-summary-access">Guest access</b></div>
+          <div class="cart-chip"><span data-ui="cartAccess">Access</span><b id="cart-summary-access">Customer access</b></div>
         </div>
       </div>
       <div class="cart-scroll">
@@ -883,12 +904,11 @@
     <div class="shade" data-close="account"></div>
     <aside class="cart-panel" aria-label="Account drawer" data-ui-aria="ariaAccountDrawer">
       <div class="panel-top"><h2 class="display" style="font-size:34px;margin:0" data-ui="accountPanelTitle">Member Access</h2><button class="icon-btn" data-close="account" type="button" aria-label="Close account" data-ui-aria="ariaCloseAccount">X</button></div>
-      <p style="color:var(--muted);line-height:1.55" data-ui="accountPanelBody">Paper-napkin logic, luxury wrapper: browsing stays possible after the RUO gate, while member access carries discounts, history, saved addresses, and batch records.</p>
+      <p style="color:var(--muted);line-height:1.55" data-ui="accountPanelBody">Customer access unlocks browsing while discounts, history, saved addresses, and batch records stay behind the member layer.</p>
       <div class="account-link-grid">
         <a class="btn primary" href="auth.html" data-ui="accountLoginLink">Customer login</a>
       </div>
       <button class="account-option" data-account-mode="member" type="button"><b data-ui="accountOptionMember">Continue as research member</b><span data-ui="accountOptionMemberBody">Unlock member pricing, order history and saved COA records.</span></button>
-      <button class="account-option" data-account-mode="guest" type="button"><b data-ui="accountOptionGuest">Continue as guest</b><span data-ui="accountOptionGuestBody">Browse only. Checkout will require repeat attestations.</span></button>
       <button class="account-option" data-account-mode="lab" type="button"><b data-ui="accountOptionLab">Lab purchasing profile</b><span data-ui="accountOptionLabBody">Future role for team seats, tax docs and authorized buyers.</span></button>
       <div class="detail-box"><span data-ui="accountCurrentState">Current state</span><b id="account-state">Guest browsing</b></div>
     </aside>
@@ -1202,9 +1222,9 @@
         opsTitle: "Luxury outside. Operator logic inside.",
         opsBody: "The operating layer sits behind the polished storefront: account states, bilingual copy, inventory, batches, visibility, and COA links.",
         accountGateTitle: "Account Gate",
-        accountGateBody: "Guests can browse after the RUO gate. Purchasing should require member access or a repeated checkout attestation.",
+        accountGateBody: "Registered customer access is required before browsing. Checkout still repeats attestations before any gated review.",
         accountBrowse: "Browse",
-        accountBrowseState: "Open after gate",
+        accountBrowseState: "Registered access",
         accountBenefits: "Benefits",
         accountBenefitsState: "Members only",
         accountCheckout: "Checkout",
@@ -1271,7 +1291,7 @@
         cartRequestReview: "Request Review",
         cartSelectedSingular: "1 selected",
         cartSelectedPlural: "{count} selected",
-        cartGuestPreview: "Guest access",
+        cartGuestPreview: "Customer access",
         cartMemberPreview: "Member access",
         cartLabProfile: "Lab profile",
         cartReady: "Ready for gated review",
@@ -1282,12 +1302,12 @@
         cartPerVial: "{price} per vial",
         cartRemove: "Remove",
         accountPanelTitle: "Member Access",
-        accountPanelBody: "Paper-napkin logic, luxury wrapper: browsing stays possible after the RUO gate, while member access carries discounts, history, saved addresses, and batch records.",
+        accountPanelBody: "Customer access unlocks browsing while discounts, history, saved addresses, and batch records stay behind the member layer.",
         accountLoginLink: "Customer login",
         accountOptionMember: "Continue as research member",
         accountOptionMemberBody: "Unlock member pricing, order history and saved COA records.",
-        accountOptionGuest: "Continue as guest",
-        accountOptionGuestBody: "Browse only. Checkout will require repeat attestations.",
+        accountOptionGuest: "Customer access required",
+        accountOptionGuestBody: "Register or log in before browsing the catalog.",
         accountOptionLab: "Lab purchasing profile",
         accountOptionLabBody: "Future role for team seats, tax docs and authorized buyers.",
         accountCurrentState: "Current state",
@@ -1396,12 +1416,12 @@
         langButton: "EN",
         gateEyebrow: "Acceso de investigacion",
         gateTitle: "Verificacion requerida",
-        gateBodyA: "Debes tener 21 anos o mas y ser un profesional de investigacion calificado para entrar a esta vista previa de Ascending Aminos.",
+        gateBodyA: "Debes tener 21 anos o mas y ser un profesional de investigacion calificado para entrar a Ascending Aminos.",
         gateBodyB: "Todos los productos se presentan estrictamente como materiales de investigacion de laboratorio.",
         gateCheckAge: "Confirmo que tengo 21 anos de edad o mas.",
         gateCheckRuo: "Entiendo que todos los productos son solo para uso investigativo y no para consumo humano o animal.",
         gateCheckAdvice: "Entiendo que este sitio no ofrece consejo medico, dosis, protocolos ni afirmaciones de tratamiento.",
-        gateEnter: "Entrar a vista previa",
+        gateEnter: "Entrar al sitio",
         tickerRuo: "Solo uso investigativo",
         tickerConsumption: "No para consumo humano o animal",
         tickerCoa: "COA de tercero por lote",
@@ -1557,9 +1577,9 @@
         opsTitle: "Lujo por fuera. Logica operativa por dentro.",
         opsBody: "La capa operativa vive detras del storefront pulido: estados de cuenta, copia bilingue, inventario, lotes, visibilidad y enlaces COA.",
         accountGateTitle: "Puerta de cuenta",
-        accountGateBody: "Los invitados pueden navegar despues del acceso RUO. La compra debe requerir cuenta de miembro o atestacion repetida en checkout.",
+        accountGateBody: "Se requiere acceso de cliente registrado antes de navegar. El checkout repite atestaciones antes de cualquier revision cerrada.",
         accountBrowse: "Navegar",
-        accountBrowseState: "Abierto tras acceso",
+        accountBrowseState: "Acceso registrado",
         accountBenefits: "Beneficios",
         accountBenefitsState: "Solo miembros",
         accountCheckout: "Checkout",
@@ -1626,7 +1646,7 @@
         cartRequestReview: "Solicitar revision",
         cartSelectedSingular: "1 seleccionado",
         cartSelectedPlural: "{count} seleccionados",
-        cartGuestPreview: "Acceso invitado",
+        cartGuestPreview: "Acceso cliente",
         cartMemberPreview: "Acceso miembro",
         cartLabProfile: "Perfil laboratorio",
         cartReady: "Listo para revision cerrada",
@@ -1637,12 +1657,12 @@
         cartPerVial: "{price} por vial",
         cartRemove: "Quitar",
         accountPanelTitle: "Acceso de miembro",
-        accountPanelBody: "Logica de servilleta, envoltura de lujo: navegar sigue posible despues de la puerta RUO, mientras la cuenta trae descuentos, historial, direcciones y registros de lote.",
+        accountPanelBody: "El acceso de cliente desbloquea la navegacion, mientras descuentos, historial, direcciones y registros de lote viven detras de la capa miembro.",
         accountLoginLink: "Login cliente",
         accountOptionMember: "Continuar como miembro investigador",
         accountOptionMemberBody: "Desbloquea precios de miembro, historial y COA guardados.",
-        accountOptionGuest: "Continuar como invitado",
-        accountOptionGuestBody: "Solo navegar. Checkout requerira atestaciones repetidas.",
+        accountOptionGuest: "Acceso de cliente requerido",
+        accountOptionGuestBody: "Registrate o inicia sesion antes de navegar el catalogo.",
         accountOptionLab: "Perfil de compra de laboratorio",
         accountOptionLabBody: "Rol futuro para equipos, documentos fiscales y compradores autorizados.",
         accountCurrentState: "Estado actual",
