@@ -1,6 +1,6 @@
 <!doctype html>
-<!-- Ascending Aminos Store v0.8.3 — Theo 🧪 — 2026-05-31 -->
-<!-- WHY: Clinical-luxury storefront with guest browsing, gated request-review logic, and production-facing RUO/legal copy. -->
+<!-- Ascending Aminos Store v0.8.4 — Theo 🧪 — 2026-05-31 -->
+<!-- WHY: Clinical-luxury storefront with guest browsing, Supabase-backed request-review logic, and production-facing RUO/legal copy. -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -1032,9 +1032,11 @@
 
   <div class="toast" id="toast" role="status"></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
   <script>
-    // Ascending Aminos Store v0.8.0 - Theo 🧪 - 2026-05-31
-    // WHY: Drives customer/admin access separation, product/variant admin controls, discount-code cart logic, and the public research catalog.
+    // Ascending Aminos Store v0.8.4 - Theo 🧪 - 2026-05-31
+    // WHY: Drives Supabase-backed customer access, product/variant admin controls, discount-code cart logic, and the public research catalog.
     const copy = {
       en: {
         pageTitle: "Ascending Aminos - COA-First Research Storefront",
@@ -1357,6 +1359,8 @@
         toastCompleteAttestations: "Complete the cart attestations first.",
         toastAccountRequired: "Create an account or log in to request review.",
         toastReviewCaptured: "Research review request captured. Final checkout stays gated.",
+        toastReviewSaved: "Research review request saved to your account.",
+        toastReviewSaveFailed: "Review request could not be saved. Try again in a moment.",
         toastProductSaved: "Product model saved locally.",
         toastDiscountSaved: "Discount code saved locally.",
         toastAdminRequired: "Admin login required.",
@@ -1713,6 +1717,8 @@
         toastCompleteAttestations: "Completa primero las atestaciones del carrito.",
         toastAccountRequired: "Crea una cuenta o inicia sesion para solicitar revision.",
         toastReviewCaptured: "Vista previa de revision capturada. El checkout real sigue cerrado.",
+        toastReviewSaved: "Solicitud de revision guardada en tu cuenta.",
+        toastReviewSaveFailed: "No se pudo guardar la solicitud. Intenta otra vez en un momento.",
         toastProductSaved: "Modelo de producto guardado localmente.",
         toastDiscountSaved: "Codigo de descuento guardado localmente.",
         toastAdminRequired: "Login admin requerido.",
@@ -1984,6 +1990,9 @@
     const activeDiscountKey = "aa-store-active-discount-v0.7.0";
     const adminSessionKey = "aa-admin-session-v0.7.0";
     const adminAuditKey = "aa-admin-audit-v0.7.0";
+    const gateVersion = "v0.8.4";
+    const supabaseConfig = window.ASCENDING_SUPABASE || {};
+    const supabaseClient = supabaseIsConfigured() ? window.supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey) : null;
     let lang = localStorage.getItem("aa-store-lang-v0.5.0") || "en";
     let products = [];
     let discountCodes = [];
@@ -2000,6 +2009,16 @@
     let adminDiscountId = null;
     const $ = selector => document.querySelector(selector);
     const $$ = selector => Array.from(document.querySelectorAll(selector));
+
+    function supabaseIsConfigured() {
+      return Boolean(
+        window.supabase?.createClient &&
+        supabaseConfig.url &&
+        supabaseConfig.anonKey &&
+        !String(supabaseConfig.url).includes("YOUR_") &&
+        !String(supabaseConfig.anonKey).includes("YOUR_")
+      );
+    }
 
     const categoryKeys = {
       All: "categoryAll",
@@ -2097,6 +2116,7 @@
         // WHY: Register/login should feel like a checkout handoff, not a cart reset.
         togglePanel("cart", true);
       }
+      syncSupabaseSession();
     }
 
     function wireEvents() {
@@ -2832,7 +2852,7 @@
       }
     }
 
-    function handleCartReviewRequest() {
+    async function handleCartReviewRequest() {
       if (!cart.length) return showToast(t("toastAddMaterial"));
       if (!cartIsAttested()) return showToast(t("toastCompleteAttestations"));
       if (!hasRegisteredCustomerAccess()) {
@@ -2843,8 +2863,14 @@
         }, 650);
         return;
       }
-      localStorage.removeItem("ar-shop-pending-review");
-      showToast(t("toastReviewCaptured"));
+      try {
+        const savedToSupabase = await submitSupabaseReviewRequest();
+        localStorage.removeItem("ar-shop-pending-review");
+        showToast(t(savedToSupabase ? "toastReviewSaved" : "toastReviewCaptured"));
+      } catch (error) {
+        console.warn("Review request save failed", error);
+        showToast(t("toastReviewSaveFailed"));
+      }
     }
 
     function cartSubtotal(lines = cart.filter(item => products.some(product => product.id === item.id))) {
@@ -2884,6 +2910,96 @@
 
     function isRegisteredCustomerState(state) {
       return Boolean(state && state.mode && state.mode !== "guest" && state.provider !== "guest");
+    }
+
+    function currentCartAttestations() {
+      const checks = $$("[data-cart-attest]");
+      return {
+        researchOnly: Boolean(checks[0]?.checked),
+        qualifiedResearcher: Boolean(checks[1]?.checked)
+      };
+    }
+
+    function publicCartLines() {
+      return cart.filter(item => products.some(product => product.id === item.id)).map(item => {
+        const product = products.find(p => p.id === item.id);
+        const option = productOption(product, item.variantId);
+        return {
+          productId: product.id,
+          name: displayName(product),
+          category: product.category,
+          lot: product.lot,
+          coa: product.coa,
+          optionId: option.id,
+          optionLabel: optionLabel(option),
+          quantity: item.qty,
+          unitPrice: Number(option.price || product.price || 0),
+          lineSubtotal: Number(option.price || product.price || 0) * item.qty
+        };
+      });
+    }
+
+    async function submitSupabaseReviewRequest() {
+      if (!supabaseClient) return false;
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (!session?.user) return false;
+      const lines = publicCartLines();
+      const subtotal = cartSubtotal();
+      const discountResult = calculateDiscount(subtotal, cart.filter(item => products.some(product => product.id === item.id)));
+      const previewTotal = Math.max(0, subtotal - discountResult.amount);
+      const { error } = await supabaseClient.from("aa_review_requests").insert({
+        user_id: session.user.id,
+        email: session.user.email,
+        status: "submitted",
+        cart_items: lines,
+        cart_attestations: currentCartAttestations(),
+        subtotal,
+        discount_code: discountResult.discount?.code || null,
+        discount_amount: discountResult.amount || 0,
+        preview_total: previewTotal,
+        currency: "USD",
+        language: lang === "es" ? "es" : "en",
+        gate_version: gateVersion,
+        source_path: `${location.pathname}${location.search}${location.hash}`,
+        metadata: {
+          productCount: lines.length,
+          userAgent: navigator.userAgent
+        }
+      });
+      if (error) throw error;
+      return true;
+    }
+
+    async function syncSupabaseSession() {
+      if (!supabaseClient) return;
+      try {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session?.user) return;
+        const meta = session.user.user_metadata || {};
+        const now = new Date().toISOString();
+        const label = [meta.first_name, meta.last_name].filter(Boolean).join(" ") || session.user.email;
+        localStorage.setItem("ar-shop-auth", JSON.stringify({
+          mode: "member",
+          label,
+          userId: session.user.id,
+          email: session.user.email,
+          provider: "supabase",
+          gateVersion,
+          acceptedAt: now,
+          language: lang,
+          attestations: {}
+        }));
+        localStorage.setItem("ar-shop-account", JSON.stringify({
+          mode: "member",
+          label,
+          provider: "supabase",
+          benefit: "Supabase account session active.",
+          createdAt: now
+        }));
+        renderAccount();
+      } catch (error) {
+        console.warn("Supabase session sync failed", error);
+      }
     }
 
     function hasCustomerAccess() {
@@ -2932,6 +3048,13 @@
 
     async function logoutCustomerAccess() {
       // WHY: Guest preview and static auth both persist locally; the API call only exists on the local auth server.
+      if (supabaseClient) {
+        try {
+          await supabaseClient.auth.signOut();
+        } catch (error) {
+          console.warn("Supabase signout failed", error);
+        }
+      }
       try {
         await fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" });
       } catch {

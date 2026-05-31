@@ -1,6 +1,6 @@
 <!doctype html>
-<!-- Ascending Aminos Customer Auth v0.8.3 - Theo 🧪 - 2026-05-31 -->
-<!-- WHY: Purpose-built Ascending Aminos customer registration/login page for account-gated review requests. -->
+<!-- Ascending Aminos Customer Auth v0.8.4 - Theo 🧪 - 2026-05-31 -->
+<!-- WHY: Purpose-built Ascending Aminos customer registration/login page for Supabase-backed account-gated review requests. -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -733,9 +733,11 @@
     </main>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
   <script>
-    // Ascending Aminos Customer Auth v0.8.3 - Theo 🧪 - 2026-05-31
-    // WHY: Provides customer register/login access plus guest browsing fallback when the API is not available.
+    // Ascending Aminos Customer Auth v0.8.4 - Theo 🧪 - 2026-05-31
+    // WHY: Provides Supabase-backed customer register/login access plus guest browsing fallback when Supabase is not configured.
     const requestedNext = new URLSearchParams(location.search).get("next");
     const defaultStoreHref = location.hostname.includes("github.io") ? "ascending-aminos-store-latest.html" : "ascending-aminos-store-latest.html";
     const storeHref = requestedNext && !/^https?:\/\//i.test(requestedNext) ? requestedNext : defaultStoreHref;
@@ -789,7 +791,8 @@
         backLink: "Back to shop",
         resultRegister: "Account access created. Returning to your cart.",
         resultLogin: "Login accepted. Returning to your cart.",
-        resultGuest: "Guest access accepted. Request review will require account registration."
+        resultGuest: "Guest access accepted. Request review will require account registration.",
+        resultConfirmEmail: "Account created. Check your email to confirm access, then log in."
       },
       es: {
         brandSub: "Acceso privado investigativo",
@@ -840,7 +843,8 @@
         backLink: "Volver a tienda",
         resultRegister: "Acceso de cuenta creado. Volviendo a tu carrito.",
         resultLogin: "Login aceptado. Volviendo a tu carrito.",
-        resultGuest: "Acceso invitado aceptado. Solicitar revision requiere registro."
+        resultGuest: "Acceso invitado aceptado. Solicitar revision requiere registro.",
+        resultConfirmEmail: "Cuenta creada. Revisa tu email para confirmar acceso, luego inicia sesion."
       }
     };
 
@@ -851,6 +855,19 @@
 
     const $ = selector => document.querySelector(selector);
     const $$ = selector => Array.from(document.querySelectorAll(selector));
+    const gateVersion = "v0.8.4";
+    const supabaseConfig = window.ASCENDING_SUPABASE || {};
+    const supabaseClient = supabaseIsConfigured() ? window.supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey) : null;
+
+    function supabaseIsConfigured() {
+      return Boolean(
+        window.supabase?.createClient &&
+        supabaseConfig.url &&
+        supabaseConfig.anonKey &&
+        !String(supabaseConfig.url).includes("YOUR_") &&
+        !String(supabaseConfig.anonKey).includes("YOUR_")
+      );
+    }
 
     function translate() {
       document.documentElement.lang = state.lang;
@@ -903,14 +920,14 @@
     function saveAccess(mode, user) {
       const now = new Date().toISOString();
       const label = user.provider === "guest" ? "Guest access" : [user.firstName, user.lastName].filter(Boolean).join(" ") || user.email;
-      localStorage.setItem("ar-shop-gate", `accepted-v0.7.0-${now}`);
+      localStorage.setItem("ar-shop-gate", `accepted-${gateVersion}-${now}`);
       localStorage.setItem("ar-shop-auth", JSON.stringify({
         mode,
         label,
         userId: user.id,
         email: user.email,
         provider: user.provider,
-        gateVersion: user.gateVersion || "v0.7.0",
+        gateVersion: user.gateVersion || gateVersion,
         acceptedAt: now,
         language: state.lang,
         attestations: user.attestations || currentAttestations()
@@ -922,6 +939,77 @@
         benefit: mode === "guest" ? "Guest browsing unlocked. Request review requires account." : "Member access unlocked.",
         createdAt: now
       }));
+    }
+
+    function supabaseShopUser(user, payload, provider = "supabase") {
+      const meta = user?.user_metadata || {};
+      return {
+        id: user.id,
+        email: user.email || payload.email,
+        firstName: meta.first_name || payload.firstName || "",
+        lastName: meta.last_name || payload.lastName || "",
+        provider,
+        language: state.lang,
+        status: "active",
+        gateVersion,
+        attestations: payload.attestations || currentAttestations()
+      };
+    }
+
+    async function recordSupabaseAccessEvent(eventType, user, payload = {}) {
+      if (!supabaseClient || !user?.id) return;
+      const { error } = await supabaseClient.from("aa_access_events").insert({
+        user_id: user.id,
+        email: user.email || payload.email,
+        event_type: eventType,
+        gate_version: gateVersion,
+        language: state.lang,
+        attestations: payload.attestations || currentAttestations(),
+        metadata: {
+          firstName: payload.firstName || "",
+          lastName: payload.lastName || "",
+          source: "auth.html"
+        }
+      });
+      if (error) console.warn("Supabase access event was not stored", error);
+    }
+
+    async function callSupabaseAuth(path, payload) {
+      if (!supabaseClient || path.includes("guest")) return null;
+      if (path.includes("register")) {
+        const { data, error } = await supabaseClient.auth.signUp({
+          email: payload.email,
+          password: payload.password,
+          options: {
+            emailRedirectTo: new URL(storeHref, location.href).href,
+            data: {
+              first_name: payload.firstName,
+              last_name: payload.lastName,
+              language: state.lang,
+              gate_version: gateVersion
+            }
+          }
+        });
+        if (error) throw error;
+        if (!data.session) {
+          showResult(copy[state.lang].resultConfirmEmail);
+          updateGate();
+          return { pendingEmailConfirmation: true };
+        }
+        await recordSupabaseAccessEvent("gate_accepted", data.user, payload);
+        await recordSupabaseAccessEvent("account_created", data.user, payload);
+        await recordSupabaseAccessEvent("login_completed", data.user, payload);
+        return { ok: true, user: supabaseShopUser(data.user, payload) };
+      }
+
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: payload.email,
+        password: payload.password
+      });
+      if (error) throw error;
+      await recordSupabaseAccessEvent("gate_accepted", data.user, payload);
+      await recordSupabaseAccessEvent("login_completed", data.user, payload);
+      return { ok: true, user: supabaseShopUser(data.user, payload) };
     }
 
     async function callAuth(path, payload) {
@@ -937,6 +1025,8 @@
     }
 
     async function callAuthWithStaticFallback(path, payload) {
+      const supabaseBody = await callSupabaseAuth(path, payload);
+      if (supabaseBody) return supabaseBody;
       try {
         return await callAuth(path, payload);
       } catch (error) {
@@ -953,7 +1043,7 @@
             provider,
             language: state.lang,
             status: provider === "guest" ? "guest" : "active",
-            gateVersion: "v0.7.0",
+            gateVersion,
             attestations: payload.attestations || currentAttestations()
           }
         };
@@ -1017,6 +1107,7 @@
           attestations: currentAttestations()
         };
         const body = await callAuthWithStaticFallback(state.mode === "register" ? "/api/auth/register" : "/api/auth/login", payload);
+        if (body.pendingEmailConfirmation) return;
         finish(state.mode === "register" ? "resultRegister" : "resultLogin", state.mode, body.user);
       } catch (error) {
         showResult(error.message, true);
