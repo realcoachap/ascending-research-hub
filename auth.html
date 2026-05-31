@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Aminos Customer Auth v0.7.9 - Theo 🧪 - 2026-05-31 -->
+<!-- Ascending Aminos Customer Auth v0.7.10 - Theo 🧪 - 2026-05-31 -->
 <!-- WHY: Purpose-built Ascending Aminos customer access page for the shop, rebuilt from scratch for legibility and brand fit. -->
 <html lang="en">
 <head>
@@ -469,12 +469,6 @@
       box-shadow: 0 14px 28px rgba(36, 75, 255, .22);
     }
 
-    .btn.google {
-      background: var(--navy);
-      color: #fff;
-      border-color: var(--navy);
-    }
-
     .divider {
       display: grid;
       grid-template-columns: 1fr auto 1fr;
@@ -690,10 +684,7 @@
 
         <div class="divider"><span data-copy="or">or</span></div>
 
-        <div class="grid2">
-          <button class="btn google" id="googleBtn" type="button" disabled data-copy="google">Continue with Google</button>
-          <button class="btn" id="guestBtn" type="button" disabled data-copy="guest">Guest preview</button>
-        </div>
+        <button class="btn" id="guestBtn" type="button" disabled data-copy="guest">Guest preview</button>
 
         <div class="benefits" aria-label="Member benefits">
           <div class="benefit"><strong data-copy="benefit1Title">Compliance trail</strong><span data-copy="benefit1Body">Gate, terms, and checkout attestations can stay tied to the account.</span></div>
@@ -736,7 +727,7 @@
           </div>
         </div>
         <div class="site-legal">
-          <span>Ascending Aminos Customer Auth v0.7.8 - Theo 🧪 - 2026-05-31</span>
+          <span>Ascending Aminos Customer Auth v0.7.10 - Theo 🧪 - 2026-05-31</span>
           <span data-copy="footerNotice">Research Use Only / Not for human or animal consumption.</span>
         </div>
       </footer>
@@ -744,7 +735,7 @@
   </div>
 
   <script>
-    // Ascending Aminos Customer Auth v0.7.9 - Theo 🧪 - 2026-05-31
+    // Ascending Aminos Customer Auth v0.7.10 - Theo 🧪 - 2026-05-31
     // WHY: Provides customer register/login/guest preview, with local static fallback when the API is not available.
     const storeHref = location.hostname.includes("github.io") ? "ascending-aminos-store-latest.html" : "index.html";
     const copy = {
@@ -787,7 +778,6 @@
         submitRegister: "Create account and enter shop",
         submitLogin: "Log in and enter shop",
         or: "or",
-        google: "Continue with Google",
         guest: "Guest preview",
         benefit1Title: "Compliance trail",
         benefit1Body: "Gate, terms, and checkout attestations can stay tied to the account.",
@@ -798,7 +788,6 @@
         backLink: "Back to shop",
         resultRegister: "Account alpha created. Opening gated shop catalog.",
         resultLogin: "Login alpha accepted. Opening gated shop catalog.",
-        resultGoogle: "Google OAuth needs provider keys before it can be enabled. Use email registration/login for now.",
         resultGuest: "Guest preview accepted. Checkout will require full attestations again."
       },
       es: {
@@ -840,7 +829,6 @@
         submitRegister: "Crear cuenta y entrar",
         submitLogin: "Iniciar sesión y entrar",
         or: "o",
-        google: "Continuar con Google",
         guest: "Vista invitada",
         benefit1Title: "Rastro de cumplimiento",
         benefit1Body: "Puerta, términos y declaraciones de checkout pueden quedar ligadas a la cuenta.",
@@ -851,7 +839,6 @@
         backLink: "Volver a tienda",
         resultRegister: "Cuenta alpha creada. Abriendo catálogo verificado.",
         resultLogin: "Login alpha aceptado. Abriendo catálogo verificado.",
-        resultGoogle: "Google OAuth necesita claves del proveedor antes de activarse. Usa registro/login por email por ahora.",
         resultGuest: "Vista invitada aceptada. Checkout requerirá confirmaciones completas otra vez."
       }
     };
@@ -880,7 +867,7 @@
     }
 
     function setControlsEnabled(enabled) {
-      $$("#authForm input, #submitBtn, #googleBtn, #guestBtn").forEach(control => {
+      $$("#authForm input, #submitBtn, #guestBtn").forEach(control => {
         control.disabled = !enabled;
       });
     }
@@ -1021,7 +1008,6 @@
       }
     });
 
-    $("#googleBtn").addEventListener("click", () => showResult(copy[state.lang].resultGoogle, true));
     $("#guestBtn").addEventListener("click", async () => {
       $("#guestBtn").disabled = true;
       try {
