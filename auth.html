@@ -1,6 +1,6 @@
 <!doctype html>
-<!-- Ascending Aminos Customer Auth v0.8.2 - Theo 🧪 - 2026-05-31 -->
-<!-- WHY: Purpose-built Ascending Aminos customer registration/login page for locked shop access. -->
+<!-- Ascending Aminos Customer Auth v0.8.3 - Theo 🧪 - 2026-05-31 -->
+<!-- WHY: Purpose-built Ascending Aminos customer registration/login page for account-gated review requests. -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -682,6 +682,9 @@
           <button class="btn primary" id="submitBtn" type="submit" disabled data-copy="submitRegister">Create account and enter shop</button>
         </form>
 
+        <div class="divider"><span data-copy="or">or</span></div>
+        <button class="btn" id="guestBtn" type="button" disabled data-copy="guest">Guest access</button>
+
         <div class="benefits" aria-label="Member benefits">
           <div class="benefit"><strong data-copy="benefit1Title">Compliance trail</strong><span data-copy="benefit1Body">Gate, terms, and checkout attestations can stay tied to the account.</span></div>
           <div class="benefit"><strong data-copy="benefit2Title">Member layer</strong><span data-copy="benefit2Body">Discounts, loyalty, and order history can live behind login.</span></div>
@@ -731,10 +734,10 @@
   </div>
 
   <script>
-    // Ascending Aminos Customer Auth v0.8.2 - Theo 🧪 - 2026-05-31
-    // WHY: Provides customer register/login access, with local static fallback when the API is not available.
+    // Ascending Aminos Customer Auth v0.8.3 - Theo 🧪 - 2026-05-31
+    // WHY: Provides customer register/login access plus guest browsing fallback when the API is not available.
     const requestedNext = new URLSearchParams(location.search).get("next");
-    const defaultStoreHref = location.hostname.includes("github.io") ? "ascending-aminos-store-latest.html" : "index.html";
+    const defaultStoreHref = location.hostname.includes("github.io") ? "ascending-aminos-store-latest.html" : "ascending-aminos-store-latest.html";
     const storeHref = requestedNext && !/^https?:\/\//i.test(requestedNext) ? requestedNext : defaultStoreHref;
     const copy = {
       en: {
@@ -758,7 +761,7 @@
         footerNotice: "Research Use Only / Not for human or animal consumption.",
         authEyebrow: "Account gate",
         authTitle: "Register or log in.",
-        authLead: "Complete the required acknowledgements to unlock customer access. The shop catalog stays closed until registration or login is complete.",
+        authLead: "Complete the required acknowledgements to register or log in. Guest access can browse the shop, but request review requires an account.",
         discNotice: "These acknowledgements should be stored as versioned compliance records tied to the account/session and repeated again before checkout.",
         checkAge: "I confirm I am 21 years of age or older.",
         checkResearch: "I understand all products and information are for qualified laboratory research use only, not for human or animal consumption.",
@@ -775,8 +778,8 @@
         password: "Password",
         submitRegister: "Create account and enter shop",
         submitLogin: "Log in and enter shop",
-        or: "",
-        guest: "",
+        or: "or",
+        guest: "Guest access",
         benefit1Title: "Compliance trail",
         benefit1Body: "Gate, terms, and checkout attestations can stay tied to the account.",
         benefit2Title: "Member layer",
@@ -784,9 +787,9 @@
         benefit3Title: "COA records",
         benefit3Body: "Batch and COA visibility can follow purchases cleanly.",
         backLink: "Back to shop",
-        resultRegister: "Account access created. Opening gated shop catalog.",
-        resultLogin: "Login accepted. Opening gated shop catalog.",
-        resultGuest: ""
+        resultRegister: "Account access created. Returning to your cart.",
+        resultLogin: "Login accepted. Returning to your cart.",
+        resultGuest: "Guest access accepted. Request review will require account registration."
       },
       es: {
         brandSub: "Acceso privado investigativo",
@@ -809,7 +812,7 @@
         footerNotice: "Solo uso investigativo / No para consumo humano o animal.",
         authEyebrow: "Puerta de cuenta",
         authTitle: "Regístrate o inicia sesión.",
-        authLead: "Completa las confirmaciones requeridas para desbloquear el acceso de cliente. El catalogo permanece cerrado hasta completar registro o login.",
+        authLead: "Completa las confirmaciones requeridas para registrarte o iniciar sesion. El acceso invitado puede navegar, pero solicitar revision requiere cuenta.",
         discNotice: "Estas confirmaciones deben guardarse como registros versionados ligados a la cuenta/sesion y repetirse antes del checkout.",
         checkAge: "Confirmo que tengo 21 años o más.",
         checkResearch: "Entiendo que todos los productos e información son solo para investigación de laboratorio calificada, no para consumo humano ni animal.",
@@ -826,8 +829,8 @@
         password: "Contraseña",
         submitRegister: "Crear cuenta y entrar",
         submitLogin: "Iniciar sesión y entrar",
-        or: "",
-        guest: "",
+        or: "o",
+        guest: "Acceso invitado",
         benefit1Title: "Rastro de cumplimiento",
         benefit1Body: "Puerta, términos y declaraciones de checkout pueden quedar ligadas a la cuenta.",
         benefit2Title: "Capa miembro",
@@ -835,9 +838,9 @@
         benefit3Title: "Registros COA",
         benefit3Body: "La visibilidad de lotes y COAs puede seguir compras limpiamente.",
         backLink: "Volver a tienda",
-        resultRegister: "Acceso de cuenta creado. Abriendo catalogo verificado.",
-        resultLogin: "Login aceptado. Abriendo catalogo verificado.",
-        resultGuest: ""
+        resultRegister: "Acceso de cuenta creado. Volviendo a tu carrito.",
+        resultLogin: "Login aceptado. Volviendo a tu carrito.",
+        resultGuest: "Acceso invitado aceptado. Solicitar revision requiere registro."
       }
     };
 
@@ -865,7 +868,7 @@
     }
 
     function setControlsEnabled(enabled) {
-      $$("#authForm input, #submitBtn").forEach(control => {
+      $$("#authForm input, #submitBtn, #guestBtn").forEach(control => {
         control.disabled = !enabled;
       });
     }
@@ -899,7 +902,7 @@
 
     function saveAccess(mode, user) {
       const now = new Date().toISOString();
-      const label = [user.firstName, user.lastName].filter(Boolean).join(" ") || user.email;
+      const label = user.provider === "guest" ? "Guest access" : [user.firstName, user.lastName].filter(Boolean).join(" ") || user.email;
       localStorage.setItem("ar-shop-gate", `accepted-v0.7.0-${now}`);
       localStorage.setItem("ar-shop-auth", JSON.stringify({
         mode,
@@ -915,7 +918,8 @@
       localStorage.setItem("ar-shop-account", JSON.stringify({
         mode,
         label,
-        benefit: "Member access unlocked.",
+        provider: user.provider,
+        benefit: mode === "guest" ? "Guest browsing unlocked. Request review requires account." : "Member access unlocked.",
         createdAt: now
       }));
     }
@@ -937,18 +941,18 @@
         return await callAuth(path, payload);
       } catch (error) {
         if (location.protocol !== "file:" && !location.hostname.includes("github.io")) throw error;
-        const email = String(payload.email || "").trim();
-        const provider = "static-register";
+        const provider = path.includes("guest") ? "guest" : "static-register";
+        const email = String(payload.email || "").trim() || `guest-${Date.now()}@preview.local`;
         return {
           ok: true,
           user: {
             id: `${provider}-${Date.now()}`,
             email,
-            firstName: payload.firstName || "Access",
-            lastName: payload.lastName || "Account",
+            firstName: provider === "guest" ? "Guest" : payload.firstName || "Access",
+            lastName: provider === "guest" ? "Preview" : payload.lastName || "Account",
             provider,
             language: state.lang,
-            status: "active",
+            status: provider === "guest" ? "guest" : "active",
             gateVersion: "v0.7.0",
             attestations: payload.attestations || currentAttestations()
           }
@@ -985,6 +989,20 @@
     });
 
     $$("[data-attest]").forEach(input => input.addEventListener("change", updateGate));
+
+    $("#guestBtn").addEventListener("click", async () => {
+      $("#guestBtn").disabled = true;
+      try {
+        const body = await callAuthWithStaticFallback("/api/auth/guest", {
+          language: state.lang,
+          attestations: currentAttestations()
+        });
+        finish("resultGuest", "guest", body.user);
+      } catch (error) {
+        showResult(error.message, true);
+        updateGate();
+      }
+    });
 
     $("#authForm").addEventListener("submit", async event => {
       event.preventDefault();

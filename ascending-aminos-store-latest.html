@@ -1,33 +1,12 @@
 <!doctype html>
-<!-- Ascending Aminos Store v0.8.2 — Theo 🧪 — 2026-05-31 -->
-<!-- WHY: Clinical-luxury storefront locked behind customer registration/login, gated review logic, and production-facing RUO/legal copy. -->
+<!-- Ascending Aminos Store v0.8.3 — Theo 🧪 — 2026-05-31 -->
+<!-- WHY: Clinical-luxury storefront with guest browsing, gated request-review logic, and production-facing RUO/legal copy. -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#07101b" />
   <title>Ascending Aminos - COA-First Research Storefront</title>
-  <script>
-    // Ascending Aminos Registered Access Gate v0.8.2 - Theo 🧪 - 2026-05-31
-    // WHY: Coach requested the shop not be viewable unless customer access has been completed; static Pages gets a front-door lock until server auth is live.
-    (() => {
-      const authKeys = ["ar-shop-auth", "ar-shop-account"];
-      const parse = key => {
-        try { return JSON.parse(localStorage.getItem(key) || "null"); } catch { return null; }
-      };
-      const auth = parse("ar-shop-auth");
-      const account = parse("ar-shop-account");
-      const isRegistered = state => Boolean(state && state.mode && state.mode !== "guest" && state.provider !== "guest");
-      if (isRegistered(auth) || isRegistered(account)) return;
-      authKeys.forEach(key => {
-        const state = parse(key);
-        if (!state || state.mode === "guest" || state.provider === "guest") localStorage.removeItem(key);
-      });
-      localStorage.removeItem("ar-shop-gate");
-      const next = `${location.pathname.split("/").pop() || "index.html"}${location.search || ""}${location.hash || ""}`;
-      location.replace(`auth.html?next=${encodeURIComponent(next)}`);
-    })();
-  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -782,7 +761,7 @@
         <div class="ops-grid">
           <article class="ops-panel">
             <h3 class="display" data-ui="accountGateTitle">Account Gate</h3>
-            <p data-ui="accountGateBody">Registered customer access is required before browsing. Checkout still repeats attestations before any gated review.</p>
+            <p data-ui="accountGateBody">Guests can browse, verify, and build a cart. Registered customer access is required before any request-review handoff.</p>
             <div class="mini-list">
               <div><span data-ui="accountBrowse">Browse</span><strong data-ui="accountBrowseState">Registered access</strong></div>
               <div><span data-ui="accountBenefits">Benefits</span><strong data-ui="accountBenefitsState">Members only</strong></div>
@@ -909,6 +888,7 @@
         <a class="btn primary" href="auth.html" data-ui="accountLoginLink">Customer login</a>
       </div>
       <button class="account-option" data-account-mode="member" type="button"><b data-ui="accountOptionMember">Continue as research member</b><span data-ui="accountOptionMemberBody">Unlock member pricing, order history and saved COA records.</span></button>
+      <button class="account-option" data-account-mode="guest" type="button"><b data-ui="accountOptionGuest">Continue as guest</b><span data-ui="accountOptionGuestBody">Browse, verify, and build a cart. Request review requires an account.</span></button>
       <button class="account-option" data-account-mode="lab" type="button"><b data-ui="accountOptionLab">Lab purchasing profile</b><span data-ui="accountOptionLabBody">Future role for team seats, tax docs and authorized buyers.</span></button>
       <div class="detail-box"><span data-ui="accountCurrentState">Current state</span><b id="account-state">Guest browsing</b></div>
     </aside>
@@ -1222,9 +1202,9 @@
         opsTitle: "Luxury outside. Operator logic inside.",
         opsBody: "The operating layer sits behind the polished storefront: account states, bilingual copy, inventory, batches, visibility, and COA links.",
         accountGateTitle: "Account Gate",
-        accountGateBody: "Registered customer access is required before browsing. Checkout still repeats attestations before any gated review.",
+        accountGateBody: "Guests can browse, verify, and build a cart. Registered customer access is required before any request-review handoff.",
         accountBrowse: "Browse",
-        accountBrowseState: "Registered access",
+        accountBrowseState: "Guest allowed",
         accountBenefits: "Benefits",
         accountBenefitsState: "Members only",
         accountCheckout: "Checkout",
@@ -1306,8 +1286,8 @@
         accountLoginLink: "Customer login",
         accountOptionMember: "Continue as research member",
         accountOptionMemberBody: "Unlock member pricing, order history and saved COA records.",
-        accountOptionGuest: "Customer access required",
-        accountOptionGuestBody: "Register or log in before browsing the catalog.",
+        accountOptionGuest: "Continue as guest",
+        accountOptionGuestBody: "Browse, verify, and build a cart. Request review requires an account.",
         accountOptionLab: "Lab purchasing profile",
         accountOptionLabBody: "Future role for team seats, tax docs and authorized buyers.",
         accountCurrentState: "Current state",
@@ -1375,6 +1355,7 @@
         toastRemoved: "Line removed from research cart.",
         toastAddMaterial: "Add a research material before requesting review.",
         toastCompleteAttestations: "Complete the cart attestations first.",
+        toastAccountRequired: "Create an account or log in to request review.",
         toastReviewCaptured: "Research review request captured. Final checkout stays gated.",
         toastProductSaved: "Product model saved locally.",
         toastDiscountSaved: "Discount code saved locally.",
@@ -1577,9 +1558,9 @@
         opsTitle: "Lujo por fuera. Logica operativa por dentro.",
         opsBody: "La capa operativa vive detras del storefront pulido: estados de cuenta, copia bilingue, inventario, lotes, visibilidad y enlaces COA.",
         accountGateTitle: "Puerta de cuenta",
-        accountGateBody: "Se requiere acceso de cliente registrado antes de navegar. El checkout repite atestaciones antes de cualquier revision cerrada.",
+        accountGateBody: "Invitados pueden navegar, verificar y crear carrito. Se requiere cuenta registrada antes de solicitar revision.",
         accountBrowse: "Navegar",
-        accountBrowseState: "Acceso registrado",
+        accountBrowseState: "Invitado permitido",
         accountBenefits: "Beneficios",
         accountBenefitsState: "Solo miembros",
         accountCheckout: "Checkout",
@@ -1661,8 +1642,8 @@
         accountLoginLink: "Login cliente",
         accountOptionMember: "Continuar como miembro investigador",
         accountOptionMemberBody: "Desbloquea precios de miembro, historial y COA guardados.",
-        accountOptionGuest: "Acceso de cliente requerido",
-        accountOptionGuestBody: "Registrate o inicia sesion antes de navegar el catalogo.",
+        accountOptionGuest: "Continuar como invitado",
+        accountOptionGuestBody: "Navega, verifica y crea carrito. Solicitar revision requiere cuenta.",
         accountOptionLab: "Perfil de compra de laboratorio",
         accountOptionLabBody: "Rol futuro para equipos, documentos fiscales y compradores autorizados.",
         accountCurrentState: "Estado actual",
@@ -1730,6 +1711,7 @@
         toastRemoved: "Linea removida del carrito investigativo.",
         toastAddMaterial: "Agrega un material investigativo antes de solicitar revision.",
         toastCompleteAttestations: "Completa primero las atestaciones del carrito.",
+        toastAccountRequired: "Crea una cuenta o inicia sesion para solicitar revision.",
         toastReviewCaptured: "Vista previa de revision capturada. El checkout real sigue cerrado.",
         toastProductSaved: "Modelo de producto guardado localmente.",
         toastDiscountSaved: "Codigo de descuento guardado localmente.",
@@ -1997,6 +1979,7 @@
     const productStorageKey = "aa-store-products-v0.7.2";
     const accountStorageKey = "aa-store-account-v0.5.0";
     const cartStorageKey = "aa-store-cart-v0.7.0";
+    const cartAttestationKey = "aa-store-cart-attest-v0.8.3";
     const discountStorageKey = "aa-store-discounts-v0.7.0";
     const activeDiscountKey = "aa-store-active-discount-v0.7.0";
     const adminSessionKey = "aa-admin-session-v0.7.0";
@@ -2105,10 +2088,15 @@
       renderAdmin();
       renderDiscountAdmin();
       renderAdminAudit();
+      restoreCartAttestations();
       renderCart();
       wireEvents();
       verifyLot("8042");
       if (location.hash === "#admin") openAdminConsole();
+      if (shouldResumePendingReview()) {
+        // WHY: Register/login should feel like a checkout handoff, not a cart reset.
+        togglePanel("cart", true);
+      }
     }
 
     function wireEvents() {
@@ -2187,7 +2175,10 @@
       $("#cart-discount-apply").addEventListener("click", applyCartDiscount);
       $("#cart-discount-clear").addEventListener("click", clearCartDiscount);
       $("#cart-discount-input").addEventListener("keydown", event => { if (event.key === "Enter") applyCartDiscount(); });
-      $$("[data-cart-attest]").forEach(check => check.addEventListener("change", renderCart));
+      $$("[data-cart-attest]").forEach(check => check.addEventListener("change", () => {
+        saveCartAttestations();
+        renderCart();
+      }));
       $("#modal-add").addEventListener("click", () => {
         if (currentModalProduct) addToCart(currentModalProduct.id, $("#modal-variant")?.value);
         toggleModal(false);
@@ -2825,9 +2816,34 @@
       return checks.length > 0 && checks.every(item => item.checked);
     }
 
+    function saveCartAttestations() {
+      const checks = $$("[data-cart-attest]").map(item => Boolean(item.checked));
+      localStorage.setItem(cartAttestationKey, JSON.stringify(checks));
+    }
+
+    function restoreCartAttestations() {
+      try {
+        const values = JSON.parse(localStorage.getItem(cartAttestationKey) || "[]");
+        $$("[data-cart-attest]").forEach((item, index) => {
+          item.checked = Boolean(values[index]);
+        });
+      } catch {
+        localStorage.removeItem(cartAttestationKey);
+      }
+    }
+
     function handleCartReviewRequest() {
       if (!cart.length) return showToast(t("toastAddMaterial"));
       if (!cartIsAttested()) return showToast(t("toastCompleteAttestations"));
+      if (!hasRegisteredCustomerAccess()) {
+        localStorage.setItem("ar-shop-pending-review", new Date().toISOString());
+        showToast(t("toastAccountRequired"));
+        setTimeout(() => {
+          window.location.href = authHrefWithNext("cart");
+        }, 650);
+        return;
+      }
+      localStorage.removeItem("ar-shop-pending-review");
       showToast(t("toastReviewCaptured"));
     }
 
@@ -2866,8 +2882,32 @@
       }
     }
 
+    function isRegisteredCustomerState(state) {
+      return Boolean(state && state.mode && state.mode !== "guest" && state.provider !== "guest");
+    }
+
     function hasCustomerAccess() {
       return Boolean(customerAccessState() || localStorage.getItem("ar-shop-auth") || legacyAccountState());
+    }
+
+    function hasRegisteredCustomerAccess() {
+      let auth = null;
+      try {
+        auth = JSON.parse(localStorage.getItem("ar-shop-auth") || "null");
+      } catch {
+        auth = null;
+      }
+      return isRegisteredCustomerState(auth) || isRegisteredCustomerState(customerAccessState());
+    }
+
+    function authHrefWithNext(hash = "") {
+      const page = location.hostname.includes("github.io") ? "ascending-aminos-store-latest.html" : (location.pathname.split("/").pop() || "ascending-aminos-store-latest.html");
+      const next = `${page}${location.search || ""}${hash ? `#${hash}` : ""}`;
+      return `auth.html?next=${encodeURIComponent(next)}`;
+    }
+
+    function shouldResumePendingReview() {
+      return location.hash === "#cart" || Boolean(localStorage.getItem("ar-shop-pending-review"));
     }
 
     function updateCustomerAccessActions() {
