@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Aminos Customer Auth v0.8.20 - Theo 🧪 - 2026-05-31 -->
+<!-- Ascending Aminos Customer Auth v0.8.21 - Theo 🧪 - 2026-05-31 -->
 <!-- WHY: Purpose-built Ascending Aminos access portal for guest browsing plus Supabase-backed account-gated review requests. -->
 <html lang="en">
 <head>
@@ -720,9 +720,10 @@
           <div class="site-footer-group">
             <b data-copy="footerLegal">Legal</b>
             <span data-copy="footerResearchPolicy">Research Use Policy</span>
+            <span data-copy="footerFaq">FAQ</span>
             <span data-copy="footerTerms">Terms of Access</span>
             <span data-copy="footerPrivacy">Privacy Notice</span>
-            <span data-copy="footerContact">Contact / Access Review</span>
+            <span data-copy="footerContact">Contact Us</span>
           </div>
         </div>
         <div class="site-legal">
@@ -736,7 +737,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script>
-    // Ascending Aminos Customer Auth v0.8.6 - Theo 🧪 - 2026-05-31
+    // Ascending Aminos Customer Auth v0.8.21 - Theo 🧪 - 2026-05-31
     // WHY: Provides the required store access portal plus Supabase-backed customer register/login.
     const defaultStoreHref = location.hostname.includes("github.io") ? "ascending-aminos-store-latest.html" : "index.html";
     const requestedNext = new URLSearchParams(location.search).get("next");
@@ -767,10 +768,11 @@
         footerCompliance: "Compliance",
         footerLegal: "Legal",
         footerResearchPolicy: "Research Use Policy",
+        footerFaq: "FAQ",
         footerTerms: "Terms of Access",
         footerPrivacy: "Privacy Notice",
         footerVerify: "Verify COA",
-        footerContact: "Contact / Access Review",
+        footerContact: "Contact Us",
         footerBatchAlerts: "Batch alerts",
         footerNotice: "Research Use Only / Not for human or animal consumption.",
         authEyebrow: "Account gate",
@@ -819,10 +821,11 @@
         footerCompliance: "Cumplimiento",
         footerLegal: "Legal",
         footerResearchPolicy: "Politica de uso investigativo",
+        footerFaq: "FAQ",
         footerTerms: "Terminos de acceso",
         footerPrivacy: "Aviso de privacidad",
         footerVerify: "Verificar COA",
-        footerContact: "Contacto / revision de acceso",
+        footerContact: "Contacto",
         footerBatchAlerts: "Alertas de lote",
         footerNotice: "Solo uso investigativo / No para consumo humano o animal.",
         authEyebrow: "Puerta de cuenta",
