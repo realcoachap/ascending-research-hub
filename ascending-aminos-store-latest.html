@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Aminos Store v0.7.10 — Theo 🧪 — 2026-05-31 -->
+<!-- Ascending Aminos Store v0.8.0 — Theo 🧪 — 2026-05-31 -->
 <!-- WHY: Clinical-luxury storefront with split customer/admin access, admin product/variant controls, and prototype discount-code cart logic. -->
 <html lang="en">
 <head>
@@ -357,7 +357,7 @@
     .account-option{border:1px solid var(--line);border-radius:var(--r);padding:13px;background:#f8fbff;margin-bottom:10px;text-align:left;width:100%;display:block}
     .account-option b{display:block}
     .account-option span{display:block;color:var(--muted);font-size:12px;line-height:1.45;margin-top:5px}
-    .account-link-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+    .account-link-grid{display:grid;grid-template-columns:1fr;gap:10px;margin:12px 0}
     .account-link-grid .btn{width:100%}
     .admin-console{width:min(760px,100%);padding:0;background:linear-gradient(180deg,#fff,#f6f9fe)}
     .admin-console-head{position:sticky;top:0;z-index:2;background:radial-gradient(110% 90% at 82% 0%,#254ec8,#08101f);color:#fff;padding:18px 20px;border-bottom:1px solid rgba(255,255,255,.11)}
@@ -575,7 +575,6 @@
       <div class="nav-actions">
         <button class="btn ghost hide-mobile" id="lang-toggle" type="button">ES</button>
         <button class="btn ghost hide-mobile" id="nav-customer-access" type="button" data-ui="navCustomerLogin">Login / Register</button>
-        <a class="btn ghost hide-mobile" href="admin-login.html?next=ascending-aminos-store-latest.html%23admin" data-ui="navAdminLogin">Admin Login</a>
         <button class="icon-btn" id="product-search-open" type="button" aria-label="Search products" data-ui-aria="ariaOpenProductSearch">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg>
         </button>
@@ -887,7 +886,6 @@
       <p style="color:var(--muted);line-height:1.55" data-ui="accountPanelBody">Paper-napkin logic, luxury wrapper: browsing stays possible after the RUO gate, while member access carries discounts, history, saved addresses, and batch records.</p>
       <div class="account-link-grid">
         <a class="btn primary" href="auth.html" data-ui="accountLoginLink">Customer login</a>
-        <a class="btn ghost" href="admin-login.html?next=ascending-aminos-store-latest.html%23admin" data-ui="accountAdminLink">Admin login</a>
       </div>
       <button class="account-option" data-account-mode="member" type="button"><b data-ui="accountOptionMember">Continue as research member</b><span data-ui="accountOptionMemberBody">Unlock member pricing, order history and saved COA records.</span></button>
       <button class="account-option" data-account-mode="guest" type="button"><b data-ui="accountOptionGuest">Continue as guest</b><span data-ui="accountOptionGuestBody">Browse only. Checkout will require repeat attestations.</span></button>
@@ -1035,7 +1033,7 @@
   <div class="toast" id="toast" role="status"></div>
 
   <script>
-    // Ascending Aminos Store v0.7.10 - Theo 🧪 - 2026-05-31
+    // Ascending Aminos Store v0.8.0 - Theo 🧪 - 2026-05-31
     // WHY: Drives customer/admin access separation, product/variant admin controls, discount-code cart logic, and the public research catalog.
     const copy = {
       en: {
@@ -1061,7 +1059,6 @@
         navAlerts: "Alerts",
         navAccount: "Account",
         navCustomerLogin: "Login / Register",
-        navAdminLogin: "Admin Login",
         navMember: "Member",
         navLogout: "Log out",
         navSearch: "Search",
@@ -1287,7 +1284,6 @@
         accountPanelTitle: "Member Access",
         accountPanelBody: "Paper-napkin logic, luxury wrapper: browsing stays possible after the RUO gate, while member access carries discounts, history, saved addresses, and batch records.",
         accountLoginLink: "Customer login",
-        accountAdminLink: "Admin login",
         accountOptionMember: "Continue as research member",
         accountOptionMemberBody: "Unlock member pricing, order history and saved COA records.",
         accountOptionGuest: "Continue as guest",
@@ -1418,7 +1414,6 @@
         navAlerts: "Alertas",
         navAccount: "Cuenta",
         navCustomerLogin: "Login / Registro",
-        navAdminLogin: "Login admin",
         navMember: "Miembro",
         navLogout: "Salir",
         navSearch: "Buscar",
@@ -1644,7 +1639,6 @@
         accountPanelTitle: "Acceso de miembro",
         accountPanelBody: "Logica de servilleta, envoltura de lujo: navegar sigue posible despues de la puerta RUO, mientras la cuenta trae descuentos, historial, direcciones y registros de lote.",
         accountLoginLink: "Login cliente",
-        accountAdminLink: "Login admin",
         accountOptionMember: "Continuar como miembro investigador",
         accountOptionMemberBody: "Desbloquea precios de miembro, historial y COA guardados.",
         accountOptionGuest: "Continuar como invitado",

@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Shop Admin Login v0.7.1 - Theo 🧪 - 2026-05-31 -->
+<!-- Ascending Shop Admin Login v0.8.0 - Theo 🧪 - 2026-05-31 -->
 <!-- WHY: Separate operator login route for the Ascending admin console; customer auth stays on auth.html. -->
 <html lang="en">
 <head>
@@ -187,9 +187,9 @@
       </a>
       <span class="eyebrow">Admin route</span>
       <h1>Operator console login.</h1>
-      <p>Customer login and admin login are intentionally separate. This admin preview unlocks product visibility, variant pricing, discount codes, and local audit history.</p>
+      <p>Customer login and admin login are intentionally separate. Production admin access must be server-backed before it can unlock product, pricing, discount, or audit controls.</p>
       <div class="list">
-        <div><b>Prototype note</b> Public GitHub Pages cannot secure real admin data. This sets a local preview session only; production needs server-side roles.</div>
+        <div><b>Production note</b> Public GitHub Pages cannot secure real admin data. Static admin preview is disabled on the live site.</div>
         <div><b>Guardrail</b> Supplier cost, private contacts, and payment-source details stay out of public static source.</div>
       </div>
     </section>
@@ -216,10 +216,11 @@
   </main>
 
   <script>
-    // Ascending Shop Admin Login v0.7.1 - Theo 🧪 - 2026-05-31
-    // WHY: Creates a separate local admin preview session and uses API auth when available.
+    // Ascending Shop Admin Login v0.8.0 - Theo 🧪 - 2026-05-31
+    // WHY: Keeps admin separate from customer auth and blocks static public admin sessions before production backend launch.
     const adminSessionKey = "aa-admin-session-v0.7.0";
     const result = document.getElementById("result");
+    const isPublicStatic = location.hostname.includes("github.io");
     const storeHref = location.hostname.includes("github.io") ? "ascending-aminos-store-latest.html" : "index.html";
     const next = new URLSearchParams(location.search).get("next") || `${storeHref}#admin`;
     document.querySelectorAll("[data-store-link]").forEach(link => { link.href = storeHref; });
@@ -252,6 +253,11 @@
       };
     }
 
+    if (isPublicStatic) {
+      document.querySelectorAll("#adminForm input, #adminForm button").forEach(control => { control.disabled = true; });
+      showResult("Production admin requires server-side authentication. Static preview login is disabled on the live site.", true);
+    }
+
     document.getElementById("adminForm").addEventListener("submit", async event => {
       event.preventDefault();
       const email = document.getElementById("adminEmail").value.trim().toLowerCase();
@@ -261,6 +267,7 @@
         try {
           admin = await apiLogin(email, password);
         } catch (error) {
+          if (isPublicStatic) throw new Error("Production admin requires server-side authentication.");
           if (location.hostname && !location.hostname.includes("github.io")) throw error;
           if (password.length < 6) throw new Error("Enter at least 6 characters for the admin preview password.");
           admin = staticPreviewAdmin(email || "admin-preview@ascending.local");
