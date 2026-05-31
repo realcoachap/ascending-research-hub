@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Aminos Customer Auth v0.7.5 - Theo ☠️ - 2026-05-31 -->
+<!-- Ascending Aminos Customer Auth v0.7.6 - Theo 🧪 - 2026-05-31 -->
 <!-- WHY: Purpose-built Ascending Aminos customer access page for the shop, rebuilt from scratch for legibility and brand fit. -->
 <html lang="en">
 <head>
@@ -122,7 +122,6 @@
       flex-wrap: wrap;
     }
 
-    .top-actions a,
     .lang {
       min-height: 38px;
       border: 1px solid rgba(255, 255, 255, .16);
@@ -249,71 +248,72 @@
       line-height: 1.35;
     }
 
-    .protocol-card {
+    .footer-card {
       border: 1px solid rgba(147, 221, 255, .24);
       border-radius: var(--radius);
       background: rgba(5, 9, 20, .34);
-      padding: 16px;
+      padding: 18px;
     }
 
-    .protocol-title {
+    .footer-card h3 {
+      margin: 0;
+      color: #fff;
+      font-size: 26px;
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    .footer-card p {
+      margin-top: 9px;
+      color: rgba(247, 251, 255, .66);
+      font-size: 13px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, .13);
+    }
+
+    .footer-group {
+      display: grid;
+      align-content: start;
+      gap: 8px;
+    }
+
+    .footer-group b {
+      color: #fff;
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .footer-group a {
+      color: rgba(247, 251, 255, .72);
+      font-size: 12px;
+      line-height: 1.25;
+      text-decoration: none;
+    }
+
+    .footer-group a:hover,
+    .footer-group a:focus-visible {
+      color: var(--cyan);
+    }
+
+    .footer-legal {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, .13);
-      color: #fff;
-      font-weight: 950;
-    }
-
-    .seal {
-      border: 1px solid rgba(147, 221, 255, .36);
-      border-radius: 999px;
-      padding: 5px 9px;
-      color: var(--cyan);
-      font-size: 11px;
-      font-weight: 950;
-      background: rgba(147, 221, 255, .08);
-    }
-
-    .steps {
-      display: grid;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .step {
-      display: grid;
-      grid-template-columns: 38px 1fr;
-      gap: 10px;
-      align-items: start;
-    }
-
-    .step-num {
-      height: 32px;
-      border: 1px solid rgba(147, 221, 255, .32);
-      border-radius: var(--radius);
-      display: grid;
-      place-items: center;
-      color: #fff;
-      background: rgba(36, 75, 255, .2);
       font-size: 12px;
-      font-weight: 950;
-    }
-
-    .step strong {
-      display: block;
-      color: #fff;
-      font-size: 14px;
-    }
-
-    .step span {
-      display: block;
-      color: rgba(247, 251, 255, .64);
-      font-size: 12px;
-      line-height: 1.4;
-      margin-top: 3px;
+      color: rgba(247, 251, 255, .52);
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, .13);
     }
 
     .auth-card {
@@ -607,7 +607,6 @@
         gap: 6px;
       }
 
-      .top-actions a,
       .lang {
         min-height: 36px;
         padding: 9px 10px;
@@ -631,6 +630,7 @@
       }
 
       .signal-strip,
+      .footer-grid,
       .grid2,
       .benefits {
         grid-template-columns: 1fr;
@@ -650,8 +650,6 @@
         <span class="brand-name"><strong>Ascending Aminos</strong><small data-copy="brandSub">Private research access</small></span>
       </a>
       <div class="top-actions">
-        <a href="index.html" data-copy="shopLink">Shop</a>
-        <a href="admin-login.html?next=index.html%23admin" data-copy="adminLink">Admin</a>
         <button class="lang" id="langToggle" type="button">ES</button>
       </div>
     </header>
@@ -670,15 +668,32 @@
           </div>
         </div>
 
-        <div class="protocol-card" aria-label="Access protocol">
-          <div class="protocol-title">
-            <span data-copy="protocolTitle">Access protocol</span>
-            <span class="seal" data-copy="protocolSeal">COA-first</span>
+        <div class="footer-card" aria-label="Ascending Aminos footer links">
+          <h3 data-copy="footerTitle">Clinical access, clean paper trail.</h3>
+          <p data-copy="footerBody">Research-use-only account access stays separate from the catalog, admin tools, and future order review workflow.</p>
+          <div class="footer-grid">
+            <div class="footer-group">
+              <b data-copy="footerLegal">Legal</b>
+              <a href="ascending-aminos-store-latest.html#compliance" data-copy="footerResearchPolicy">Research Use Policy</a>
+              <a href="ascending-aminos-store-latest.html#compliance" data-copy="footerTerms">Terms placeholder</a>
+              <a href="ascending-aminos-store-latest.html#compliance" data-copy="footerPrivacy">Privacy placeholder</a>
+            </div>
+            <div class="footer-group">
+              <b data-copy="footerSupport">Support</b>
+              <a href="ascending-aminos-store-latest.html#verify" data-copy="footerVerify">Verify COA</a>
+              <a href="ascending-aminos-store-latest.html#newsletter" data-copy="footerContact">Contact placeholder</a>
+              <a href="ascending-aminos-store-latest.html#newsletter" data-copy="footerBatchAlerts">Batch alerts</a>
+            </div>
+            <div class="footer-group">
+              <b data-copy="footerAccess">Access</b>
+              <a href="ascending-aminos-store-latest.html" data-copy="footerCatalog">Catalog</a>
+              <a href="admin-login.html?next=ascending-aminos-store-latest.html%23admin" data-copy="footerAdmin">Admin route</a>
+              <a href="ascending-aminos-store-latest.html#trust" data-copy="footerTrust">Trust architecture</a>
+            </div>
           </div>
-          <div class="steps">
-            <div class="step"><span class="step-num">01</span><div><strong data-copy="stepOneTitle">Acknowledge</strong><span data-copy="stepOneBody">Confirm the same baseline research-use terms before any account action.</span></div></div>
-            <div class="step"><span class="step-num">02</span><div><strong data-copy="stepTwoTitle">Create access</strong><span data-copy="stepTwoBody">Register, log in, or enter a limited guest preview for browsing only.</span></div></div>
-            <div class="step"><span class="step-num">03</span><div><strong data-copy="stepThreeTitle">Verify later</strong><span data-copy="stepThreeBody">Checkout and lot/COA records repeat the compliance trail before real commerce.</span></div></div>
+          <div class="footer-legal">
+            <span data-copy="footerNotice">Research Use Only / Not for human or animal consumption.</span>
+            <span>Theo 🧪</span>
           </div>
         </div>
       </section>
@@ -767,33 +782,38 @@
     </main>
 
     <footer class="foot">
-      <span>Ascending Aminos Customer Auth v0.7.5 - Theo ☠️ - 2026-05-31</span>
-      <a href="index.html" data-copy="backLink">Back to shop</a>
+      <span>Ascending Aminos Customer Auth v0.7.6 - Theo 🧪 - 2026-05-31</span>
+      <a href="ascending-aminos-store-latest.html" data-copy="backLink">Back to shop</a>
     </footer>
   </div>
 
   <script>
-    // Ascending Aminos Customer Auth v0.7.5 - Theo ☠️ - 2026-05-31
+    // Ascending Aminos Customer Auth v0.7.6 - Theo 🧪 - 2026-05-31
     // WHY: Provides customer register/login/guest preview, with local static fallback when the API is not available.
     const copy = {
       en: {
         brandSub: "Private research access",
-        shopLink: "Shop",
-        adminLink: "Admin",
         introEyebrow: "Customer access",
         introTitle: "Research commerce starts with verified access.",
         introLead: "A clean account gateway for qualified researchers: confirm the rules, create a profile, then enter the COA-first Ascending Aminos catalog.",
         signalAge: "Age gate before catalog access.",
         signalRuo: "Research-use-only posture stays explicit.",
         signalCoa: "Batch records can attach to the account path.",
-        protocolTitle: "Access protocol",
-        protocolSeal: "COA-first",
-        stepOneTitle: "Acknowledge",
-        stepOneBody: "Confirm the same baseline research-use terms before any account action.",
-        stepTwoTitle: "Create access",
-        stepTwoBody: "Register, log in, or enter a limited guest preview for browsing only.",
-        stepThreeTitle: "Verify later",
-        stepThreeBody: "Checkout and lot/COA records repeat the compliance trail before real commerce.",
+        footerTitle: "Clinical access, clean paper trail.",
+        footerBody: "Research-use-only account access stays separate from the catalog, admin tools, and future order review workflow.",
+        footerLegal: "Legal",
+        footerResearchPolicy: "Research Use Policy",
+        footerTerms: "Terms placeholder",
+        footerPrivacy: "Privacy placeholder",
+        footerSupport: "Support",
+        footerVerify: "Verify COA",
+        footerContact: "Contact placeholder",
+        footerBatchAlerts: "Batch alerts",
+        footerAccess: "Access",
+        footerCatalog: "Catalog",
+        footerAdmin: "Admin route",
+        footerTrust: "Trust architecture",
+        footerNotice: "Research Use Only / Not for human or animal consumption.",
         authEyebrow: "Account gate",
         authTitle: "Register or log in.",
         authLead: "Complete the required acknowledgements to unlock the form. This keeps account creation visually separate from the shop while matching the Ascending Aminos design system.",
@@ -830,22 +850,27 @@
       },
       es: {
         brandSub: "Acceso privado investigativo",
-        shopLink: "Tienda",
-        adminLink: "Admin",
         introEyebrow: "Acceso cliente",
         introTitle: "El comercio investigativo empieza con acceso verificado.",
         introLead: "Una entrada limpia para investigadores calificados: confirma las reglas, crea un perfil y entra al catálogo COA-first de Ascending Aminos.",
         signalAge: "Puerta 21+ antes del catálogo.",
         signalRuo: "La postura solo-investigación queda explícita.",
         signalCoa: "Los registros de lote pueden seguir la ruta de cuenta.",
-        protocolTitle: "Protocolo de acceso",
-        protocolSeal: "COA-first",
-        stepOneTitle: "Confirmar",
-        stepOneBody: "Confirma los términos base de uso investigativo antes de cualquier acción de cuenta.",
-        stepTwoTitle: "Crear acceso",
-        stepTwoBody: "Regístrate, inicia sesión o entra con vista invitada limitada para navegar.",
-        stepThreeTitle: "Verificar después",
-        stepThreeBody: "Checkout y registros lote/COA repiten el rastro de cumplimiento antes del comercio real.",
+        footerTitle: "Acceso clinico, rastro limpio.",
+        footerBody: "El acceso de cuenta solo-investigacion queda separado del catalogo, herramientas admin y futuro flujo de revision de orden.",
+        footerLegal: "Legal",
+        footerResearchPolicy: "Politica de uso investigativo",
+        footerTerms: "Terminos placeholder",
+        footerPrivacy: "Privacidad placeholder",
+        footerSupport: "Soporte",
+        footerVerify: "Verificar COA",
+        footerContact: "Contacto placeholder",
+        footerBatchAlerts: "Alertas de lote",
+        footerAccess: "Acceso",
+        footerCatalog: "Catalogo",
+        footerAdmin: "Ruta admin",
+        footerTrust: "Arquitectura de confianza",
+        footerNotice: "Solo uso investigativo / No para consumo humano o animal.",
         authEyebrow: "Puerta de cuenta",
         authTitle: "Regístrate o inicia sesión.",
         authLead: "Completa las confirmaciones requeridas para desbloquear el formulario. Esto separa la creación de cuenta de la tienda y mantiene el sistema visual de Ascending Aminos.",
