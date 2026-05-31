@@ -1,0 +1,48 @@
+{
+  "schema": "ascending.price_tracker.source_registry.v1",
+  "version": "v0.1.0",
+  "builder": "Theokoles",
+  "built_at": "2026-05-31T22:45:00Z",
+  "purpose": "Registry for public, compliance-reviewed peptide price sources that can feed the Ascending Research Hub Peptide Price Tracker.",
+  "sources": [
+    {
+      "source_id": "peptidecritic",
+      "name": "Peptide Critic",
+      "base_url": "https://peptidecritic.com",
+      "seed_url": "https://peptidecritic.com/peptide-price-index",
+      "robots_url": "https://peptidecritic.com/robots.txt",
+      "crawl_status": "allowed_for_seed_path_on_2026-05-31",
+      "terms_status": "not_verified_from_cli_cloudflare_403",
+      "requires_login": false,
+      "collection_method": "public_html_table",
+      "selector_map": {
+        "row": "tr.pi2-row",
+        "name": ".pi2-name",
+        "synonyms": ".pi2-synonyms",
+        "category": ".pi2-category",
+        "price": ".pi2-price",
+        "trend": ".pi2-trend",
+        "vendors": ".pi2-vendors",
+        "sizes": ".pi2-sizes"
+      },
+      "rate_limit_seconds": 3,
+      "attribution": "Link back to source page and source detail URLs.",
+      "notes": "Initial public benchmark baseline: 80 peptide rows and 2,688 vendor observations."
+    }
+  ],
+  "candidate_source_template": {
+    "source_id": "canonical-slug",
+    "name": "Vendor or index name",
+    "base_url": "https://example.com",
+    "seed_url": "https://example.com/path",
+    "robots_url": "https://example.com/robots.txt",
+    "crawl_status": "pending_review",
+    "terms_status": "pending_review",
+    "requires_login": false,
+    "collection_method": "api_first_then_public_html",
+    "selector_map": {},
+    "rate_limit_seconds": 3,
+    "attribution": "Required source attribution/link behavior.",
+    "notes": "Only public, non-PII, non-login data unless we have explicit authorization."
+  }
+}

@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Research Hub v0.5.3 — Theo 🧪 — 2026-05-22 -->
+<!-- Ascending Research Hub v0.5.14 — Theo 🧪 — 2026-05-31 -->
 <!-- WHY: Premium lab-command-center gateway separating education, tools, COA verification, and research commerce with a uniform floating oval bottom nav. -->
 <html lang="en">
 <head>
@@ -17,7 +17,7 @@
 <body>
   <div class="noise"></div>
   <header class="wrap hero">
-    <nav class="nav" aria-label="Brand"><div class="brand"><div class="mark">AR</div><div><strong>Ascending Research</strong><small>Hub v0.5.3 · research intelligence</small></div></div><div class="navLinks"><button class="langIcon" data-lang-toggle type="button" aria-label="Switch language" title="Switch language">🌐 ES</button><button class="themeToggle" data-theme-toggle type="button" aria-label="Change theme" title="Change theme">◐ BAL</button><button class="pill gold install hidden" id="installBtn">Install</button></div></nav>
+    <nav class="nav" aria-label="Brand"><div class="brand"><div class="mark">AR</div><div><strong>Ascending Research</strong><small>Hub v0.5.14 · research intelligence</small></div></div><div class="navLinks"><button class="langIcon" data-lang-toggle type="button" aria-label="Switch language" title="Switch language">🌐 ES</button><button class="themeToggle" data-theme-toggle type="button" aria-label="Change theme" title="Change theme">◐ BAL</button><button class="pill gold install hidden" id="installBtn">Install</button></div></nav>
     <div class="heroGrid">
       <section>
         <span class="pill gold eyebrow">Research intelligence, verification, and tools</span>
@@ -41,7 +41,7 @@
         <div class="intelCard"><b>Tools</b><span>Calculator first, no dosing claims</span></div>
         <div class="intelCard"><b>COAs</b><span>Independent lab portals</span></div>
         <div class="intelCard"><b>Ask AI</b><span>Theo before marketing</span></div>
-        <div class="intelCard"><b>Shop</b><span>Research-use lane, gated by trust</span></div>
+        <div class="intelCard"><b>Prices</b><span>Public benchmark tracking</span></div>
       </div>
     </section>
     <section class="wrap section" id="destinations">
@@ -52,7 +52,7 @@
         <a class="card" style="--a:rgba(118,247,176,.4)" href="coa.html"><div class="status"><span class="tag live">Trust lane</span><div class="orb">✓</div></div><h3>Batch + COA Verification</h3><p>Dedicated lab directory for independent public COA portals and verification basics.</p><span class="open">Open COA page →</span></a>
         <a class="card" style="--a:rgba(167,139,250,.44)" href="#reference"><div class="status"><span class="tag">Reference lane</span><div class="orb">⌁</div></div><h3>Research Reference Notes</h3><p>Structured, citation-aware reference material framed for literacy — not human-use instructions.</p><span class="open">Open soon →</span></a>
         <a class="card" id="store" style="--a:rgba(255,140,140,.4)" href="shop.html"><div class="status"><span class="tag live">Shop lane</span><div class="orb">R</div></div><h3>Research Compounds</h3><p>A strict research-use-only store concept with labels, COAs, batch info, and no protocol language.</p><span class="open">Preview shop lane →</span></a>
-        <a class="card" style="--a:rgba(255,233,168,.42)" href="#faq"><div class="status"><span class="tag">Clarity lane</span><div class="orb">?</div></div><h3>FAQ + Compliance</h3><p>Shipping, storage, lab handling, terms, research-only boundaries, and plain-language site rules.</p><span class="open">Open soon →</span></a>
+        <a class="card" style="--a:rgba(255,233,168,.42)" href="peptide-price-tracker.html"><div class="status"><span class="tag live">Price lane</span><div class="orb">$</div></div><h3>Peptide Price Tracker</h3><p>Public benchmark pricing, 30-day movement, vendor coverage, and normalized source links.</p><span class="open">Open tracker →</span></a>
       </div>
     </section>
 
@@ -75,8 +75,8 @@
       <div class="panel"><h3>Launch sequence</h3><ul><li>First live link: Research Concentration Calculator.</li><li>COA / batch verification now routes to a dedicated lab directory page.</li><li>Ask Theo is now the primary education-coach lane; the library preview remains available as supporting reference content.</li><li>Shop preview is now separated; final commerce routing waits until compliance copy, COA handling, and product labels are locked.</li></ul></div>
     </section>
   </main>
-  <footer class="wrap footer">Ascending Research Hub v0.5.3 — Built by Theo 🧪 — 2026-05-22. Research-use routing concept only; no medical advice, treatment claims, protocol instructions, or dosing recommendations.</footer>
-  <nav class="floatingDock" aria-label="Primary destinations"><a class="active" href="https://realcoachap.github.io/ascending-research-hub/">Hub</a><a href="https://realcoachap.github.io/research-concentration-calculator/">Calc</a><a href="https://realcoachap.github.io/ascending-research-hub/ask-ai.html">Ask AI</a><a href="https://realcoachap.github.io/ascending-research-hub/coa.html">COA</a><a href="https://realcoachap.github.io/ascending-research-hub/shop.html">Shop</a></nav>
+  <footer class="wrap footer">Ascending Research Hub v0.5.14 — Built by Theo 🧪 — 2026-05-31. Research-use routing concept only; no medical advice, treatment claims, protocol instructions, or dosing recommendations.</footer>
+  <nav class="floatingDock" aria-label="Primary destinations"><a class="active" href="https://realcoachap.github.io/ascending-research-hub/">Hub</a><a href="https://realcoachap.github.io/research-concentration-calculator/">Calc</a><a href="https://realcoachap.github.io/ascending-research-hub/ask-ai.html">Ask AI</a><a href="https://realcoachap.github.io/ascending-research-hub/coa.html">COA</a><a href="https://realcoachap.github.io/ascending-research-hub/peptide-price-tracker.html">Prices</a></nav>
 
 <script>
 // Ascending bilingual UI v0.1.0 — Theo 🧪 — 2026-05-21
@@ -111,7 +111,7 @@
 })();
 </script>
   <script>
-    // Ascending Research Hub v0.5.3 — Theo 🧪 — 2026-05-22
+    // Ascending Research Hub v0.5.14 — Theo 🧪 — 2026-05-31
     // WHY: Lightweight static hub with local-only behavior and optional PWA install prompt.
     let deferredPrompt;const installBtn=document.getElementById('installBtn');
     window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;installBtn.classList.remove('hidden')});

@@ -1,0 +1,176 @@
+<!doctype html>
+<!-- Peptide Price Tracker v0.1.0 - Theo ☠️ - 2026-05-31 -->
+<!-- WHY: Ascending Research Hub benchmark lane for public RUO peptide price observations, sourced from compliant public pages and normalized for future multi-source tracking. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#07101d" />
+  <meta name="description" content="Ascending Research Hub peptide price tracker prototype using normalized public RUO price-index observations." />
+  <title>Peptide Price Tracker | Ascending Research Hub</title>
+  <style>
+    :root{--bg:#07101d;--ink:#f8fbff;--muted:rgba(248,251,255,.68);--faint:rgba(248,251,255,.48);--panel:rgba(255,255,255,.07);--panel2:rgba(255,255,255,.045);--line:rgba(255,255,255,.13);--gold:#f6b73c;--gold2:#ffe7a3;--cyan:#69e6ff;--green:#76f7b0;--red:#ff8f8f;--violet:#b8a2ff;--shadow:0 28px 90px rgba(0,0,0,.36)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;padding-bottom:92px;background:radial-gradient(circle at 10% 0%,rgba(246,183,60,.18),transparent 28%),radial-gradient(circle at 90% 5%,rgba(105,230,255,.13),transparent 30%),linear-gradient(180deg,#07101d 0%,#040811 100%);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,a,input,select{font:inherit}a{color:inherit}.wrap{width:min(1220px,calc(100% - 28px));margin:auto}.nav{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 0}.brand{display:flex;align-items:center;gap:12px;text-decoration:none}.mark{width:46px;height:46px;border-radius:16px;border:1px solid rgba(255,231,163,.3);background:linear-gradient(135deg,rgba(246,183,60,.24),rgba(105,230,255,.08));display:grid;place-items:center;font-weight:950}.brand small{display:block;color:var(--faint);font-size:12px;margin-top:2px}.navLinks{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.pill{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);background:rgba(255,255,255,.055);border-radius:999px;padding:8px 11px;color:rgba(248,251,255,.78);font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.12em;text-decoration:none}.pill.gold{border-color:rgba(255,231,163,.3);background:rgba(246,183,60,.12);color:var(--gold2)}.hero{padding:22px 0 18px}.heroGrid{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;align-items:end}h1{font-size:clamp(42px,7vw,76px);line-height:.91;margin:16px 0 0;font-weight:980;letter-spacing:-.055em}.lede{max-width:760px;color:var(--muted);font-size:clamp(16px,2vw,20px);line-height:1.58;margin:18px 0 0}.sourcePanel{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.04));border-radius:22px;padding:16px;box-shadow:var(--shadow)}.sourcePanel h2{font-size:18px;margin:0 0 8px}.sourcePanel p{color:var(--muted);line-height:1.55;margin:0}.sourcePanel a{color:var(--gold2)}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0}.stat{border:1px solid var(--line);background:var(--panel);border-radius:18px;padding:14px}.stat b{display:block;font-size:28px;letter-spacing:-.035em}.stat span{display:block;color:var(--faint);font-size:11px;text-transform:uppercase;letter-spacing:.12em;font-weight:900;margin-top:4px}.toolbar{position:sticky;top:0;z-index:20;border:1px solid rgba(255,255,255,.14);background:rgba(7,16,29,.88);backdrop-filter:blur(18px);border-radius:22px;padding:12px;margin:18px 0;box-shadow:0 16px 52px rgba(0,0,0,.24)}.controls{display:grid;grid-template-columns:minmax(220px,1.35fr) minmax(150px,.85fr) minmax(160px,.8fr) auto;gap:10px;align-items:center}.field{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:rgba(255,255,255,.055);border-radius:16px;padding:0 12px;height:46px}.field input,.field select{width:100%;border:0;outline:0;background:transparent;color:var(--ink)}.field select option{background:#07101d;color:#f8fbff}.field span{color:var(--faint);font-weight:900}.btn{height:46px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--ink);border-radius:16px;padding:0 14px;cursor:pointer;font-weight:950;text-transform:uppercase;letter-spacing:.12em;font-size:11px}.btn.primary{background:var(--gold);border-color:var(--gold);color:#09111f}.summary{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;color:var(--faint);font-size:12px}.summary strong{color:var(--ink)}.tableShell{border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:24px;overflow:hidden}.tableScroll{overflow:auto}table{width:100%;border-collapse:collapse;min-width:980px}th,td{padding:13px 14px;border-bottom:1px solid rgba(255,255,255,.09);text-align:left}th{position:sticky;top:0;background:#0b1625;color:var(--faint);font-size:11px;text-transform:uppercase;letter-spacing:.12em;z-index:2}td{color:rgba(248,251,255,.82);vertical-align:middle}.compound{display:flex;flex-direction:column;gap:4px}.compound strong{font-size:15px}.syn{max-width:340px;color:var(--faint);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cat{display:inline-flex;border:1px solid rgba(105,230,255,.2);background:rgba(105,230,255,.08);border-radius:999px;padding:6px 8px;color:#c8f7ff;font-size:11px;font-weight:900}.price{font-weight:950;color:var(--gold2)}.trend{display:inline-flex;align-items:center;justify-content:center;min-width:76px;border-radius:999px;padding:7px 9px;font-size:12px;font-weight:950}.trend.down{background:rgba(118,247,176,.1);color:var(--green);border:1px solid rgba(118,247,176,.24)}.trend.up{background:rgba(255,143,143,.1);color:var(--red);border:1px solid rgba(255,143,143,.22)}.trend.new{background:rgba(184,162,255,.1);color:#dacfff;border:1px solid rgba(184,162,255,.23)}.vendors{font-weight:900}.sub{display:block;color:var(--faint);font-size:12px;margin-top:3px}.openLink{color:var(--gold2);font-size:12px;font-weight:950;text-transform:uppercase;letter-spacing:.1em;text-decoration:none}.cards{display:none;gap:10px}.card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.035));border-radius:20px;padding:14px}.cardHead{display:flex;justify-content:space-between;gap:12px}.card h3{margin:0;font-size:18px}.card p{color:var(--muted);line-height:1.5;margin:10px 0}.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0}.metric{border:1px solid rgba(255,255,255,.1);background:rgba(0,0,0,.12);border-radius:14px;padding:10px}.metric b{display:block}.metric span{display:block;color:var(--faint);font-size:11px;text-transform:uppercase;letter-spacing:.1em}.empty{padding:28px;text-align:center;color:var(--muted)}.dock{position:fixed;z-index:40;left:50%;bottom:15px;transform:translateX(-50%);width:min(720px,calc(100% - 24px));display:flex;gap:6px;border:1px solid rgba(255,255,255,.16);background:rgba(7,16,29,.88);backdrop-filter:blur(18px);box-shadow:0 18px 70px rgba(0,0,0,.42);border-radius:999px;padding:8px}.dock a{flex:1;text-align:center;text-decoration:none;color:rgba(248,251,255,.68);border-radius:999px;padding:12px 8px;font-size:11px;font-weight:950;text-transform:uppercase;letter-spacing:.1em;white-space:nowrap}.dock a.active,.dock a:hover{background:rgba(246,183,60,.16);color:var(--gold2)}.footer{padding:22px 0 40px;color:var(--faint);font-size:12px;line-height:1.6}@media(max-width:900px){.heroGrid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.controls{grid-template-columns:1fr 1fr}.controls .field:first-child{grid-column:1/-1}.tableShell{display:none}.cards{display:grid}.toolbar{position:relative}.nav{align-items:flex-start}.navLinks .pill:not(.gold){display:none}}@media(max-width:560px){.wrap{width:min(100% - 20px,1220px)}.stats{grid-template-columns:1fr 1fr}.stat b{font-size:22px}.controls{grid-template-columns:1fr}.controls .field:first-child{grid-column:auto}.dock a{font-size:10px;letter-spacing:.06em}.hero{padding-top:8px}}
+  </style>
+</head>
+<body>
+  <header class="wrap hero">
+    <nav class="nav" aria-label="Brand">
+      <a class="brand" href="index.html"><div class="mark">AR</div><div><strong>Ascending Research</strong><small>Price Tracker v0.1.0</small></div></a>
+      <div class="navLinks"><a class="pill" href="index.html">Hub</a><a class="pill" href="coa.html">COA</a><a class="pill gold" href="docs/PEPTIDE-PRICE-TRACKER-SPEC-v0-1-0.md">Source Plan</a></div>
+    </nav>
+    <div class="heroGrid">
+      <section>
+        <span class="pill gold">Public benchmark index</span>
+        <h1>Peptide Price Tracker</h1>
+        <p class="lede">A normalized Research Hub baseline for public RUO peptide pricing data. This first pass mirrors the useful price-index behavior: search, category filtering, trend sorting, vendor coverage, and source links.</p>
+      </section>
+      <aside class="sourcePanel">
+        <h2>Baseline source</h2>
+        <p>Seeded from Peptide Critic's public peptide price index on 2026-05-31. This is a benchmark prototype, not purchase guidance, medical advice, a vendor endorsement, or a dosing/protocol tool. <a href="https://peptidecritic.com/peptide-price-index" rel="noopener noreferrer" target="_blank">Open source page</a>.</p>
+      </aside>
+    </div>
+    <div class="stats" aria-label="Baseline summary">
+      <div class="stat"><b id="statPeptides">80</b><span>Peptides</span></div>
+      <div class="stat"><b id="statOffers">2,688</b><span>Vendor observations</span></div>
+      <div class="stat"><b id="statStock">2,232</b><span>In-stock observations</span></div>
+      <div class="stat"><b id="statSource">1</b><span>Public source</span></div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="toolbar" aria-label="Tracker controls">
+      <div class="controls">
+        <label class="field"><span>Search</span><input id="searchInput" type="search" placeholder="Retatrutide, BPC, GLP, vendor coverage..." autocomplete="off" /></label>
+        <label class="field"><span>Lane</span><select id="categorySelect"><option value="">All categories</option></select></label>
+        <label class="field"><span>Sort</span><select id="sortSelect"><option value="price">Best price</option><option value="vendors">Most vendors</option><option value="drop">Biggest drop</option><option value="rise">Biggest rise</option><option value="name">Name A-Z</option></select></label>
+        <button class="btn primary" id="resetBtn" type="button">Reset</button>
+      </div>
+      <div class="summary" id="summaryLine">Loading public baseline data...</div>
+    </section>
+
+    <section class="tableShell" aria-label="Peptide price table">
+      <div class="tableScroll">
+        <table>
+          <thead><tr><th>Peptide</th><th>Category</th><th>$/mg Range</th><th>30d</th><th>Vendors</th><th>Sizes</th><th>Source</th></tr></thead>
+          <tbody id="priceRows"></tbody>
+        </table>
+      </div>
+      <div class="empty" id="emptyTable" hidden>No matches yet.</div>
+    </section>
+
+    <section class="cards" id="priceCards" aria-label="Mobile price cards"></section>
+  </main>
+
+  <footer class="wrap footer">Peptide Price Tracker v0.1.0 - Built by Theo ☠️ - 2026-05-31. Public benchmark data only. Research-use-only context; no medical advice, treatment claims, protocol instructions, dosing recommendations, or vendor endorsement.</footer>
+  <nav class="dock" aria-label="Primary destinations"><a href="index.html">Hub</a><a href="https://realcoachap.github.io/research-concentration-calculator/">Calc</a><a href="ask-ai.html">Ask AI</a><a href="coa.html">COA</a><a class="active" href="peptide-price-tracker.html">Prices</a></nav>
+
+  <script>
+    // Peptide Price Tracker v0.1.0 - Theo ☠️ - 2026-05-31
+    // WHY: Small static renderer keeps the GitHub Pages prototype deployable while preserving a future data API boundary.
+    const DATA_URL = './data/peptide-price-tracker-baseline-v0-1-0.json';
+    const state = { rows: [], filtered: [], query: '', category: '', sort: 'price' };
+    const els = {
+      search: document.getElementById('searchInput'),
+      category: document.getElementById('categorySelect'),
+      sort: document.getElementById('sortSelect'),
+      reset: document.getElementById('resetBtn'),
+      rows: document.getElementById('priceRows'),
+      cards: document.getElementById('priceCards'),
+      empty: document.getElementById('emptyTable'),
+      summary: document.getElementById('summaryLine'),
+      statPeptides: document.getElementById('statPeptides'),
+      statOffers: document.getElementById('statOffers'),
+      statStock: document.getElementById('statStock')
+    };
+    function fmt(n){ return Number(n || 0).toLocaleString(); }
+    function price(row){
+      const min = Number(row.min_price_per_unit);
+      const max = Number(row.max_price_per_unit);
+      if (!Number.isFinite(min)) return 'Unknown';
+      const unit = row.unit || 'mg';
+      if (!Number.isFinite(max) || max === min) return `$${min.toFixed(2)} /${unit}`;
+      return `$${min.toFixed(2)} - $${max.toFixed(2)} /${unit}`;
+    }
+    function trend(row){
+      const v = Number(row.trend_30d_percent);
+      if (!Number.isFinite(v)) return { cls:'new', text:'No data' };
+      if (v >= 999) return { cls:'new', text:'New' };
+      if (v < 0) return { cls:'down', text:`${v.toFixed(1)}%` };
+      return { cls:'up', text:`+${v.toFixed(1)}%` };
+    }
+    function searchable(row){
+      return [row.name,row.slug,row.category,row.display_sizes,...(row.synonyms || [])].join(' ').toLowerCase();
+    }
+    function applyFilters(){
+      const q = state.query.trim().toLowerCase();
+      state.filtered = state.rows.filter(row => {
+        const category = row.category || 'Uncategorized';
+        return (!state.category || category === state.category) && (!q || searchable(row).includes(q));
+      });
+      const sorters = {
+        price: (a,b) => Number(a.min_price_per_unit || 999999) - Number(b.min_price_per_unit || 999999),
+        vendors: (a,b) => Number(b.vendor_count || 0) - Number(a.vendor_count || 0),
+        drop: (a,b) => normalTrend(a) - normalTrend(b),
+        rise: (a,b) => normalTrend(b) - normalTrend(a),
+        name: (a,b) => String(a.name).localeCompare(String(b.name))
+      };
+      state.filtered.sort(sorters[state.sort] || sorters.price);
+      render();
+    }
+    function normalTrend(row){
+      const v = Number(row.trend_30d_percent);
+      return Number.isFinite(v) && v < 999 ? v : 0;
+    }
+    function render(){
+      els.empty.hidden = state.filtered.length > 0;
+      els.rows.innerHTML = state.filtered.map(row => {
+        const t = trend(row);
+        const syn = (row.synonyms || []).slice(0,5).join(', ');
+        const category = row.category || 'Uncategorized';
+        return `<tr><td><div class="compound"><strong>${escapeHtml(row.name)}</strong><span class="syn">${escapeHtml(syn || row.slug)}</span></div></td><td><span class="cat">${escapeHtml(category)}</span></td><td class="price">${price(row)}</td><td><span class="trend ${t.cls}">${t.text}</span></td><td><span class="vendors">${fmt(row.vendor_count)}</span><span class="sub">${fmt(row.in_stock_count)} in stock</span></td><td>${escapeHtml(row.display_sizes || '')}</td><td><a class="openLink" href="${row.detail_url}" target="_blank" rel="noopener noreferrer">Open</a></td></tr>`;
+      }).join('');
+      els.cards.innerHTML = state.filtered.map(row => {
+        const t = trend(row);
+        const category = row.category || 'Uncategorized';
+        return `<article class="card"><div class="cardHead"><div><span class="cat">${escapeHtml(category)}</span><h3>${escapeHtml(row.name)}</h3></div><span class="trend ${t.cls}">${t.text}</span></div><p>${escapeHtml((row.synonyms || []).slice(0,6).join(', ') || row.slug)}</p><div class="metrics"><div class="metric"><b>${price(row)}</b><span>price range</span></div><div class="metric"><b>${fmt(row.vendor_count)}</b><span>vendors</span></div><div class="metric"><b>${fmt(row.in_stock_count)}</b><span>in stock</span></div><div class="metric"><b>${escapeHtml(row.display_sizes || 'varied')}</b><span>sizes</span></div></div><a class="openLink" href="${row.detail_url}" target="_blank" rel="noopener noreferrer">Open source detail</a></article>`;
+      }).join('');
+      els.summary.innerHTML = `<strong>${fmt(state.filtered.length)}</strong> peptides shown from <strong>${fmt(state.rows.length)}</strong> baseline rows. Sort: <strong>${escapeHtml(els.sort.options[els.sort.selectedIndex].text)}</strong>.`;
+    }
+    function escapeHtml(value){
+      return String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+    }
+    function loadCategories(){
+      [...new Set(state.rows.map(row => row.category || 'Uncategorized'))].sort().forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat;
+        els.category.appendChild(option);
+      });
+    }
+    async function init(){
+      try {
+        const res = await fetch(DATA_URL, { cache: 'no-store' });
+        if (!res.ok) throw new Error(`Data request failed: ${res.status}`);
+        const data = await res.json();
+        state.rows = data.rows || [];
+        const offers = state.rows.reduce((sum,row)=>sum + Number(row.vendor_count || 0), 0);
+        const stock = state.rows.reduce((sum,row)=>sum + Number(row.in_stock_count || 0), 0);
+        els.statPeptides.textContent = fmt(state.rows.length);
+        els.statOffers.textContent = fmt(offers);
+        els.statStock.textContent = fmt(stock);
+        loadCategories();
+        applyFilters();
+      } catch (error) {
+        els.summary.textContent = 'Could not load the local baseline data file. Try the live GitHub Pages URL.';
+        console.error(error);
+      }
+    }
+    els.search.addEventListener('input', () => { state.query = els.search.value; applyFilters(); });
+    els.category.addEventListener('change', () => { state.category = els.category.value; applyFilters(); });
+    els.sort.addEventListener('change', () => { state.sort = els.sort.value; applyFilters(); });
+    els.reset.addEventListener('click', () => { els.search.value=''; els.category.value=''; els.sort.value='price'; state.query=''; state.category=''; state.sort='price'; applyFilters(); els.search.focus(); });
+    init();
+  </script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+source,name,slug,category,min_price_per_unit,max_price_per_unit,unit,trend_30d_percent,vendor_count,in_stock_count,size_min,size_max,display_sizes,synonyms,detail_url
+peptidecritic,GLP3-R,glp3-r,Weight Loss,2.77,13.0,mg,-1.2,64,56,2.5,200.0,6–50mg +42 other sizes,retatrutide; ly3437943; reta; triple-agonist (gip/glp-1/gcgr); glp-3; glp3; glp-3r,https://peptidecritic.com/peptides/glp3-r
+peptidecritic,GLP2-T,glp2-t,Weight Loss,0.3,21.6,mg,146.8,64,56,1.0,600.0,10–60mg +42 other sizes,tirzepatide; mounjaro; zepbound; tirz; glp-2,https://peptidecritic.com/peptides/glp2-t
+peptidecritic,MOTS-c,mots-c,Longevity,1.63,7.0,mg,0.9,79,67,5.0,100.0,10–40mg +9 other sizes,mitochondrial-derived peptide; mt-rnr1 orf peptide,https://peptidecritic.com/peptides/mots-c
+peptidecritic,SS-31,ss-31,Energy,1.69,19.8,mg,-0.4,34,26,5.0,60.0,10–50mg +4 other sizes,elamipretide; bendavia; mtp-131; mtp-31,https://peptidecritic.com/peptides/ss-31
+peptidecritic,Bacteriostatic Water,bacteriostatic-water,,0.4,1.8,ml,3.2,43,36,2.0,500.0,3–30ml +4 other sizes,bac; bac water; bacteriostatic water; water; solution; reconstitution; reconstitution solution; reconstitution solution water; bacteriostatic water – benzyl; bacteriostatic (bac) water,https://peptidecritic.com/peptides/bacteriostatic-water
+peptidecritic,Tesamorelin,tesamorelin,Growth Hormone,4.0,12.0,mg,-4.4,76,62,2.0,100.0,5–16mg +20 other sizes,th9507; egrifta sv; ghrh(1–44) analog,https://peptidecritic.com/peptides/tesamorelin
+peptidecritic,GHK-Cu,ghk-cu,Skin Health,0.02,1.2,mg,-13.0,86,74,2.0,1000.0,50–100mg +20 other sizes,copper tripeptide-1; prezatide copper; ghk-cu,https://peptidecritic.com/peptides/ghk-cu
+peptidecritic,KLOW,klow,Healing,0.47,1.87,mg,2.4,42,33,10.0,160.0,80mg +6 other sizes,ghk-cu + bpc-157 + tb-500 + kpv blend,https://peptidecritic.com/peptides/klow
+peptidecritic,BPC-157,bpc-157,Healing,1.47,11.0,mg,-11.5,82,71,5.0,80.0,5–30mg +12 other sizes,bepecin; pl 14736; body protection compound 157; gastric pentadecapeptide; bpc,https://peptidecritic.com/peptides/bpc-157
+peptidecritic,NAD+,nad,Energy,0.06,0.25,mg,-10.9,68,55,1.0,5000.0,"100–1,000mg +7 other sizes",nicotinamide adenine dinucleotide (oxidized),https://peptidecritic.com/peptides/nad
+peptidecritic,Wolverine,wolverine,Healing,2.6,52.5,mg,-24.4,60,52,2.0,200.0,5–50mg +11 other sizes,bpc-157 + thymosin β4; bpc-157 / tb4 blend; bpc-157 / tb500; bpc-157 / tb4; bpc-157 / tb5 frag,https://peptidecritic.com/peptides/wolverine
+peptidecritic,AOD-9604,aod-9604,Weight Loss,4.5,70.0,mg,37.2,59,47,2.0,10.0,2–10mg,hgh fragment 177–191 analog; tyr-hgh(177–191),https://peptidecritic.com/peptides/aod-9604
+peptidecritic,CJC-1295 + Ipamorelin,cjc-1295-ipamorelin,Growth Hormone,3.85,30.0,mg,0.9,33,26,1.0,20.0,5–12mg +4 other sizes,cjc/ipa; cjc/ipa blend; cjc/ipam combo; mod-grf + ipamorelin; cjc & ipa; cjc ipa; cjc ipa blend; cjc-1295 ipamorelin,https://peptidecritic.com/peptides/cjc-1295-ipamorelin
+peptidecritic,5-Amino-1MQ,5-amino-1mq,Weight Loss,0.03,12.6,mg,3.6,42,36,5.0,1500.0,5–50mg +5 other sizes,5-amino-1-methylquinolinium iodide; 5-amino-1mq; 5-amino-1-methylquinolinium iodide,https://peptidecritic.com/peptides/5-amino-1mq
+peptidecritic,Glow,glow,Healing,0.67,8.8,mg,-7.0,51,44,2.0,90.0,25–80mg +8 other sizes,glow blend; ghk-cu/bpc-157/tb500,https://peptidecritic.com/peptides/glow
+peptidecritic,Semax,semax,Cognition,0.55,11.0,mg,2.2,70,59,1.0,100.0,5–30mg +3 other sizes,acth(4–10) analog,https://peptidecritic.com/peptides/semax
+peptidecritic,Selank,selank,Cognition,2.42,10.4,mg,0.9,76,63,2.0,30.0,5–10mg +8 other sizes,tuftsin analog; tp-7,https://peptidecritic.com/peptides/selank
+peptidecritic,Cagrilintide,cagrilintide,Weight Loss,6.48,22.0,mg,4.6,46,38,2.4,200.0,5–10mg +5 other sizes,am833; nn0174-0833; long-acting amylin analogue,https://peptidecritic.com/peptides/cagrilintide
+peptidecritic,TB-500,tb-500,Healing,1.2,15.0,mg,7.6,71,61,0.1,100.0,5–10mg +13 other sizes,thymosin β4 acetate; tβ4,https://peptidecritic.com/peptides/tb-500
+peptidecritic,PT-141,pt-141,Sexual Health,0.48,15.8,mg,-1.2,76,63,1.75,100.0,10mg +8 other sizes,bremelanotide; vyleesi,https://peptidecritic.com/peptides/pt-141
+peptidecritic,Tesamorelin + Ipamorelin,tesamorelin-ipamorelin,Growth Hormone,4.71,8.0,mg,-2.6,24,20,2.0,130.0,2–13mg +4 other sizes,ghrh(1–44) analog + ipamorelin; 2x blend tesamorelin; tesamorelin +ipamorelin; tesamorelin (11mg) + ipamorelin (3mg) blend,https://peptidecritic.com/peptides/tesamorelin-ipamorelin
+peptidecritic,GLP1-S,glp1-s,Weight Loss,2.21,20.4,mg,28.7,50,39,3.0,100.0,5–30mg +6 other sizes,glp-1 analogue; ozempic; wegovy; rybelsus,https://peptidecritic.com/peptides/glp1-s
+peptidecritic,Ipamorelin,ipamorelin,Growth Hormone,0.33,120.0,mg,-4.4,75,65,0.7,30.0,2–10mg +8 other sizes,nnc 26-0161; ipamorelin acetate,https://peptidecritic.com/peptides/ipamorelin
+peptidecritic,KPV,kpv,Healing,2.88,8.0,mg,-3.0,63,53,4.0,30.0,5–10mg +8 other sizes,α-msh (11–13); lys-pro-val,https://peptidecritic.com/peptides/kpv
+peptidecritic,Epitalon (Epithalon),epitalon-epithalon,Longevity,2.0,12.0,mg,-2.9,62,53,3.0,105.0,10–50mg +11 other sizes,epithalon; epithalone; aedg,https://peptidecritic.com/peptides/epitalon-epithalon
+peptidecritic,Sermorelin,sermorelin,Growth Hormone,5.04,42.5,mg,2.3,61,52,1.0,12.0,2–10mg +2 other sizes,grf(1–29) amide; ghrh(1–29) amide,https://peptidecritic.com/peptides/sermorelin
+peptidecritic,Glutathione,glutathione-0,Longevity,0.03,0.08,mg,-2.2,42,34,5.0,4000.0,"600–1,500mg +7 other sizes",gsh; l-γ-glutamyl-l-cysteinyl-glycine; reduced glutathione,https://peptidecritic.com/peptides/glutathione-0
+peptidecritic,CJC-1295 (no DAC),cjc-1295-no-dac,Growth Hormone,3.15,23.8,mg,15.5,56,46,2.0,20.0,2–10mg +3 other sizes,mod-grf(1–29); cjc-1295 without dac; tetrasubstituted grf(1–29),https://peptidecritic.com/peptides/cjc-1295-no-dac
+peptidecritic,DSIP,dsip,Sleep,2.84,11.6,mg,-3.2,67,56,2.0,15.0,5–10mg +8 other sizes,delta sleep-inducing peptide; emideltide,https://peptidecritic.com/peptides/dsip
+peptidecritic,Thymosin Alpha-1,thymosin-alpha-1,Immunity & Recovery,0.4,15.9,mg,-16.8,62,49,0.5,100.0,5–10mg +6 other sizes,thymalfasin; tα1; zadaxin,https://peptidecritic.com/peptides/thymosin-alpha-1
+peptidecritic,Pinealon,pinealon,Cognition,0.84,5.0,mg,0.0,33,24,5.0,25.0,10–20mg +2 other sizes,edr peptide,https://peptidecritic.com/peptides/pinealon
+peptidecritic,IGF-1 LR3,igf-1-lr3,Performance,3.56,90.0,mg,-0.4,41,30,0.1,60.0,1mg +5 other sizes,long r3 igf-1; lr3 igf-1,https://peptidecritic.com/peptides/igf-1-lr3
+peptidecritic,Melanotan-2,melanotan-2,Libido & Tanning,2.55,6.0,mg,-0.4,62,50,5.0,10.0,10mg +2 other sizes,mt-ii; melanotan ii,https://peptidecritic.com/peptides/melanotan-2
+peptidecritic,SLU-PP-332 (Tablets),slu-pp-332-tablets,Energy,1.44,5.33,mg,1283.3,15,9,0.25,10.0,0.5–5.0mg +3 other sizes,pan-err agonist; errα/β/γ agonist,https://peptidecritic.com/peptides/slu-pp-332-tablets
+peptidecritic,GLP3-R + Cagrilintide Blend,glp3-r-cagrilintide-blend,,5.04,16.4,mg,8.1,13,11,5.0,30.0,6–25mg +2 other sizes,,https://peptidecritic.com/peptides/glp3-r-cagrilintide-blend
+peptidecritic,ARA-290,ara-290,Immunity & Recovery,4.13,11.8,mg,-10.9,33,26,5.0,30.0,5–16mg +1 other size,cibinetide; phbsp; helix b surface peptide,https://peptidecritic.com/peptides/ara-290
+peptidecritic,5-Amino-1MQ (Tablets),5-amino-1mq-tablets,Weight Loss,0.02,0.08,mg,-11.6,19,13,10.0,6000.0,"10–3,000mg +1 other size",5-amino-1-methylquinolinium iodide; nnmt inhibitor; 5-amino-1mq,https://peptidecritic.com/peptides/5-amino-1mq-tablets
+peptidecritic,Kisspeptin,kisspeptin,Sexual Health,2.88,10.29,mg,-16.3,45,36,5.0,10.0,5–10mg,kisspeptin; metastin (45–54); kisspeptin-10; kp-10,https://peptidecritic.com/peptides/kisspeptin
+peptidecritic,Melanotan-1,melanotan-1,Libido & Tanning,2.52,4.4,mg,-1.3,41,33,10.0,10.0,10mg,afamelanotide; ndp-α-msh; scenesse,https://peptidecritic.com/peptides/melanotan-1
+peptidecritic,Cartalax,cartalax,Healing,2.28,3.5,mg,0.0,21,19,0.1,40.0,20mg +5 other sizes,aed; t‑31; alanyl‑glutamyl‑aspartate,https://peptidecritic.com/peptides/cartalax
+peptidecritic,Oxytocin,oxytocin,Sexual Health,2.5,21.0,mg,-23.2,43,35,2.0,30.0,2–10mg +2 other sizes,oxt; syntocinon,https://peptidecritic.com/peptides/oxytocin
+peptidecritic,Dihexa (Tablets),dihexa-tablets,Cognition,0.35,0.37,mg,9999.0,5,2,5.0,1000.0,"5–1,000mg",pnb-0408; angiotensin iv analogue; hgf/c-met modulator,https://peptidecritic.com/peptides/dihexa-tablets
+peptidecritic,CJC-1295 (with DAC),cjc-1295-dac,Growth Hormone,6.12,12.0,mg,23.7,36,32,2.0,32.0,2–5mg +5 other sizes,cjc-1295 dac; dac-grf(1–29),https://peptidecritic.com/peptides/cjc-1295-dac
+peptidecritic,VIP,vip,Longevity,3.5,10.0,mg,-10.9,28,23,2.0,10.0,5–10mg +1 other size,v.i.p.; vasoactive intestinal peptide,https://peptidecritic.com/peptides/vip
+peptidecritic,LL-37,ll-37,Immunity & Recovery,1.1,18.4,mg,-8.9,46,40,5.0,10.0,5–10mg,cathelicidin; hcap-18 (c-terminal peptide),https://peptidecritic.com/peptides/ll-37
+peptidecritic,Tesofensine (Tablets),tesofensine-tablets,Weight Loss,2.38,600.0,mcg,9999.0,13,9,500.0,500.0,500mcg,ns2330; sndri; serotonin–norepinephrine–dopamine reuptake inhibitor,https://peptidecritic.com/peptides/tesofensine-tablets
+peptidecritic,BPC-157 (Tablets),bpc-157-tablets,Healing,2.47,6.6,mg,2200.0,21,15,0.25,60.0,0.3–30.0mg +2 other sizes,bepecin; pl 14736; body protection compound 157; gastric pentadecapeptide; bpc,https://peptidecritic.com/peptides/bpc-157-tablets
+peptidecritic,HCG,hcg,Sexual Health,119.0,174.0,mg,0.0,11,7,0.5,1.0,0.5–1.0mg,human chorionic gonadotropin; hcg; chorionic gonadotropin; choriogonadotropin alfa (recombinant),https://peptidecritic.com/peptides/hcg
+peptidecritic,Survodutide,survodutide,Weight Loss,3.98,12.0,mg,335.4,17,15,3.0,60.0,5–10mg +3 other sizes,bi 456906; glp-1/glucagon dual agonist,https://peptidecritic.com/peptides/survodutide
+peptidecritic,FOXO4-DRI,foxo4-dri,Longevity,10.12,20.0,mg,0.0,18,15,5.0,15.0,10–12mg +3 other sizes,dri-foxo4; foxo4 d-retro-inverso,https://peptidecritic.com/peptides/foxo4-dri
+peptidecritic,Follistatin 344,follistatin-344,Performance,38.75,,mg,0.0,11,4,1.0,2.5,1mg +1 other size,fst344; fs344,https://peptidecritic.com/peptides/follistatin-344
+peptidecritic,Thymosin Beta 4,thymosin-beta-4,Immunity & Recovery,3.6,7.5,mg,-11.2,27,22,2.0,50.0,5–10mg +6 other sizes,tβ4; timbetasin; thymosin β4; tb4,https://peptidecritic.com/peptides/thymosin-beta-4
+peptidecritic,GLP3-R + GLP2-T Blend,glp3-r-glp2-t-blend,,3.98,6.8,mg,0.0,3,3,30.0,34.0,30–34mg,,https://peptidecritic.com/peptides/glp3-r-glp2-t-blend
+peptidecritic,GLP3-R + GLP4-C Blend,glp3-r-glp4-c-blend,,3.2,3.76,mg,0.0,2,2,5.0,45.0,5–45mg,,https://peptidecritic.com/peptides/glp3-r-glp4-c-blend
+peptidecritic,Thymalin,thymalin,Immunity & Recovery,4.5,7.0,mg,-2.8,24,23,5.0,100.0,10–50mg +2 other sizes,thymic polypeptide; calf thymus extract,https://peptidecritic.com/peptides/thymalin
+peptidecritic,Cardiogen,cardiogen,Immunity & Recovery,2.2,3.95,mg,0.0,17,12,20.0,25.0,20mg +2 other sizes,aedr; cardiocytogen,https://peptidecritic.com/peptides/cardiogen
+peptidecritic,Mazdutide,mazdutide,Weight Loss,5.89,13.5,mg,428.4,14,11,5.0,60.0,5–10mg +1 other size,ibi-362; ly-3305677; oxm-3,https://peptidecritic.com/peptides/mazdutide
+peptidecritic,BDNF,bdnf,Cognition,0.94,0.99,mg,0.0,1,1,10.0,3000.0,"10–3,000mg",brain‑derived neurotrophic factor; neurotrophin; mbdnf; probdnf,https://peptidecritic.com/peptides/bdnf
+peptidecritic,Prostamax,prostamax,Sexual Health,3.6,4.0,mg,9999.0,16,15,20.0,25.0,20mg +1 other size,prostamax,https://peptidecritic.com/peptides/prostamax
+peptidecritic,Fragment 176-191,fragment-176-191,Weight Loss,11.06,,mg,-6.3,15,10,2.0,12.0,5–10mg +4 other sizes,hgh fragment 176–191; hgh(176–191),https://peptidecritic.com/peptides/fragment-176-191
+peptidecritic,PEG-MGF,peg-mgf,Performance,16.58,19.5,mg,0.0,13,13,2.0,5.0,2–5mg,pegylated igf-1ec e-peptide; peg-mgf,https://peptidecritic.com/peptides/peg-mgf
+peptidecritic,Gonadorelin (GnRH),gonadorelin-gnrh,Sexual Health,6.65,7.0,mg,0.0,15,14,2.0,100.0,2–10mg +1 other size,gnrh; lhrh; gonadorelin acetate,https://peptidecritic.com/peptides/gonadorelin-gnrh
+peptidecritic,Kisspeptin-54,kisspeptin-54,Sexual Health,3.32,3.9,mg,0.0,1,1,10.0,10.0,10mg,metastin; kiss-1 (68–121) amide; kp-54,https://peptidecritic.com/peptides/kisspeptin-54
+peptidecritic,PE-22-28,pe-22-28,Cognition,4.75,5.0,mg,0.0,11,10,8.0,10.0,8–10mg,spadin fragment; pe 22-28,https://peptidecritic.com/peptides/pe-22-28
+peptidecritic,Thymulin,thymulin-0,Immunity & Recovery,8.91,19.53,mg,0.0,6,6,6.4,10.0,6–10mg,facteur thymique sérique; serum thymic factor,https://peptidecritic.com/peptides/thymulin-0
+peptidecritic,GHRP-6,ghrp-6,Growth Hormone,4.93,8.0,mg,0.0,27,26,2.0,10.0,5–10mg +1 other size,ghrp-6; growth hormone-releasing hexapeptide; skf-110679,https://peptidecritic.com/peptides/ghrp-6
+peptidecritic,GHRP-2,ghrp-2,Growth Hormone,5.7,6.0,mg,0.0,27,24,5.0,10.0,5–10mg,pralmorelin; kp-102; ghrp-2,https://peptidecritic.com/peptides/ghrp-2
+peptidecritic,Hexarelin,hexarelin,Growth Hormone,8.93,15.2,mg,0.0,20,17,2.0,10.0,2–5mg +3 other sizes,examorelin; ep23905; hexarelin acetate,https://peptidecritic.com/peptides/hexarelin
+peptidecritic,PNC-27,pnc-27,,11.9,,mg,9999.0,9,6,5.0,30.0,5–30mg,pnc27,https://peptidecritic.com/peptides/pnc-27
+peptidecritic,Testagen,testagen,Growth Hormone,3.6,4.0,mg,9999.0,16,13,5.0,25.0,20mg +2 other sizes,kedg,https://peptidecritic.com/peptides/testagen
+peptidecritic,Thymogen,thymogen,Immunity & Recovery,6.65,7.0,mg,0.0,11,10,5.0,20.0,10–20mg +1 other size,oglufanide; thymogen; timogen; im-862; ew,https://peptidecritic.com/peptides/thymogen
+peptidecritic,Vilon (Lys-Glu),vilon-lys-glu,Immunity & Recovery,,,,9999.0,18,16,5.0,20.0,10–20mg +1 other size,ke peptide; vilon,https://peptidecritic.com/peptides/vilon-lys-glu
+peptidecritic,MK-677 (Ibutamoren) (Tablets),mk-677-ibutamoren-tablets,Growth Hormone,,,,9999.0,4,4,12.5,1000.0,"13–1,000mg",ibutamoren mesylate; mk-0677; growth hormone secretagogue,https://peptidecritic.com/peptides/mk-677-ibutamoren-tablets
+peptidecritic,MGF,mgf,Performance,13.3,14.0,mg,0.0,16,15,1.0,5.0,2–5mg +1 other size,igf-1ec; mechano growth factor,https://peptidecritic.com/peptides/mgf
+peptidecritic,Humanin,humanin,Performance,,,,9999.0,4,4,5.0,10.0,5–10mg,humanin,https://peptidecritic.com/peptides/humanin
+peptidecritic,GW-0742,gw-0742,Energy,,,,9999.0,5,4,5.0,600.0,5–600mg,gw 610742; fitorine,https://peptidecritic.com/peptides/gw-0742
+peptidecritic,IGF-1 DES (1-3),igf-1-des-1-3,Performance,,,,9999.0,5,5,1.0,10.0,1–2mg +1 other size,des(1-3)igf-1; igf-1(4–70); des igf-1,https://peptidecritic.com/peptides/igf-1-des-1-3
+peptidecritic,Triptorelin,triptorelin,Sexual Health,,,,9999.0,5,5,0.1,2.0,0.1–2.0mg,[d-trp6]-gnrh; decapeptyl,https://peptidecritic.com/peptides/triptorelin
+peptidecritic,Exendin-4,exendin-4,Weight Loss,,,,9999.0,0,0,0.0,0.0,—,exenatide; exendin-4,https://peptidecritic.com/peptides/exendin-4
+peptidecritic,Desmopressin,desmopressin,Sleep,,,,9999.0,0,0,0.0,0.0,—,ddavp; 1‑deamino‑8‑d‑arginine vasopressin; ddavp,https://peptidecritic.com/peptides/desmopressin

@@ -1,7 +1,7 @@
-// Ascending Research Hub service worker v0.5.12 — Theo 🧪 — 2026-05-22
+// Ascending Research Hub service worker v0.5.14 — Theo 🧪 — 2026-05-31
 // WHY: Enables offline reload/install behavior for the static hub prototype without collecting data.
-const CACHE = 'ascending-research-hub-v0.5.12';
-const ASSETS = ['./', './index.html', './ask-ai.html', './coa.html', './shop.html', './manifest.webmanifest', './icon.svg'];
+const CACHE = 'ascending-research-hub-v0.5.14';
+const ASSETS = ['./', './index.html', './ask-ai.html', './coa.html', './shop.html', './peptide-price-tracker.html', './data/peptide-price-tracker-baseline-v0-1-0.json', './manifest.webmanifest', './icon.svg'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
