@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Aminos Customer Auth v0.7.6 - Theo 🧪 - 2026-05-31 -->
+<!-- Ascending Aminos Customer Auth v0.7.7 - Theo 🧪 - 2026-05-31 -->
 <!-- WHY: Purpose-built Ascending Aminos customer access page for the shop, rebuilt from scratch for legibility and brand fit. -->
 <html lang="en">
 <head>
@@ -51,7 +51,7 @@
       min-height: 100vh;
       margin: 0 auto;
       display: grid;
-      grid-template-rows: auto 1fr auto;
+      grid-template-rows: auto 1fr;
       gap: 18px;
       padding: 16px 0 22px;
     }
@@ -137,34 +137,12 @@
 
     .lang { min-width: 46px; }
 
-    .access-grid {
+    .auth-flow {
       display: grid;
-      grid-template-columns: minmax(0, .96fr) minmax(410px, 1.04fr);
       gap: 18px;
-      align-items: stretch;
-    }
-
-    .intro {
-      min-height: 670px;
-      display: grid;
-      align-content: space-between;
-      border: 1px solid rgba(255, 255, 255, .14);
-      border-radius: var(--radius);
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .045)),
-        linear-gradient(135deg, rgba(36, 75, 255, .26), rgba(5, 9, 20, .12));
-      box-shadow: var(--shadow);
-      padding: 24px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .intro::before {
-      content: "";
-      position: absolute;
-      inset: 0 0 auto;
-      height: 3px;
-      background: linear-gradient(90deg, #244bff, #93ddff, #ffffff, #5aa7ff);
+      width: min(100%, 900px);
+      margin: 0 auto;
+      align-content: start;
     }
 
     .eyebrow {
@@ -213,78 +191,81 @@
       margin: 12px 0 0;
     }
 
-    .intro-copy {
-      max-width: 620px;
-      font-size: 16px;
-    }
-
-    .signal-strip {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-top: 22px;
-    }
-
-    .signal {
-      min-height: 92px;
-      border: 1px solid rgba(255, 255, 255, .16);
-      border-radius: var(--radius);
-      background: rgba(255, 255, 255, .08);
-      padding: 12px;
-    }
-
-    .signal b {
-      display: block;
-      color: #fff;
-      font-size: 19px;
-      line-height: 1;
-    }
-
-    .signal span {
-      display: block;
-      margin-top: 8px;
-      color: rgba(247, 251, 255, .64);
-      font-size: 12px;
-      line-height: 1.35;
-    }
-
-    .footer-card {
+    .site-footer {
       border: 1px solid rgba(147, 221, 255, .24);
       border-radius: var(--radius);
-      background: rgba(5, 9, 20, .34);
-      padding: 18px;
+      background: #050914;
+      color: rgba(247, 251, 255, .72);
+      padding: 22px;
+      box-shadow: 0 18px 60px rgba(0, 0, 0, .24);
     }
 
-    .footer-card h3 {
-      margin: 0;
-      color: #fff;
-      font-size: 26px;
-      line-height: 1.02;
-      letter-spacing: 0;
-    }
-
-    .footer-card p {
-      margin-top: 9px;
-      color: rgba(247, 251, 255, .66);
-      font-size: 13px;
-    }
-
-    .footer-grid {
+    .site-footer-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-top: 18px;
-      padding-top: 16px;
-      border-top: 1px solid rgba(255, 255, 255, .13);
+      grid-template-columns: 1.35fr repeat(3, 1fr);
+      gap: 24px;
+      align-items: start;
     }
 
-    .footer-group {
+    .footer-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 13px;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .footer-emblem {
+      width: 58px;
+      height: 58px;
+      flex: 0 0 auto;
+      border-radius: var(--radius);
+      background: #fff;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .footer-emblem img {
+      position: absolute;
+      width: 72px;
+      height: auto;
+      left: -7px;
+      top: -10px;
+      display: block;
+    }
+
+    .footer-brand b {
+      display: block;
+      color: #fff;
+      font-size: 22px;
+      line-height: .9;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    .footer-brand small {
+      display: block;
+      color: #8eb0ff;
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: .34em;
+      margin-top: 6px;
+      text-transform: uppercase;
+    }
+
+    .site-footer p {
+      color: rgba(247, 251, 255, .62);
+      font-size: 13px;
+      margin-top: 16px;
+    }
+
+    .site-footer-group {
       display: grid;
       align-content: start;
-      gap: 8px;
+      gap: 10px;
     }
 
-    .footer-group b {
+    .site-footer-group b {
       color: #fff;
       font-size: 11px;
       font-weight: 950;
@@ -292,32 +273,32 @@
       text-transform: uppercase;
     }
 
-    .footer-group a {
-      color: rgba(247, 251, 255, .72);
-      font-size: 12px;
-      line-height: 1.25;
+    .site-footer-group a {
+      color: rgba(141, 158, 188, .95);
+      font-size: 13px;
+      line-height: 1.35;
       text-decoration: none;
     }
 
-    .footer-group a:hover,
-    .footer-group a:focus-visible {
+    .site-footer-group a:hover,
+    .site-footer-group a:focus-visible {
       color: var(--cyan);
     }
 
-    .footer-legal {
+    .site-legal {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
       font-size: 12px;
-      color: rgba(247, 251, 255, .52);
-      margin-top: 18px;
-      padding-top: 14px;
+      color: rgba(141, 158, 188, .72);
+      margin-top: 24px;
+      padding-top: 18px;
       border-top: 1px solid rgba(255, 255, 255, .13);
+      flex-wrap: wrap;
     }
 
     .auth-card {
-      min-height: 670px;
       display: grid;
       align-content: start;
       gap: 16px;
@@ -571,13 +552,8 @@
     }
 
     @media (max-width: 980px) {
-      .access-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .intro,
-      .auth-card {
-        min-height: auto;
+      .site-footer-grid {
+        grid-template-columns: 1fr 1fr;
       }
     }
 
@@ -612,13 +588,8 @@
         padding: 9px 10px;
       }
 
-      .intro,
       .auth-card {
         padding: 16px;
-      }
-
-      .auth-card {
-        order: -1;
       }
 
       h1 {
@@ -629,15 +600,18 @@
         font-size: 28px;
       }
 
-      .signal-strip,
-      .footer-grid,
+      .site-footer {
+        padding: 18px;
+      }
+
+      .site-footer-grid,
       .grid2,
       .benefits {
         grid-template-columns: 1fr;
       }
 
-      .signal {
-        min-height: auto;
+      .site-legal {
+        align-items: flex-start;
       }
     }
   </style>
@@ -654,50 +628,7 @@
       </div>
     </header>
 
-    <main class="access-grid">
-      <section class="intro" aria-labelledby="introTitle">
-        <div>
-          <span class="eyebrow" data-copy="introEyebrow">Customer access</span>
-          <h1 id="introTitle" data-copy="introTitle">Research commerce starts with verified access.</h1>
-          <p class="intro-copy" data-copy="introLead">A clean account gateway for qualified researchers: confirm the rules, create a profile, then enter the COA-first Ascending Aminos catalog.</p>
-
-          <div class="signal-strip" aria-label="Access signals">
-            <div class="signal"><b>21+</b><span data-copy="signalAge">Age gate before catalog access.</span></div>
-            <div class="signal"><b>RUO</b><span data-copy="signalRuo">Research-use-only posture stays explicit.</span></div>
-            <div class="signal"><b>COA</b><span data-copy="signalCoa">Batch records can attach to the account path.</span></div>
-          </div>
-        </div>
-
-        <div class="footer-card" aria-label="Ascending Aminos footer links">
-          <h3 data-copy="footerTitle">Clinical access, clean paper trail.</h3>
-          <p data-copy="footerBody">Research-use-only account access stays separate from the catalog, admin tools, and future order review workflow.</p>
-          <div class="footer-grid">
-            <div class="footer-group">
-              <b data-copy="footerLegal">Legal</b>
-              <a href="ascending-aminos-store-latest.html#compliance" data-copy="footerResearchPolicy">Research Use Policy</a>
-              <a href="ascending-aminos-store-latest.html#compliance" data-copy="footerTerms">Terms placeholder</a>
-              <a href="ascending-aminos-store-latest.html#compliance" data-copy="footerPrivacy">Privacy placeholder</a>
-            </div>
-            <div class="footer-group">
-              <b data-copy="footerSupport">Support</b>
-              <a href="ascending-aminos-store-latest.html#verify" data-copy="footerVerify">Verify COA</a>
-              <a href="ascending-aminos-store-latest.html#newsletter" data-copy="footerContact">Contact placeholder</a>
-              <a href="ascending-aminos-store-latest.html#newsletter" data-copy="footerBatchAlerts">Batch alerts</a>
-            </div>
-            <div class="footer-group">
-              <b data-copy="footerAccess">Access</b>
-              <a href="ascending-aminos-store-latest.html" data-copy="footerCatalog">Catalog</a>
-              <a href="admin-login.html?next=ascending-aminos-store-latest.html%23admin" data-copy="footerAdmin">Admin route</a>
-              <a href="ascending-aminos-store-latest.html#trust" data-copy="footerTrust">Trust architecture</a>
-            </div>
-          </div>
-          <div class="footer-legal">
-            <span data-copy="footerNotice">Research Use Only / Not for human or animal consumption.</span>
-            <span>Theo 🧪</span>
-          </div>
-        </div>
-      </section>
-
+    <main class="auth-flow">
       <section class="auth-card" aria-labelledby="authTitle">
         <div>
           <span class="eyebrow" data-copy="authEyebrow">Account gate</span>
@@ -779,40 +710,68 @@
 
         <div class="result" id="result" role="status"></div>
       </section>
-    </main>
 
-    <footer class="foot">
-      <span>Ascending Aminos Customer Auth v0.7.6 - Theo 🧪 - 2026-05-31</span>
-      <a href="ascending-aminos-store-latest.html" data-copy="backLink">Back to shop</a>
-    </footer>
+      <footer class="site-footer" aria-label="Ascending Aminos footer">
+        <div class="site-footer-grid">
+          <div>
+            <a class="footer-brand" href="ascending-aminos-store-latest.html" aria-label="Back to Ascending Aminos catalog">
+              <span class="footer-emblem"><img src="assets/brand/ascending-aminos-logo-sharp-v0-1-0.png" alt="" /></span>
+              <span><b>Ascending</b><small>Aminos</small></span>
+            </a>
+            <p data-copy="footerBody">Clinical-luxury research storefront preview. Built around public lot verification, compliance-first access, and premium provenance.</p>
+          </div>
+          <div class="site-footer-group">
+            <b data-copy="footerCatalog">Catalog</b>
+            <a href="ascending-aminos-store-latest.html#catalog" data-copy="footerAllProducts">All products</a>
+            <a href="ascending-aminos-store-latest.html#catalog" data-copy="footerBlends">Blends</a>
+            <a href="ascending-aminos-store-latest.html#catalog" data-copy="footerSingles">Single peptides</a>
+            <a href="ascending-aminos-store-latest.html#catalog" data-copy="footerDiluents">Diluents</a>
+          </div>
+          <div class="site-footer-group">
+            <b data-copy="footerTrust">Trust</b>
+            <a href="ascending-aminos-store-latest.html#verify" data-copy="footerVerify">Verify COA</a>
+            <a href="ascending-aminos-store-latest.html#trust" data-copy="footerTrustArchitecture">Trust architecture</a>
+            <a href="ascending-aminos-store-latest.html#compliance" data-copy="footerCompliance">Compliance</a>
+            <a href="ascending-aminos-store-latest.html#newsletter" data-copy="footerBatchAlerts">Batch alerts</a>
+          </div>
+          <div class="site-footer-group">
+            <b data-copy="footerLegal">Legal</b>
+            <a href="ascending-aminos-store-latest.html#compliance" data-copy="footerResearchPolicy">Research Use Policy</a>
+            <a href="ascending-aminos-store-latest.html#compliance" data-copy="footerTerms">Terms placeholder</a>
+            <a href="ascending-aminos-store-latest.html#compliance" data-copy="footerPrivacy">Privacy placeholder</a>
+            <a href="ascending-aminos-store-latest.html#newsletter" data-copy="footerContact">Contact placeholder</a>
+          </div>
+        </div>
+        <div class="site-legal">
+          <span>Ascending Aminos Customer Auth v0.7.7 - Theo 🧪 - 2026-05-31</span>
+          <span data-copy="footerNotice">Research Use Only / Not for human or animal consumption.</span>
+        </div>
+      </footer>
+    </main>
   </div>
 
   <script>
-    // Ascending Aminos Customer Auth v0.7.6 - Theo 🧪 - 2026-05-31
+    // Ascending Aminos Customer Auth v0.7.7 - Theo 🧪 - 2026-05-31
     // WHY: Provides customer register/login/guest preview, with local static fallback when the API is not available.
     const copy = {
       en: {
         brandSub: "Private research access",
-        introEyebrow: "Customer access",
-        introTitle: "Research commerce starts with verified access.",
-        introLead: "A clean account gateway for qualified researchers: confirm the rules, create a profile, then enter the COA-first Ascending Aminos catalog.",
-        signalAge: "Age gate before catalog access.",
-        signalRuo: "Research-use-only posture stays explicit.",
-        signalCoa: "Batch records can attach to the account path.",
-        footerTitle: "Clinical access, clean paper trail.",
-        footerBody: "Research-use-only account access stays separate from the catalog, admin tools, and future order review workflow.",
+        footerBody: "Clinical-luxury research storefront preview. Built around public lot verification, compliance-first access, and premium provenance.",
+        footerCatalog: "Catalog",
+        footerAllProducts: "All products",
+        footerBlends: "Blends",
+        footerSingles: "Single peptides",
+        footerDiluents: "Diluents",
+        footerTrust: "Trust",
+        footerTrustArchitecture: "Trust architecture",
+        footerCompliance: "Compliance",
         footerLegal: "Legal",
         footerResearchPolicy: "Research Use Policy",
         footerTerms: "Terms placeholder",
         footerPrivacy: "Privacy placeholder",
-        footerSupport: "Support",
         footerVerify: "Verify COA",
         footerContact: "Contact placeholder",
         footerBatchAlerts: "Batch alerts",
-        footerAccess: "Access",
-        footerCatalog: "Catalog",
-        footerAdmin: "Admin route",
-        footerTrust: "Trust architecture",
         footerNotice: "Research Use Only / Not for human or animal consumption.",
         authEyebrow: "Account gate",
         authTitle: "Register or log in.",
@@ -850,26 +809,22 @@
       },
       es: {
         brandSub: "Acceso privado investigativo",
-        introEyebrow: "Acceso cliente",
-        introTitle: "El comercio investigativo empieza con acceso verificado.",
-        introLead: "Una entrada limpia para investigadores calificados: confirma las reglas, crea un perfil y entra al catálogo COA-first de Ascending Aminos.",
-        signalAge: "Puerta 21+ antes del catálogo.",
-        signalRuo: "La postura solo-investigación queda explícita.",
-        signalCoa: "Los registros de lote pueden seguir la ruta de cuenta.",
-        footerTitle: "Acceso clinico, rastro limpio.",
-        footerBody: "El acceso de cuenta solo-investigacion queda separado del catalogo, herramientas admin y futuro flujo de revision de orden.",
+        footerBody: "Vista previa clinica-lujo para investigacion. Construida alrededor de verificacion publica de lote, acceso compliance-first y procedencia premium.",
+        footerCatalog: "Catalogo",
+        footerAllProducts: "Todos los productos",
+        footerBlends: "Mezclas",
+        footerSingles: "Peptidos individuales",
+        footerDiluents: "Diluyentes",
+        footerTrust: "Confianza",
+        footerTrustArchitecture: "Arquitectura de confianza",
+        footerCompliance: "Cumplimiento",
         footerLegal: "Legal",
         footerResearchPolicy: "Politica de uso investigativo",
         footerTerms: "Terminos placeholder",
         footerPrivacy: "Privacidad placeholder",
-        footerSupport: "Soporte",
         footerVerify: "Verificar COA",
         footerContact: "Contacto placeholder",
         footerBatchAlerts: "Alertas de lote",
-        footerAccess: "Acceso",
-        footerCatalog: "Catalogo",
-        footerAdmin: "Ruta admin",
-        footerTrust: "Arquitectura de confianza",
         footerNotice: "Solo uso investigativo / No para consumo humano o animal.",
         authEyebrow: "Puerta de cuenta",
         authTitle: "Regístrate o inicia sesión.",
