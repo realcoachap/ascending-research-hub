@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Aminos Store v0.7.9 — Theo 🧪 — 2026-05-31 -->
+<!-- Ascending Aminos Store v0.7.10 — Theo 🧪 — 2026-05-31 -->
 <!-- WHY: Clinical-luxury storefront with split customer/admin access, admin product/variant controls, and prototype discount-code cart logic. -->
 <html lang="en">
 <head>
@@ -89,7 +89,7 @@
     .drawer a{display:block;border-bottom:1px solid rgba(255,255,255,.1);padding:16px 0;font-family:"Anton";font-size:30px;text-transform:uppercase}
     .drawer-close{position:absolute;right:22px;top:22px}
     .drawer-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
-    .drawer-actions a[href="auth.html"]{grid-column:1/-1}
+    .drawer-actions .drawer-account-action{grid-column:1/-1}
 
     .bottom-dock{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));z-index:70;transform:translateX(-50%);width:min(680px,calc(100% - 24px));display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;padding:7px;border:1px solid rgba(143,196,255,.24);border-radius:18px;background:rgba(7,16,29,.88);backdrop-filter:blur(18px) saturate(155%);box-shadow:0 22px 70px rgba(4,10,23,.34)}
     .bottom-dock a,.bottom-dock button{position:relative;min-width:0;height:52px;border:0;border-radius:12px;background:transparent;color:#b9c9e7;display:grid;place-items:center;gap:4px;padding:7px 5px;font:800 10px/1 "IBM Plex Mono";letter-spacing:0;text-transform:uppercase}
@@ -574,7 +574,7 @@
       </nav>
       <div class="nav-actions">
         <button class="btn ghost hide-mobile" id="lang-toggle" type="button">ES</button>
-        <a class="btn ghost hide-mobile" href="auth.html" data-ui="navCustomerLogin">Login / Register</a>
+        <button class="btn ghost hide-mobile" id="nav-customer-access" type="button" data-ui="navCustomerLogin">Login / Register</button>
         <a class="btn ghost hide-mobile" href="admin-login.html?next=ascending-aminos-store-latest.html%23admin" data-ui="navAdminLogin">Admin Login</a>
         <button class="icon-btn" id="product-search-open" type="button" aria-label="Search products" data-ui-aria="ariaOpenProductSearch">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg>
@@ -601,7 +601,7 @@
     <div class="drawer-actions">
       <button class="btn dark" id="drawer-product-search" type="button" data-ui="navSearch">Search</button>
       <button class="btn dark" id="drawer-lang" type="button">ES</button>
-      <a class="btn dark" href="auth.html" data-ui="navCustomerLogin">Login / Register</a>
+      <button class="btn dark drawer-account-action" id="drawer-customer-access" type="button" data-ui="navCustomerLogin">Login / Register</button>
     </div>
   </div>
 
@@ -1035,7 +1035,7 @@
   <div class="toast" id="toast" role="status"></div>
 
   <script>
-    // Ascending Aminos Store v0.7.9 - Theo 🧪 - 2026-05-31
+    // Ascending Aminos Store v0.7.10 - Theo 🧪 - 2026-05-31
     // WHY: Drives customer/admin access separation, product/variant admin controls, discount-code cart logic, and the public research catalog.
     const copy = {
       en: {
@@ -1063,6 +1063,7 @@
         navCustomerLogin: "Login / Register",
         navAdminLogin: "Admin Login",
         navMember: "Member",
+        navLogout: "Log out",
         navSearch: "Search",
         navVerifyBatch: "Verify Batch",
         dockHome: "Home",
@@ -1297,6 +1298,7 @@
         accountGuest: "Guest browsing",
         accountMember: "Research member preview",
         accountLab: "Lab purchasing profile preview",
+        accountLoggedOut: "Customer access cleared.",
         adminPanelTitle: "Admin Console",
         adminPanelBody: "Operator-only preview for product visibility, pricing, variants, discount codes, and audit history.",
         adminLoggedInAs: "Logged in as",
@@ -1362,6 +1364,7 @@
         toastDiscountSaved: "Discount code saved locally.",
         toastAdminRequired: "Admin login required.",
         toastAdminLoggedOut: "Admin preview logged out.",
+        toastCustomerLoggedOut: "Customer access cleared.",
         verifyNoMatchTitle: "No match found for \"{value}\"",
         verifyNoMatchBody: "This lot is not in the verification system. If it appears on a sealed Ascending Aminos vial, do not accept it until support validates the seal and batch record.",
         ariaHome: "Ascending Aminos home",
@@ -1417,6 +1420,7 @@
         navCustomerLogin: "Login / Registro",
         navAdminLogin: "Login admin",
         navMember: "Miembro",
+        navLogout: "Salir",
         navSearch: "Buscar",
         navVerifyBatch: "Verificar lote",
         dockHome: "Inicio",
@@ -1651,6 +1655,7 @@
         accountGuest: "Navegacion invitada",
         accountMember: "Vista de miembro investigador",
         accountLab: "Perfil de compra de laboratorio",
+        accountLoggedOut: "Acceso de cliente cerrado.",
         adminPanelTitle: "Consola admin",
         adminPanelBody: "Vista operativa para visibilidad de productos, precios, variantes, codigos de descuento e historial.",
         adminLoggedInAs: "Sesion admin",
@@ -1716,6 +1721,7 @@
         toastDiscountSaved: "Codigo de descuento guardado localmente.",
         toastAdminRequired: "Login admin requerido.",
         toastAdminLoggedOut: "Sesion admin cerrada.",
+        toastCustomerLoggedOut: "Acceso de cliente cerrado.",
         verifyNoMatchTitle: "No se encontro coincidencia para \"{value}\"",
         verifyNoMatchBody: "Este lote no esta en el sistema de verificacion. Si aparece en un vial sellado de Ascending Aminos, no lo aceptes hasta que soporte valide el sello y el registro de lote.",
         ariaHome: "Inicio de Ascending Aminos",
@@ -2138,6 +2144,10 @@
       });
       $("#lang-toggle").addEventListener("click", toggleLanguage);
       $("#drawer-lang").addEventListener("click", toggleLanguage);
+      ["#nav-customer-access", "#drawer-customer-access"].forEach(selector => {
+        const action = $(selector);
+        if (action) action.addEventListener("click", handleCustomerAccessClick);
+      });
       $$('[data-close="cart"]').forEach(item => item.addEventListener("click", () => togglePanel("cart", false)));
       $$('[data-close="account"]').forEach(item => item.addEventListener("click", () => togglePanel("account-panel", false)));
       $$('[data-close="admin"]').forEach(item => item.addEventListener("click", () => togglePanel("admin-panel", false)));
@@ -2817,13 +2827,65 @@
 
     function activeAccountMode() {
       try {
-        const shopAccount = JSON.parse(localStorage.getItem("ar-shop-account") || "null");
+        const shopAccount = customerAccessState();
         if (shopAccount?.mode) return shopAccount.mode;
         const accountState = JSON.parse(localStorage.getItem(accountStorageKey) || '{"mode":"guest"}');
         return accountState.mode || "guest";
       } catch {
         return "guest";
       }
+    }
+
+    function customerAccessState() {
+      try {
+        return JSON.parse(localStorage.getItem("ar-shop-account") || "null");
+      } catch {
+        return null;
+      }
+    }
+
+    function legacyAccountState() {
+      try {
+        return JSON.parse(localStorage.getItem(accountStorageKey) || "null");
+      } catch {
+        return null;
+      }
+    }
+
+    function hasCustomerAccess() {
+      return Boolean(customerAccessState() || localStorage.getItem("ar-shop-auth") || legacyAccountState());
+    }
+
+    function updateCustomerAccessActions() {
+      const active = hasCustomerAccess();
+      ["#nav-customer-access", "#drawer-customer-access"].forEach(selector => {
+        const action = $(selector);
+        if (!action) return;
+        action.textContent = active ? t("navLogout") : t("navCustomerLogin");
+        action.dataset.accountAction = active ? "logout" : "login";
+        action.setAttribute("aria-label", active ? t("navLogout") : t("navCustomerLogin"));
+      });
+    }
+
+    async function handleCustomerAccessClick() {
+      $("#drawer")?.classList.remove("open");
+      if (!hasCustomerAccess()) {
+        window.location.href = "auth.html";
+        return;
+      }
+      await logoutCustomerAccess();
+    }
+
+    async function logoutCustomerAccess() {
+      // WHY: Guest preview and static auth both persist locally; the API call only exists on the local auth server.
+      try {
+        await fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" });
+      } catch {
+        // GitHub Pages has no auth API, so local preview state is the source of truth there.
+      }
+      ["ar-shop-account", "ar-shop-auth", "ar-shop-gate", accountStorageKey].forEach(key => localStorage.removeItem(key));
+      renderAccount();
+      showToast(t("toastCustomerLoggedOut"));
     }
 
     function findDiscount(code) {
@@ -2966,12 +3028,13 @@
     }
 
     function renderAccount() {
-      const state = JSON.parse(localStorage.getItem(accountStorageKey) || '{"mode":"guest"}');
+      const state = customerAccessState() || legacyAccountState() || { mode: "guest" };
       const label = t(state.mode === "member" ? "accountMember" : state.mode === "lab" ? "accountLab" : "accountGuest");
       const node = $("#account-state");
       if (node) node.textContent = label;
       const accountButton = $("#account-open");
       if (accountButton) accountButton.textContent = state.mode === "guest" ? t("navAccount") : t("navMember");
+      updateCustomerAccessActions();
       if ($("#cart-summary-access")) renderCart();
     }
 
