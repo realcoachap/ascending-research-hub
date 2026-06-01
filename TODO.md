@@ -95,3 +95,11 @@
 - [x] Keep hard blocks on personalized dosing, protocols, cycle design, stack plans, injection instructions, and recommendations
 - [x] Refresh Ask Theo page copy, quick prompts, fallback messages, API persona, README notes, and service-worker cache version
 - [ ] Future: build a source-review/admin screen for approving transcript claim cards before Theo treats them as curated context
+
+
+## 2026-06-01 Task: Ask Theo public source-bucket framing
+- [x] Keep exact creator/channel/source provenance internal by default
+- [x] Render researcher-media and social/community source cards as source buckets instead of creator names or channel links
+- [x] Redact creator/channel names and social/video URLs from public answers unless the user explicitly asks for exact provenance
+- [x] Update Ask Theo intro, quick prompt, fallback language, README notes, changelog, and service-worker cache version
+- [ ] Future: add an admin/source-review view that can show exact provenance separately from the public answer surface

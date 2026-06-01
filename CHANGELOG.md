@@ -14,6 +14,7 @@
 - Added `GET /api/theo-compounds` for exposing Theo's current compound literacy coverage.
 
 ### Changed
+- Changed Ask Theo's public source handling so creator-media and social/community material appears as evidence buckets, with exact creator names, channel names, handles, video/social links, and similar provenance hidden unless the user explicitly asks for exact sources.
 - Updated Ask Theo page copy, intro prompt, quick prompts, local fallback behavior, API system prompt, README notes, and service-worker cache version for the fresh character reset.
 - Preserved personalized-use blocks while allowing non-personal reported-claim questions to flow into claim analysis instead of disclaimer-only refusal.
 - Hardened Ask Theo client rendering by escaping user/API text before formatting chat bubbles.

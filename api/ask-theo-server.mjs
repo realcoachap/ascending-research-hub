@@ -1,4 +1,4 @@
-// Ascending Ask Theo API test server v0.5.1 — Theo 🧪 — 2026-06-01
+// Ascending Ask Theo API test server v0.5.2 — Theo 🧪 — 2026-06-01
 // WHY: Local/proxyable chat endpoint for testing Theo with a real model while keeping API keys off the static GitHub Pages frontend.
 
 import http from 'node:http';
@@ -32,6 +32,10 @@ Claim handling:
 - Always label those as "reported claim," "anecdotal claim," "creator/media claim," "label context," or "study/literature context" based on source quality.
 - Do not turn a reported claim into a recommendation, protocol, prescription, or instruction.
 - Prefer this structure when claims are involved: claim summary, source/evidence tier, major uncertainty, risk/warning context, and what would need verification.
+Public source naming:
+- By default, do not foreground individual creator names, channel names, handles, video titles, or channel links from researcher-media/social/community sources.
+- For those sources, use bucket language such as "creator-media claim," "community-reported claim," "unverified anecdotal claim," or "claim-discovery source."
+- Exact creator/channel/link provenance should only appear when the user explicitly asks for provenance, exact citations, links, or "who said it."
 Boundaries:
 - Do not provide medical advice, diagnosis, prescriptions, treatment plans, or instructions to use any compound.
 - Do not tell users what to take, how much to take, when to take it, or how to run a protocol.
@@ -47,7 +51,7 @@ Boundaries:
 - You can respond in English, Spanish, Portuguese, French, Italian, German, and other major languages when requested. If asked what languages you speak, say you can explain research education topics in multiple languages and that the user can switch languages anytime.
 - Do not mention language support unless the user asks about language.
 - When a response language is requested, answer in that language while keeping safety boundaries clear.
-- When source context is provided, synthesize it and mention the source title/tier in plain English. Do not overstate social media claims as proven research.
+- When source context is provided, synthesize it and mention the source class/tier in plain English. Do not overstate social media or creator-media claims as proven research.
 - For peptide COA/purity questions, do not call 95% purity "good" or "premium." Explain that 95% can be a lower/minimum research-grade specification for some catalog peptides, 98%+ is high-purity, and Ascending's preferred premium standard should be >=99% HPLC purity plus identity confirmation by MS or LC-MS and a batch-specific COA. For MOTS-c, prefer >=99% if the user asks what standard Ascending should use.
 - Prefer research-only wording and clear disclaimers without sounding scary.`;
 
@@ -184,10 +188,56 @@ function retrieveKnowledge(message) {
     .slice(0, MAX_KNOWLEDGE_CHUNKS);
 }
 
-function sourceContext(chunks) {
+function isBucketOnlySource(chunk) {
+  const platform = String(chunk.platform || '').toLowerCase();
+  return ['researcher_media', 'social_claim'].includes(chunk.tier)
+    || /\b(youtube|rumble|x|twitter|reddit|instagram|tiktok|podcast|forum)\b/.test(platform);
+}
+
+function isProvenanceRequest(message) {
+  return /\b(exact source|exact sources|source provenance|provenance|citation|citations|cite|links?|urls?|who said|which creator|which channel|channel name|creator name|show me the source|show sources)\b/i.test(message);
+}
+
+function sourceBucketInfo(chunk) {
+  if (chunk.tier === 'peer_reviewed') {
+    return { publicLabel: chunk.title || 'Clinical literature', sourceClass: 'Clinical literature', evidenceLevel: 'Peer-reviewed', sourceUse: 'Research context' };
+  }
+  if (chunk.tier === 'clinical_reference') {
+    return { publicLabel: chunk.title || 'Clinical/reference source', sourceClass: 'Clinical/reference source', evidenceLevel: 'Reference material', sourceUse: 'Quality or label context' };
+  }
+  if (chunk.tier === 'product_label') {
+    return { publicLabel: chunk.title || 'Product label / COA source', sourceClass: 'Product label / COA source', evidenceLevel: 'Label or batch document', sourceUse: 'Verification context' };
+  }
+  if (chunk.tier === 'social_claim') {
+    return { publicLabel: 'Community-reported claim', sourceClass: 'Community-reported claim', evidenceLevel: 'Unverified anecdotal', sourceUse: 'Claim discovery, not proof' };
+  }
+  if (chunk.tier === 'researcher_media' || isBucketOnlySource(chunk)) {
+    return { publicLabel: 'Creator-media claim', sourceClass: 'Creator-media claim', evidenceLevel: 'Anecdotal / needs verification', sourceUse: 'Claim discovery, not proof' };
+  }
+  return { publicLabel: chunk.title || 'Curated source', sourceClass: 'Curated source', evidenceLevel: String(chunk.tier || 'source').replace(/_/g, ' '), sourceUse: chunk.platform || 'Source context' };
+}
+
+function redactPublicProvenanceText(value) {
+  return String(value || '')
+    .replace(/https?:\/\/(?:www\.)?(?:youtube\.com|youtu\.be|rumble\.com|x\.com|twitter\.com|reddit\.com|instagram\.com|tiktok\.com)\/[^\s)]+/gi, '[creator-media link hidden by default]')
+    .replace(/\b(?:Nick\s+Trigili|The\s+Biohacking\s+Specialist|Biohacking\s*&\s*Performance\s+Specialist|Vigorous\s*Steve|VigorousSteve)\b/gi, 'a creator-media source')
+    .replace(/@(?:TheBiohackingspecialist|thebiohackingspecialist|VigorousSteve|vigoroussteve)\b/gi, '@creator-media-source')
+    .replace(/\bChannel URL:\s*\[creator-media link hidden by default\]/gi, 'Channel URL: hidden by default')
+    .replace(/\bCanonical channel URL:\s*\[creator-media link hidden by default\]/gi, 'Canonical channel URL: hidden by default')
+    .replace(/\bFeed URL:\s*\[creator-media link hidden by default\]/gi, 'Feed URL: hidden by default');
+}
+
+function sourceContext(chunks, options = {}) {
   if (!chunks.length) return '';
-  const blocks = chunks.map((chunk, index) => `[Source ${index + 1}: ${chunk.title} | tier=${chunk.tier} | platform=${chunk.platform || 'unknown'} | url=${chunk.url}]\n${chunk.content}`);
-  return `\n\nUse the following curated source context when relevant. Distinguish peer-reviewed evidence from researcher/social/media claims, and do not invent citations beyond these sources.\n\n${blocks.join('\n\n')}`;
+  const allowProvenance = Boolean(options.allowProvenance);
+  const blocks = chunks.map((chunk, index) => {
+    const bucket = sourceBucketInfo(chunk);
+    if (isBucketOnlySource(chunk) && !allowProvenance) {
+      return `[Source ${index + 1}: ${bucket.publicLabel} | tier=${chunk.tier} | source_class=${bucket.sourceClass} | evidence=${bucket.evidenceLevel} | public_provenance=hidden_by_default]\n${redactPublicProvenanceText(chunk.content)}`;
+    }
+    return `[Source ${index + 1}: ${chunk.title} | tier=${chunk.tier} | source_class=${bucket.sourceClass} | platform=${chunk.platform || 'unknown'} | url=${chunk.url}]\n${chunk.content}`;
+  });
+  return `\n\nUse the following curated source context when relevant. Distinguish peer-reviewed evidence from researcher/social/media claims, and do not invent citations beyond these sources. Unless the user explicitly asks for provenance, use source-bucket wording for creator-media/social/community sources instead of naming the creator, channel, handle, video title, or link.\n\n${blocks.join('\n\n')}`;
 }
 
 function compoundContext(compounds) {
@@ -278,7 +328,7 @@ function dosingUnitsAnswer() {
 }
 
 function educationalDosingPrompt(message) {
-  return `Answer this as general educational and claim-analysis context only. If the user asks what people claim, what creators report, or what sources mention, separate the answer into reported claim, evidence/source tier, uncertainty, and risk/warning context. If you mention dosing ranges, units, or frequencies, frame them as reported claims, research-reference context, literature context, or label context — never instructions. Include a clear warning that it is not medical advice, not a prescription, and not a recommendation to use any compound. Do not personalize. Do not calculate examples for a body weight/person. Do not provide route instructions, injection instructions, how-to protocols, cycle designs, stack plans, or fake citations. If no sources are provided, do not invent claims; say you need a pasted source or specific claim to evaluate. User question: ${message}`;
+  return `Answer this as general educational and claim-analysis context only. If the user asks what people claim, what creator-media/community sources report, or what sources mention, separate the answer into reported claim, evidence/source tier, uncertainty, and risk/warning context. Use source-bucket wording by default; do not name creator-media personalities, channels, handles, video titles, or links unless the user explicitly asks for exact provenance/citations. If you mention dosing ranges, units, or frequencies, frame them as reported claims, research-reference context, literature context, or label context — never instructions. Include a clear warning that it is not medical advice, not a prescription, and not a recommendation to use any compound. Do not personalize. Do not calculate examples for a body weight/person. Do not provide route instructions, injection instructions, how-to protocols, cycle designs, stack plans, or fake citations. If no sources are provided, do not invent claims; say you need a pasted source or specific claim to evaluate. User question: ${message}`;
 }
 
 function compoundEducationPrompt(message) {
@@ -333,16 +383,47 @@ function sanitizePurityReply(reply) {
   return text;
 }
 
-function responseSources(chunks) {
+function sanitizePublicReply(reply, allowProvenance = false) {
+  if (allowProvenance) return reply;
+  return redactPublicProvenanceText(reply);
+}
+
+function responseSources(chunks, allowProvenance = false) {
   const seen = new Set();
   return chunks
     .filter(chunk => {
-      const key = `${chunk.title}|${chunk.url}`;
+      const key = chunk.sourceId || `${chunk.title}|${chunk.url}`;
       if (seen.has(key)) return false;
       seen.add(key);
       return true;
     })
-    .map(({ id, title, url, tier, platform }) => ({ id, title, url, tier, platform }));
+    .map(chunk => {
+      const bucket = sourceBucketInfo(chunk);
+      if (isBucketOnlySource(chunk) && !allowProvenance) {
+        return {
+          id: chunk.id,
+          title: bucket.publicLabel,
+          url: '',
+          tier: chunk.tier,
+          platform: 'Source bucket',
+          sourceClass: bucket.sourceClass,
+          evidenceLevel: bucket.evidenceLevel,
+          sourceUse: bucket.sourceUse,
+          provenanceHidden: true,
+        };
+      }
+      return {
+        id: chunk.id,
+        title: chunk.title,
+        url: chunk.url,
+        tier: chunk.tier,
+        platform: chunk.platform,
+        sourceClass: bucket.sourceClass,
+        evidenceLevel: bucket.evidenceLevel,
+        sourceUse: bucket.sourceUse,
+        provenanceHidden: false,
+      };
+    });
 }
 
 function geminiKey() {
@@ -523,6 +604,7 @@ const server = http.createServer(async (request, response) => {
     const history = Array.isArray(payload.history) ? payload.history : [];
     const language = requestedLanguage(payload);
     if (!message) return sendJson(response, 400, { error: 'Message is required' });
+    const allowProvenance = isProvenanceRequest(message);
     if (isPersonalizedDosingOrUseQuestion(message)) {
       return sendJson(response, 200, { ok: true, reply: dosingBoundary(), mode: 'safety-boundary', language: language.code });
     }
@@ -531,7 +613,7 @@ const server = http.createServer(async (request, response) => {
     }
     const retrieved = retrieveKnowledge(message);
     const compounds = retrieveCompounds(message);
-    const context = `${compoundContext(compounds)}${sourceContext(retrieved)}`;
+    const context = `${compoundContext(compounds)}${sourceContext(retrieved, { allowProvenance })}`;
     const baseMessage = isProductLabelEducationQuestion(message) && !compounds.some(item => /\d/.test(item.name))
       ? productLabelEducationPrompt(message)
       : (isEducationalDosingContext(message) ? educationalDosingPrompt(message) : (isPurityQuestion(message) ? purityEducationPrompt(message) : (compounds.length ? compoundEducationPrompt(message) : message)));
@@ -555,7 +637,8 @@ const server = http.createServer(async (request, response) => {
     if (compounds.length && !isPersonalizedDosingOrUseQuestion(message)) {
       result.text = sanitizeCompoundEducationReply(result.text, compounds);
     }
-    return sendJson(response, 200, { ok: true, reply: result.text, mode: result.mode, language: language.code, compounds: compounds.map(({ name, type, category }) => ({ name, type, category })), sources: responseSources(retrieved) });
+    result.text = sanitizePublicReply(result.text, allowProvenance);
+    return sendJson(response, 200, { ok: true, reply: result.text, mode: result.mode, language: language.code, compounds: compounds.map(({ name, type, category }) => ({ name, type, category })), sources: responseSources(retrieved, allowProvenance) });
   } catch (error) {
     console.error('[ask-theo]', error);
     return sendJson(response, 500, { error: 'Theo test endpoint failed', detail: error.message });
