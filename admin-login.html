@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Shop Admin Login v0.8.46 - Theo ☠️ - 2026-06-01 -->
+<!-- Ascending Shop Admin Login v0.8.48 - Theo ☠️ - 2026-06-01 -->
 <!-- WHY: Separate operator login route backed by Supabase Auth and an allow-listed admin role. -->
 <html lang="en">
 <head>
@@ -202,9 +202,11 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script>
-    // Ascending Shop Admin Login v0.8.46 - Theo ☠️ - 2026-06-01
+    // Ascending Shop Admin Login v0.8.48 - Theo ☠️ - 2026-06-01
     // WHY: Keeps admin separate from customer auth and verifies the Supabase admin allow-list before opening the console.
+    const gateVersion = "v0.8.48";
     const adminSessionKey = "aa-admin-session-v0.8.12";
+    const idleActivityStorageKey = "aa-session-last-activity-v0.8.48";
     const adminForm = document.getElementById("adminForm");
     const resetForm = document.getElementById("resetForm");
     const result = document.getElementById("result");
@@ -229,6 +231,10 @@
       result.textContent = message;
       result.classList.add("show");
       result.classList.toggle("error", error);
+    }
+
+    function touchIdleActivity() {
+      localStorage.setItem(idleActivityStorageKey, String(Date.now()));
     }
 
     function safeReturnPath(value, fallback) {
@@ -279,8 +285,10 @@
         provider: "supabase",
         userId: session.user.id,
         createdAt: new Date().toISOString(),
-        expiresAt: session.expires_at ? new Date(session.expires_at * 1000).toISOString() : new Date(Date.now() + 60 * 60 * 1000).toISOString()
+        expiresAt: session.expires_at ? new Date(session.expires_at * 1000).toISOString() : new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+        gateVersion
       }));
+      touchIdleActivity();
     }
 
     async function prepareRecoverySession() {
@@ -324,7 +332,7 @@
         metadata: {
           source_path: location.pathname,
           provider: "supabase",
-          gate_version: "v0.8.12"
+          gate_version: gateVersion
         }
       });
 
@@ -334,7 +342,8 @@
         provider: "supabase",
         userId: data.session.user.id,
         createdAt: new Date().toISOString(),
-        expiresAt: data.session.expires_at ? new Date(data.session.expires_at * 1000).toISOString() : new Date(Date.now() + 60 * 60 * 1000).toISOString()
+        expiresAt: data.session.expires_at ? new Date(data.session.expires_at * 1000).toISOString() : new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+        gateVersion
       };
     }
 
@@ -372,9 +381,11 @@
           provider: admin.provider || "api",
           userId: admin.userId || null,
           createdAt: admin.createdAt || new Date().toISOString(),
-          expiresAt: admin.expiresAt || new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString()
+          expiresAt: admin.expiresAt || new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString(),
+          gateVersion
         };
         localStorage.setItem(adminSessionKey, JSON.stringify(session));
+        touchIdleActivity();
         showResult("Admin access verified. Opening console.");
         setTimeout(() => { window.location.href = next; }, 550);
       } catch (error) {
