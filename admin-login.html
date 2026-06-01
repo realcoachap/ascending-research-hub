@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Shop Admin Login v0.8.42 - Theo ☠️ - 2026-06-01 -->
+<!-- Ascending Shop Admin Login v0.8.44 - Theo ☠️ - 2026-06-01 -->
 <!-- WHY: Separate operator login route backed by Supabase Auth and an allow-listed admin role. -->
 <html lang="en">
 <head>
@@ -48,6 +48,28 @@
       background: linear-gradient(180deg, rgba(255,255,255,.1), var(--panel));
       box-shadow: 0 30px 100px rgba(0,0,0,.44);
       padding: 22px;
+    }
+    .admin-brand {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 238px;
+      max-width: 100%;
+      height: 58px;
+      border: 1px solid rgba(143,196,255,.22);
+      border-radius: var(--radius);
+      background: #050914;
+      overflow: hidden;
+      margin: 0 0 18px;
+    }
+    .admin-brand img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      display: block;
     }
     .eyebrow {
       display: inline-flex;
@@ -146,6 +168,9 @@
 <body>
   <main class="shell">
     <section class="panel" aria-labelledby="adminTitle">
+      <div class="admin-brand" aria-label="Ascending Aminos">
+        <img src="assets/brand/ascending-aminos-logo-horizontal-dark-v0-8-44.jpg" alt="Ascending Aminos" width="800" height="218">
+      </div>
       <span class="eyebrow">Admin login</span>
       <h2 id="adminTitle">Sign in to admin</h2>
       <p>Use this separate link for operator tasks. Customer account registration remains on the customer access page.</p>
@@ -177,7 +202,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script>
-    // Ascending Shop Admin Login v0.8.42 - Theo ☠️ - 2026-06-01
+    // Ascending Shop Admin Login v0.8.44 - Theo ☠️ - 2026-06-01
     // WHY: Keeps admin separate from customer auth and verifies the Supabase admin allow-list before opening the console.
     const adminSessionKey = "aa-admin-session-v0.8.12";
     const adminForm = document.getElementById("adminForm");
