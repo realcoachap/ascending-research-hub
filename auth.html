@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Aminos Customer Auth v0.8.39 - Theo 🧪 - 2026-05-31 -->
+<!-- Ascending Aminos Customer Auth v0.8.40 - Theo 🧪 - 2026-05-31 -->
 <!-- WHY: Purpose-built Ascending Aminos access portal for guest browsing plus Supabase-backed account-gated review requests. -->
 <html lang="en">
 <head>
@@ -737,7 +737,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script>
-    // Ascending Aminos Customer Auth v0.8.39 - Theo 🧪 - 2026-05-31
+    // Ascending Aminos Customer Auth v0.8.40 - Theo 🧪 - 2026-05-31
     // WHY: Provides the required store access portal plus Supabase-backed customer register/login.
     const defaultStoreHref = "ascending-aminos-store-latest.html";
     const requestedNext = new URLSearchParams(location.search).get("next");
@@ -870,7 +870,7 @@
 
     const $ = selector => document.querySelector(selector);
     const $$ = selector => Array.from(document.querySelectorAll(selector));
-    const gateVersion = "v0.8.39";
+    const gateVersion = "v0.8.40";
     const supabaseConfig = window.ASCENDING_SUPABASE || {};
     const supabaseClient = supabaseIsConfigured() ? window.supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey) : null;
 
