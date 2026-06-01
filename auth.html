@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Aminos Customer Auth v0.8.44 - Theo 🧪 - 2026-06-01 -->
+<!-- Ascending Aminos Customer Auth v0.8.45 - Theo 🧪 - 2026-06-01 -->
 <!-- WHY: Purpose-built Ascending Aminos access portal for guest browsing plus Supabase-backed account-gated checkout holds. -->
 <html lang="en">
 <head>
@@ -84,6 +84,11 @@
       background: #050914;
       overflow: hidden;
       box-shadow: 0 14px 34px rgba(0, 0, 0, .22);
+    }
+
+    .brand-lockup.light {
+      background: #fff;
+      border-color: rgba(147, 221, 255, .28);
     }
 
     .brand-lockup img {
@@ -226,6 +231,11 @@
       border: 1px solid rgba(147, 221, 255, .22);
       background: #050914;
       overflow: hidden;
+    }
+
+    .footer-brand-logo.light {
+      background: #fff;
+      border-color: rgba(147, 221, 255, .24);
     }
 
     .footer-brand-logo img {
@@ -617,9 +627,9 @@
   <div class="shell">
     <header class="topbar">
       <a class="brand" href="auth.html" aria-label="Ascending Aminos Access">
-        <span class="brand-lockup">
-          <img class="brand-logo-wide" src="assets/brand/ascending-aminos-logo-horizontal-dark-v0-8-44.jpg" alt="" width="800" height="218" />
-          <img class="brand-logo-compact" src="assets/brand/ascending-aminos-logo-app-dark-v0-8-44.jpg" alt="" width="530" height="540" />
+        <span class="brand-lockup light">
+          <img class="brand-logo-wide" src="assets/brand/ascending-aminos-logo-horizontal-light-v0-8-45.jpg" alt="" width="1200" height="330" />
+          <img class="brand-logo-compact" src="assets/brand/ascending-aminos-logo-app-light-v0-8-45.jpg" alt="" width="960" height="960" />
         </span>
       </a>
       <div class="top-actions">
@@ -710,7 +720,7 @@
         <div class="site-footer-grid">
           <div>
             <div class="footer-brand" aria-label="Ascending Aminos">
-              <span class="footer-brand-logo"><img src="assets/brand/ascending-aminos-logo-horizontal-dark-v0-8-44.jpg" alt="Ascending Aminos" width="800" height="218" /></span>
+              <span class="footer-brand-logo light"><img src="assets/brand/ascending-aminos-logo-horizontal-light-v0-8-45.jpg" alt="Ascending Aminos" width="1200" height="330" /></span>
             </div>
             <p data-copy="footerBody">Clinical-luxury research access built around public lot verification, compliance-first entry, and premium provenance.</p>
           </div>
@@ -748,7 +758,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script>
-    // Ascending Aminos Customer Auth v0.8.44 - Theo 🧪 - 2026-06-01
+    // Ascending Aminos Customer Auth v0.8.45 - Theo 🧪 - 2026-06-01
     // WHY: Provides the required store access portal plus Supabase-backed customer register/login.
     const defaultStoreHref = "index.html";
     const requestedNext = new URLSearchParams(location.search).get("next");
@@ -881,7 +891,7 @@
 
     const $ = selector => document.querySelector(selector);
     const $$ = selector => Array.from(document.querySelectorAll(selector));
-    const gateVersion = "v0.8.44";
+    const gateVersion = "v0.8.45";
     const supabaseConfig = window.ASCENDING_SUPABASE || {};
     const supabaseClient = supabaseIsConfigured() ? window.supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey) : null;
 
