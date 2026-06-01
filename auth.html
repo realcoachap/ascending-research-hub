@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Aminos Customer Auth v0.8.21 - Theo 🧪 - 2026-05-31 -->
+<!-- Ascending Aminos Customer Auth v0.8.39 - Theo 🧪 - 2026-05-31 -->
 <!-- WHY: Purpose-built Ascending Aminos access portal for guest browsing plus Supabase-backed account-gated review requests. -->
 <html lang="en">
 <head>
@@ -623,7 +623,7 @@
           <p data-copy="authLead">Complete the required acknowledgements to unlock the form. This keeps account creation visually separate from the shop while matching the Ascending Aminos design system.</p>
         </div>
 
-        <div class="compact-notice" data-copy="discNotice">Alpha note: production should store these acknowledgements as versioned compliance records tied to the account/session and repeat them again before checkout.</div>
+        <div class="compact-notice" data-copy="discNotice">These acknowledgements are maintained as versioned compliance records tied to the account/session and repeated again before request review.</div>
 
         <div class="checks" aria-label="Required acknowledgements">
           <label class="check">
@@ -640,7 +640,7 @@
           </label>
           <label class="check">
             <input type="checkbox" data-attest="truth" />
-            <span data-copy="checkTruth">I agree that account, order, and checkout information must be accurate and may be reviewed before fulfillment.</span>
+            <span data-copy="checkTruth">I agree that account and request information must be accurate and may be reviewed before operator follow-up.</span>
           </label>
         </div>
 
@@ -686,9 +686,9 @@
         <button class="btn" id="guestBtn" type="button" disabled data-copy="guest">Guest access</button>
 
         <div class="benefits" aria-label="Member benefits">
-          <div class="benefit"><strong data-copy="benefit1Title">Compliance trail</strong><span data-copy="benefit1Body">Gate, terms, and checkout attestations can stay tied to the account.</span></div>
-          <div class="benefit"><strong data-copy="benefit2Title">Member layer</strong><span data-copy="benefit2Body">Discounts, loyalty, and order history can live behind login.</span></div>
-          <div class="benefit"><strong data-copy="benefit3Title">COA records</strong><span data-copy="benefit3Body">Batch and COA visibility can follow purchases cleanly.</span></div>
+          <div class="benefit"><strong data-copy="benefit1Title">Compliance trail</strong><span data-copy="benefit1Body">Gate, terms, and request attestations can stay tied to the account.</span></div>
+          <div class="benefit"><strong data-copy="benefit2Title">Member layer</strong><span data-copy="benefit2Body">Account-specific review details can live behind login.</span></div>
+          <div class="benefit"><strong data-copy="benefit3Title">COA records</strong><span data-copy="benefit3Body">Batch and COA visibility can follow request records cleanly.</span></div>
         </div>
 
         <div class="result" id="result" role="status"></div>
@@ -737,9 +737,9 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script>
-    // Ascending Aminos Customer Auth v0.8.21 - Theo 🧪 - 2026-05-31
+    // Ascending Aminos Customer Auth v0.8.39 - Theo 🧪 - 2026-05-31
     // WHY: Provides the required store access portal plus Supabase-backed customer register/login.
-    const defaultStoreHref = location.hostname.includes("github.io") ? "ascending-aminos-store-latest.html" : "index.html";
+    const defaultStoreHref = "ascending-aminos-store-latest.html";
     const requestedNext = new URLSearchParams(location.search).get("next");
     function safeReturnPath(value, fallback) {
       // WHY: Auth links can carry a return target, but they must never become an open redirect or script URL.
@@ -778,11 +778,11 @@
         authEyebrow: "Account gate",
         authTitle: "Register or log in.",
         authLead: "Complete the required acknowledgements to register or log in. Guest access can browse the shop, but request review requires an account.",
-        discNotice: "These acknowledgements should be stored as versioned compliance records tied to the account/session and repeated again before checkout.",
+        discNotice: "These acknowledgements are maintained as versioned compliance records tied to the account/session and repeated again before request review.",
         checkAge: "I confirm I am 21 years of age or older.",
         checkResearch: "I understand all products and information are for qualified laboratory research use only, not for human or animal consumption.",
         checkAdvice: "I understand Ascending Aminos does not provide medical advice, diagnosis, treatment guidance, dosing, cycles, or protocols.",
-        checkTruth: "I agree that account, order, and checkout information must be accurate and may be reviewed before fulfillment.",
+        checkTruth: "I agree that account and request information must be accurate and may be reviewed before operator follow-up.",
         gateLocked: "Access locked until all acknowledgements are checked.",
         gateReady: "Access unlocked. Registration and login are ready.",
         gateSub: "Catalog entry remains separate from account creation.",
@@ -797,14 +797,14 @@
         or: "or",
         guest: "Guest access",
         benefit1Title: "Compliance trail",
-        benefit1Body: "Gate, terms, and checkout attestations can stay tied to the account.",
+        benefit1Body: "Gate, terms, and request attestations can stay tied to the account.",
         benefit2Title: "Member layer",
-        benefit2Body: "Discounts, loyalty, and order history can live behind login.",
+        benefit2Body: "Account-specific review details can live behind login.",
         benefit3Title: "COA records",
-        benefit3Body: "Batch and COA visibility can follow purchases cleanly.",
+        benefit3Body: "Batch and COA visibility can follow request records cleanly.",
         backLink: "Back to shop",
-        resultRegister: "Account access created. Returning to your cart.",
-        resultLogin: "Login accepted. Returning to your cart.",
+        resultRegister: "Account access created. Returning to your request review.",
+        resultLogin: "Login accepted. Returning to your request review.",
         resultGuest: "Guest access accepted. Request review will require account registration.",
         resultConfirmEmail: "Account created. Check your email to confirm access, then log in."
       },
@@ -831,11 +831,11 @@
         authEyebrow: "Puerta de cuenta",
         authTitle: "Regístrate o inicia sesión.",
         authLead: "Completa las confirmaciones requeridas para registrarte o iniciar sesion. El acceso invitado puede navegar, pero solicitar revision requiere cuenta.",
-        discNotice: "Estas confirmaciones deben guardarse como registros versionados ligados a la cuenta/sesion y repetirse antes del checkout.",
+        discNotice: "Estas confirmaciones se mantienen como registros versionados ligados a la cuenta/sesion y se repiten antes de revision.",
         checkAge: "Confirmo que tengo 21 años o más.",
         checkResearch: "Entiendo que todos los productos e información son solo para investigación de laboratorio calificada, no para consumo humano ni animal.",
         checkAdvice: "Entiendo que Ascending Aminos no ofrece consejo médico, diagnóstico, tratamiento, dosis, ciclos ni protocolos.",
-        checkTruth: "Acepto que la información de cuenta, orden y checkout debe ser precisa y puede revisarse antes del cumplimiento.",
+        checkTruth: "Acepto que la informacion de cuenta y solicitud debe ser precisa y puede revisarse antes de seguimiento operativo.",
         gateLocked: "Acceso bloqueado hasta marcar todas las confirmaciones.",
         gateReady: "Acceso desbloqueado. Registro y login listos.",
         gateSub: "La entrada al catálogo queda separada de la creación de cuenta.",
@@ -850,14 +850,14 @@
         or: "o",
         guest: "Acceso invitado",
         benefit1Title: "Rastro de cumplimiento",
-        benefit1Body: "Puerta, términos y declaraciones de checkout pueden quedar ligadas a la cuenta.",
+        benefit1Body: "Puerta, terminos y declaraciones de solicitud pueden quedar ligadas a la cuenta.",
         benefit2Title: "Capa miembro",
-        benefit2Body: "Descuentos, lealtad e historial pueden vivir detrás del login.",
+        benefit2Body: "Detalles de revision de cuenta pueden vivir detras del login.",
         benefit3Title: "Registros COA",
-        benefit3Body: "La visibilidad de lotes y COAs puede seguir compras limpiamente.",
+        benefit3Body: "La visibilidad de lotes y COAs puede seguir solicitudes limpiamente.",
         backLink: "Volver a tienda",
-        resultRegister: "Acceso de cuenta creado. Volviendo a tu carrito.",
-        resultLogin: "Login aceptado. Volviendo a tu carrito.",
+        resultRegister: "Acceso de cuenta creado. Volviendo a tu revision.",
+        resultLogin: "Login aceptado. Volviendo a tu revision.",
         resultGuest: "Acceso invitado aceptado. Solicitar revision requiere registro.",
         resultConfirmEmail: "Cuenta creada. Revisa tu email para confirmar acceso, luego inicia sesion."
       }
@@ -870,7 +870,7 @@
 
     const $ = selector => document.querySelector(selector);
     const $$ = selector => Array.from(document.querySelectorAll(selector));
-    const gateVersion = "v0.8.6";
+    const gateVersion = "v0.8.39";
     const supabaseConfig = window.ASCENDING_SUPABASE || {};
     const supabaseClient = supabaseIsConfigured() ? window.supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey) : null;
 

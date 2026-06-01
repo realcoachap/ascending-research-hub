@@ -177,14 +177,14 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script>
-    // Ascending Shop Admin Login v0.8.14 - Theo ☠️ - 2026-05-31
+    // Ascending Shop Admin Login v0.8.39 - Theo ☠️ - 2026-05-31
     // WHY: Keeps admin separate from customer auth and verifies the Supabase admin allow-list before opening the console.
     const adminSessionKey = "aa-admin-session-v0.8.12";
     const adminForm = document.getElementById("adminForm");
     const resetForm = document.getElementById("resetForm");
     const result = document.getElementById("result");
     const isPublicStatic = location.hostname.includes("github.io");
-    const storeHref = location.hostname.includes("github.io") ? "ascending-aminos-store-latest.html" : "index.html";
+    const storeHref = "ascending-aminos-store-latest.html";
     const next = safeReturnPath(new URLSearchParams(location.search).get("next"), `${storeHref}#admin`);
     const supabaseConfig = window.ASCENDING_SUPABASE || {};
     const supabaseClient = supabaseIsConfigured() ? window.supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey) : null;
