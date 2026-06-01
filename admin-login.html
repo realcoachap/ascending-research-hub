@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Shop Admin Login v0.8.48 - Theo ☠️ - 2026-06-01 -->
+<!-- Ascending Shop Admin Login v0.8.51 - Theo ☠️ - 2026-06-01 -->
 <!-- WHY: Separate operator login route backed by Supabase Auth and an allow-listed admin role. -->
 <html lang="en">
 <head>
@@ -202,16 +202,18 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script>
-    // Ascending Shop Admin Login v0.8.48 - Theo ☠️ - 2026-06-01
+    // Ascending Shop Admin Login v0.8.51 - Theo ☠️ - 2026-06-01
     // WHY: Keeps admin separate from customer auth and verifies the Supabase admin allow-list before opening the console.
-    const gateVersion = "v0.8.48";
+    const gateVersion = "v0.8.51";
     const adminSessionKey = "aa-admin-session-v0.8.12";
-    const idleActivityStorageKey = "aa-session-last-activity-v0.8.48";
+    const idleActivityStorageKey = "aa-session-last-activity-v0.8.51";
     const adminForm = document.getElementById("adminForm");
     const resetForm = document.getElementById("resetForm");
     const result = document.getElementById("result");
     const isPublicStatic = location.hostname.includes("github.io");
-    const storeHref = "index.html";
+    const publicStoreHref = "ascending-aminos-store-latest.html";
+    const isPublicHubRuntime = isPublicStatic || location.pathname.includes("/ascending-research-hub/");
+    const storeHref = isPublicHubRuntime ? publicStoreHref : "index.html";
     const next = safeReturnPath(new URLSearchParams(location.search).get("next"), `${storeHref}#admin`);
     const supabaseConfig = window.ASCENDING_SUPABASE || {};
     const supabaseClient = supabaseIsConfigured() ? window.supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey) : null;
@@ -244,7 +246,12 @@
       try {
         const resolved = new URL(raw, location.href);
         if (resolved.origin !== location.origin) return fallback;
-        return `${resolved.pathname.split("/").pop() || fallback}${resolved.search}${resolved.hash}`;
+        const page = resolved.pathname.split("/").pop() || fallback;
+        if (!isPublicHubRuntime) return `${page}${resolved.search}${resolved.hash}`;
+        // WHY: The public hub `index.html#admin` is Ascending Research, so stale admin return links are normalized into the Aminos store admin route.
+        if (page === "index.html") return `${publicStoreHref}${resolved.search}${resolved.hash || "#admin"}`;
+        if (/^ascending-aminos-store-(?:latest|v\d+(?:-\d+){2,})\.html$/i.test(page)) return `${page}${resolved.search}${resolved.hash || "#admin"}`;
+        return fallback;
       } catch {
         return fallback;
       }
