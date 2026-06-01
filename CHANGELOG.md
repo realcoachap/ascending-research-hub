@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 ### Added
+- Added a fresh Ask Theo character pass that positions Theo as Ascending Research's source-aware research analyst, separate from Ascending Aminos and commerce.
+- Added explicit claim-analysis handling for reported/user/creator/media dosing or use claims, with evidence tier, uncertainty, risk context, and verification framing.
 - Added source and compound evidence cards to Ask Theo answers so retrieved PubMed/reference/media context is visible under the chat response.
 - Added a 47-compound Theo literacy map covering common peptide, mitochondrial, metabolic, incretin, repair, immune, cognitive, hormone, and longevity-adjacent topics.
 - Added initial PubMed-backed source packs for SLU-PP-332 and MOTS-c.
@@ -12,6 +14,8 @@
 - Added `GET /api/theo-compounds` for exposing Theo's current compound literacy coverage.
 
 ### Changed
+- Updated Ask Theo page copy, intro prompt, quick prompts, local fallback behavior, API system prompt, README notes, and service-worker cache version for the fresh character reset.
+- Preserved personalized-use blocks while allowing non-personal reported-claim questions to flow into claim analysis instead of disclaimer-only refusal.
 - Hardened Ask Theo client rendering by escaping user/API text before formatting chat bubbles.
 - Added provider request timeouts to the Ask Theo API so a slow local Ollama/model endpoint falls back instead of hanging the chat.
 - Tuned Ask Theo prompting so compound-name questions such as SLU-PP-332 and MOTS-c return educational profiles instead of disclaimer-only responses.

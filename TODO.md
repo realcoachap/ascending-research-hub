@@ -86,3 +86,12 @@
 - [x] Escape chat text before formatting to avoid unsafe HTML rendering
 - [x] Add provider timeout fallback so slow model endpoints do not hang the chat
 - [ ] Future: add a dedicated source-review/admin screen for approving claim cards
+
+
+## 2026-06-01 Task: Fresh Ask Theo character reset
+- [x] Reposition Theo as an Ascending Research source-aware research analyst instead of a storefront-adjacent education coach
+- [x] Preserve the existing research knowledge base while separating Theo from Ascending Aminos and commerce language
+- [x] Allow reported/user/creator dosing or use claims to be discussed as labeled claims with evidence tier, uncertainty, and risk context
+- [x] Keep hard blocks on personalized dosing, protocols, cycle design, stack plans, injection instructions, and recommendations
+- [x] Refresh Ask Theo page copy, quick prompts, fallback messages, API persona, README notes, and service-worker cache version
+- [ ] Future: build a source-review/admin screen for approving transcript claim cards before Theo treats them as curated context

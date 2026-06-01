@@ -1,12 +1,12 @@
 # Ascending Research Hub
 
-v0.5.15 — Theo 🧪 — 2026-06-01
+v0.5.16 — Theo 🧪 — 2026-06-01
 
-Premium static hub prototype for separating Ask Theo AI education, calculation tools, batch verification, reference notes, FAQ/compliance, and a future research-use-only commerce lane. Includes a local/proxyable Theo API test server at `api/ask-theo-server.mjs` with Gemini/Groq cloud-first mode, Ollama/Qwen local fallback, hosted HTTPS tunnel test endpoint, source/compound evidence metadata, provider timeout fallback, and API-layer dosing guardrails that allow educational research-reference context while blocking personalized/protocol guidance.
+Premium static hub prototype for separating Ask Theo AI research intelligence, calculation tools, batch verification, reference notes, FAQ/compliance, and a future research-use-only commerce lane. Includes a local/proxyable Theo API test server at `api/ask-theo-server.mjs` with Gemini/Groq cloud-first mode, Ollama/Qwen local fallback, hosted HTTPS tunnel test endpoint, source/compound evidence metadata, provider timeout fallback, and API-layer guardrails that allow source-tiered reported-claim analysis while blocking personalized/protocol guidance.
 
 ## Current live destinations
 
-- Ask Theo AI Coach: https://realcoachap.github.io/ascending-research-hub/ask-ai.html
+- Ask Theo Research Analyst: https://realcoachap.github.io/ascending-research-hub/ask-ai.html
 - Peptide Price Tracker: https://realcoachap.github.io/ascending-research-hub/peptide-price-tracker.html
 - Shop Preview Page: https://realcoachap.github.io/ascending-research-hub/shop.html
 - Shop Alpha Napkin Prototype: `shop-alpha.html`
@@ -27,6 +27,7 @@ The first tracker baseline lives in `data/peptide-price-tracker-baseline-v0-1-0.
 - No medical advice
 - No treatment claims
 - No dosing recommendations
+- Reported dosing/use claims can be discussed only as labeled claims with evidence tier, uncertainty, and risk context
 - No protocol instructions
 - Store/commercial lane remains research-use-only and separate from calculator/reference UX
 
@@ -43,7 +44,7 @@ PORT=8787 OLLAMA_MODEL=qwen3:8b node api/ask-theo-server.mjs
 
 Then open `ask-ai.html` from a local static server on the same origin/proxy, or use the page's Endpoint button to set `http://127.0.0.1:8787/api/ask-theo`. If no API key is set, the server returns safe local fallback responses so the chat wire can still be tested.
 
-Current hosted test endpoint: `https://just-serum-paul-guarantees.trycloudflare.com/api/ask-theo`
+Current hosted test endpoint: `https://crops-reggae-commit-programme.trycloudflare.com/api/ask-theo`
 
 ## Theo knowledge ingestion
 

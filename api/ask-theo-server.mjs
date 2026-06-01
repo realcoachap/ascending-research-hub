@@ -1,4 +1,4 @@
-// Ascending Ask Theo API test server v0.5.0 — Theo 🧪 — 2026-06-01
+// Ascending Ask Theo API test server v0.5.1 — Theo 🧪 — 2026-06-01
 // WHY: Local/proxyable chat endpoint for testing Theo with a real model while keeping API keys off the static GitHub Pages frontend.
 
 import http from 'node:http';
@@ -20,15 +20,25 @@ const MAX_KNOWLEDGE_CHUNKS = 5;
 const MAX_COMPOUND_MATCHES = 4;
 const PROVIDER_TIMEOUT_MS = Number(process.env.THEO_PROVIDER_TIMEOUT_MS || 8500);
 
-const SYSTEM_PROMPT = `You are Theo, Ascending Research's peptide education coach.
-Your job is educational literacy only: explain terminology, research concepts, COA/batch verification, storage/handling basics, mechanism summaries, and how to think about research-use information in plain English.
+const SYSTEM_PROMPT = `You are Theo, Ascending Research's source-aware research intelligence guide.
+Ascending Research is completely separate from Ascending Aminos. It is not a store, not a sales funnel, and not a product recommendation layer.
+Your job is to help users understand peptide, steroid, nutrient, vitamin, biomarker, pharmacology, COA, batch-verification, and research-literacy topics in plain English.
+Personality:
+- Start fresh: sound like a sharp research analyst, not a storefront assistant and not a scared disclaimer bot.
+- Be direct, useful, evidence-literate, and calm. Explain what is known, what is only claimed, and what is unknown.
+- Keep the existing research knowledge base, but treat it as source context, not sales copy.
+Claim handling:
+- You may discuss reported, anecdotal, creator/media, forum, label, literature, or study dosing/use claims when the user asks what people claim, what sources report, or how to evaluate a claim.
+- Always label those as "reported claim," "anecdotal claim," "creator/media claim," "label context," or "study/literature context" based on source quality.
+- Do not turn a reported claim into a recommendation, protocol, prescription, or instruction.
+- Prefer this structure when claims are involved: claim summary, source/evidence tier, major uncertainty, risk/warning context, and what would need verification.
 Boundaries:
 - Do not provide medical advice, diagnosis, prescriptions, treatment plans, or instructions to use any compound.
 - Do not tell users what to take, how much to take, when to take it, or how to run a protocol.
-- You may discuss dosing only as general educational context from research references, labels, or literature. If you mention any dose/range/unit/frequency, clearly state it is not a recommendation, prescription, or instruction to use.
+- You may discuss dosing only as general educational context from research references, labels, literature, or explicitly framed reported/user claims. If you mention any dose/range/unit/frequency, clearly state it is not a recommendation, prescription, or instruction to use.
 - Never invent citations or reference numbers. If sources are not provided, say “research references may mention” instead of citing fake studies.
 - Never invent journal names, publication venues, authors, dates, or source labels. If the provided source context does not include that metadata, say "a PubMed-indexed source" or "a research source" instead.
-- Avoid body-weight conversion examples, route instructions, injection instructions, protocols, cycles, or personalized examples.
+- Avoid body-weight conversion examples, route instructions, injection instructions, how-to protocol steps, cycle design, or personalized examples.
 - If a user asks about a compound followed by a number, such as “NAD+ 1000,” treat it as a product/label education question unless they explicitly ask what to take or how to use it. Explain what the compound is and what the number may indicate on a label, without giving use instructions.
 - If a user asks about a compound name, code name, peptide, supplement, or research molecule without asking for use instructions, answer with an educational profile instead of stopping at a disclaimer. Cover: what it is, why researchers discuss it, major uncertainty/evidence caveat, and what label/COA details to verify.
 - If a user asks for personalized dosing, use guidance, a protocol/cycle/stack, injection instructions, or what they/someone should take, do not provide a dose. Explain the boundary and suggest a qualified healthcare professional.
@@ -110,7 +120,10 @@ function tokens(text) {
   return String(text || '').toLowerCase().match(/[a-z0-9+\-α]{3,}/g) || [];
 }
 
-const STOPWORDS = new Set(['about', 'after', 'also', 'and', 'are', 'can', 'for', 'from', 'how', 'into', 'more', 'not', 'tell', 'that', 'the', 'this', 'what', 'when', 'with', 'you', 'your']);
+const STOPWORDS = new Set([
+  'about', 'after', 'also', 'and', 'are', 'can', 'for', 'from', 'how', 'into', 'more', 'not', 'tell', 'that', 'the', 'this', 'what', 'when', 'with', 'you', 'your',
+  'claim', 'claims', 'claimed', 'claiming', 'common', 'dose', 'doses', 'dosing', 'dosage', 'explain', 'people', 'pubmed', 'reported', 'reportedly', 'reports', 'say', 'says', 'source', 'sources', 'typical', 'use', 'used', 'users',
+]);
 
 function normalizedSearchText(text) {
   return String(text || '').toLowerCase().replace(/α/g, 'alpha').replace(/[^a-z0-9+]+/g, '');
@@ -213,7 +226,12 @@ function isDosingTopic(message) {
 
 function isEducationalDosingContext(message) {
   return isDosingTopic(message)
-    && /\b(education|educational|general|reference|references|research|literature|published|study|studies|label|labeling|common|typical|explain|meaning|units|context)\b/i.test(message);
+    && /\b(education|educational|general|reference|references|research|literature|published|study|studies|label|labeling|common|typical|explain|meaning|units|context|claim|claims|claimed|reported|report|reports|anecdotal|people say|people claim|users say|users claim|creator|media|youtube|forum|forums)\b/i.test(message);
+}
+
+function isReportedClaimQuestion(message) {
+  return /\b(what do people|what are people|people say|people claim|users say|users claim|reported|reportedly|claim|claims|claimed|anecdotal|creator|media|youtube|forum|forums|reddit|source says|sources say)\b/i.test(message)
+    && !/\b(for me|my dose|my dosage|my weight|my goal|should i take|should we take|how much should i take|how much should we take|tell me how much to take|can i take|do i take)\b/i.test(message);
 }
 
 function isPersonalizedDosingOrUseQuestion(message) {
@@ -223,12 +241,13 @@ function isPersonalizedDosingOrUseQuestion(message) {
   // Coach surfaced this with "how should I treat his SLU-PP-332 content?"
   if (/\b(what should i|what should we|how should i|how should we)\s+(treat|evaluate|interpret|classify|frame|use|handle)\b/i.test(message)
     && /\b(source|sources|content|channel|video|videos|claim|claims|researcher|media|creator|youtube|transcript|transcripts)\b/i.test(message)) return false;
+  if (isReportedClaimQuestion(message)) return false;
   return /\b(should i|should you|can i|can you|do i|for me|my dose|my dosage|my weight|my goal|someone take|person take|human take|what should|how much should|tell me how much|protocol|cycle|stack|inject|injection instructions|use it|take it)\b/i.test(message);
 }
 
 function isDosingRangeRequest(message) {
   return isEducationalDosingContext(message)
-    && /\b(range|ranges|common|typical|reference|references|literature|published|study|studies|label|labeling)\b/i.test(message);
+    && /\b(range|ranges|common|typical|reference|references|literature|published|study|studies|label|labeling|claim|claims|reported|anecdotal|people say|people claim|users say|users claim)\b/i.test(message);
 }
 
 function isProductLabelEducationQuestion(message) {
@@ -246,7 +265,7 @@ function productLabelEducationPrompt(message) {
 }
 
 function dosingBoundary() {
-  return 'Educational boundary: I can discuss dosing only as general educational context from research references or labeling — not as a recommendation, prescription, protocol, or instruction to use any compound. I can’t tell you, or anyone, what to take or how to use it. A qualified healthcare professional should review any real-world dosing decision.';
+  return 'Boundary: I can map reported dosing/use claims, label context, or literature references as education, but I cannot turn them into your dose, a protocol, a prescription, or instructions to use any compound. Any real-world decision belongs with a qualified healthcare professional.';
 }
 
 function isDosingUnitQuestion(message) {
@@ -259,7 +278,7 @@ function dosingUnitsAnswer() {
 }
 
 function educationalDosingPrompt(message) {
-  return `Answer this as general educational context only. If you mention dosing ranges, units, or frequencies, frame them as examples from research references/literature or labeling, not instructions. Include a clear warning that it is not medical advice, not a prescription, and not a recommendation to use any compound. Do not personalize. Do not calculate examples for a body weight/person. Do not provide route instructions, injection instructions, protocols, cycles, stacks, or fake citations. If no sources are provided, do not cite numbered references. User question: ${message}`;
+  return `Answer this as general educational and claim-analysis context only. If the user asks what people claim, what creators report, or what sources mention, separate the answer into reported claim, evidence/source tier, uncertainty, and risk/warning context. If you mention dosing ranges, units, or frequencies, frame them as reported claims, research-reference context, literature context, or label context — never instructions. Include a clear warning that it is not medical advice, not a prescription, and not a recommendation to use any compound. Do not personalize. Do not calculate examples for a body weight/person. Do not provide route instructions, injection instructions, how-to protocols, cycle designs, stack plans, or fake citations. If no sources are provided, do not invent claims; say you need a pasted source or specific claim to evaluate. User question: ${message}`;
 }
 
 function compoundEducationPrompt(message) {
@@ -271,9 +290,9 @@ function purityEducationPrompt(message) {
 }
 
 function sanitizeEducationalDosingReply(reply) {
-  const unsafePattern = /\b(mcg\s*\/\s*kg|mg\s*\/\s*kg|body weight|administered|subcutaneous|intravenous|intramuscular|injection|inject|orally|oral administration|twice daily|per day|daily protocol|cycle|stack)\b/i;
+  const unsafePattern = /\b(\d+(?:\.\d+)?\s*(?:mcg|mg)\s*\/\s*kg|body weight|administered\s+(?:subcutaneously|orally|intravenously|intramuscularly)|subcutaneous injection|intravenous injection|intramuscular injection|how to inject|daily protocol|cycle plan|stack plan)\b/i;
   if (!unsafePattern.test(reply)) return reply;
-  return 'Educational dosing context: I can discuss dosing references, units, and label language, but I should not invent or present route-specific, body-weight, cycle, injection, or protocol-style guidance without a source. If you paste a study excerpt, product label, or reference range, I can help interpret what it means in plain English. This is not medical advice, not a prescription, and not a recommendation or instruction to use any compound.';
+  return 'Claim-analysis boundary: I can discuss dosing references, label language, and user-reported claims, but I should not present route-specific, body-weight, cycle, injection, or protocol-style guidance as instructions. If you paste a study excerpt, product label, creator claim, or forum claim, I can classify it by evidence tier and explain the risk context. This is not medical advice, not a prescription, and not a recommendation or instruction to use any compound.';
 }
 
 function compoundFallback(compounds) {
@@ -406,8 +425,11 @@ function localFallback(message, compounds = []) {
   if (compounds.length && !isDosingTopic(message)) return compoundFallback(compounds);
   const q = message.toLowerCase();
   if (/dose|dosing|dosage|how much|take|cycle|protocol/.test(q)) {
+    if (isReportedClaimQuestion(message)) {
+      return 'Claim-analysis lane: I can discuss what people or sources claim only as reported/anecdotal/source-tiered information. Paste the specific claim, source, or wording and I’ll break it into: what is being claimed, evidence tier, major risks/unknowns, and what would need verification. This is not medical advice, not a protocol, and not a recommendation to use.';
+    }
     return isEducationalDosingContext(message)
-      ? 'Educational dosing context: I can explain dosing ranges or units only as general research-reference information. This is not medical advice, not a prescription, and not an instruction or recommendation to use any compound.'
+      ? 'Educational dosing context: I can explain dosing ranges, units, or reported-use claims only as source-tiered context. This is not medical advice, not a prescription, and not an instruction or recommendation to use any compound.'
       : dosingBoundary();
   }
   if (/coa|certificate|batch|lot|verify|lab/.test(q)) {
