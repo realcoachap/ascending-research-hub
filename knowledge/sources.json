@@ -12,6 +12,56 @@
       "author": "Braidy et al.",
       "topic": "nad",
       "added": "2026-05-22T14:47:24.258Z"
+    },
+    {
+      "id": "2fa4cbaa81db4c0c",
+      "title": "SLU-PP-332 PubMed research summary",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37739806/",
+      "platform": "PubMed",
+      "tier": "peer_reviewed",
+      "author": "Billon et al.; related PubMed records",
+      "topic": "slu-pp-332",
+      "added": "2026-05-22T19:31:06.753Z"
+    },
+    {
+      "id": "4f4e881773f2d2eb",
+      "title": "MOTS-c PubMed research summary",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/25738459/",
+      "platform": "PubMed",
+      "tier": "peer_reviewed",
+      "author": "Lee et al.; related PubMed records",
+      "topic": "mots-c",
+      "added": "2026-05-22T19:31:06.754Z"
+    },
+    {
+      "id": "3ebc70fd8e3ebd4c",
+      "title": "Peptide purity standards summary",
+      "url": "https://documents.thermofisher.com/TFS-Assets/LSG/brochures/custom-peptide-synthesis-brochure.pdf",
+      "platform": "Thermo Fisher / BioCat / product COA notes",
+      "tier": "clinical_reference",
+      "author": "Theo source review",
+      "topic": "peptide purity standards mots-c",
+      "added": "2026-05-22T19:46:48.688Z"
+    },
+    {
+      "id": "e5bb7b1caffc800f",
+      "title": "The Biohacking Specialist YouTube channel scan",
+      "url": "https://www.youtube.com/@thebiohackingspecialist",
+      "platform": "YouTube",
+      "tier": "researcher_media",
+      "author": "Nick Trigili",
+      "topic": "biohacking specialist peptides trt reta ghk-cu",
+      "added": "2026-05-22T19:57:29.172Z"
+    },
+    {
+      "id": "ad06116ca37ccb1c",
+      "title": "Vigorous Steve YouTube channel scan",
+      "url": "https://www.youtube.com/@vigoroussteve",
+      "platform": "YouTube",
+      "tier": "researcher_media",
+      "author": "Vigorous Steve",
+      "topic": "vigorous steve hgh anabolics trt peptides bloodwork bodybuilding pharmacology slu-pp-332 synthetic err agonist popular recent",
+      "added": "2026-05-22T20:15:17.844Z"
     }
   ]
 }

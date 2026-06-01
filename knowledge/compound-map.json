@@ -1,0 +1,390 @@
+{
+  "version": "0.1.0",
+  "builder": "Theo 🧪",
+  "updated": "2026-05-22",
+  "purpose": "Lightweight education ontology for Ask Theo so compound-name questions get useful research-literacy answers before the deeper source brain is fully populated.",
+  "answerRules": [
+    "Use this map for plain-English identification, category, mechanism themes, COA/label checks, and uncertainty notes.",
+    "Do not convert any entry into medical advice, dosing guidance, route guidance, protocol instructions, cycles, stacks, or treatment claims.",
+    "If the user asks what to take, how much to take, how to use it, how to inject it, or how to run a stack/cycle, use the safety boundary instead."
+  ],
+  "categories": [
+    {
+      "name": "mitochondrial-energy",
+      "description": "Compounds commonly discussed around mitochondrial signaling, redox biology, exercise response, cellular energy, and metabolic research.",
+      "items": [
+        {
+          "name": "MOTS-c",
+          "aliases": ["MOTS-C", "MOTS c", "mitochondrial open reading frame of the 12S rRNA-c"],
+          "type": "mitochondrial-derived peptide",
+          "themes": ["mitochondrial-nuclear signaling", "AMPK/metabolic stress signaling", "exercise/metabolic homeostasis research"],
+          "explain": "MOTS-c is a 16-amino-acid mitochondrial-derived peptide studied as a signaling molecule between mitochondria and the nucleus, especially in metabolism and stress-response research."
+        },
+        {
+          "name": "SS-31",
+          "aliases": ["Elamipretide", "Bendavia", "MTP-131"],
+          "type": "mitochondria-targeted tetrapeptide",
+          "themes": ["inner mitochondrial membrane", "cardiolipin interaction", "oxidative stress research"],
+          "explain": "SS-31, also called elamipretide, is studied for mitochondrial membrane and cardiolipin-related biology, not as a generic supplement."
+        },
+        {
+          "name": "Humanin",
+          "aliases": ["HN"],
+          "type": "mitochondrial-derived peptide",
+          "themes": ["cell stress signaling", "aging research", "neuroprotection research"],
+          "explain": "Humanin is a mitochondrial-derived peptide discussed in cell-stress, aging, and neurobiology research."
+        },
+        {
+          "name": "NAD+",
+          "aliases": ["NAD", "nicotinamide adenine dinucleotide"],
+          "type": "redox cofactor",
+          "themes": ["redox biology", "sirtuins", "PARP/CD38", "cellular energy"],
+          "explain": "NAD+ is a core cellular cofactor involved in redox reactions and signaling pathways tied to energy metabolism, DNA repair, and aging biology."
+        },
+        {
+          "name": "NMN",
+          "aliases": ["nicotinamide mononucleotide"],
+          "type": "NAD+ precursor",
+          "themes": ["NAD+ salvage pathway", "cellular energy research", "aging biology"],
+          "explain": "NMN is a precursor in the NAD+ salvage pathway and is usually discussed as part of NAD+ biology rather than as a standalone miracle compound."
+        },
+        {
+          "name": "NR",
+          "aliases": ["nicotinamide riboside"],
+          "type": "NAD+ precursor",
+          "themes": ["NAD+ salvage pathway", "cellular energy research", "aging biology"],
+          "explain": "Nicotinamide riboside is another NAD+ precursor studied for how it may influence NAD+ availability and related cellular pathways."
+        },
+        {
+          "name": "CoQ10",
+          "aliases": ["ubiquinone", "ubiquinol", "coenzyme Q10"],
+          "type": "mitochondrial electron transport cofactor",
+          "themes": ["electron transport chain", "redox biology", "mitochondrial support"],
+          "explain": "CoQ10 is a naturally occurring mitochondrial cofactor involved in electron transport and antioxidant chemistry."
+        },
+        {
+          "name": "PQQ",
+          "aliases": ["pyrroloquinoline quinone"],
+          "type": "redox-active compound",
+          "themes": ["redox biology", "mitochondrial biogenesis claims", "supplement research"],
+          "explain": "PQQ is discussed as a redox-active nutrient-like compound, often around mitochondrial biogenesis claims that need careful source checking."
+        }
+      ]
+    },
+    {
+      "name": "metabolic-exercise-mimetic",
+      "description": "Research compounds discussed around exercise-response pathways, muscle metabolism, glucose/lipid biology, and body-composition models.",
+      "items": [
+        {
+          "name": "SLU-PP-332",
+          "aliases": ["SLU PP 332", "SLUPP332", "SLU-PP332"],
+          "type": "synthetic ERR agonist research compound",
+          "themes": ["estrogen-related receptor signaling", "exercise-mimetic research", "mitochondrial/metabolic gene programs"],
+          "explain": "SLU-PP-332 is a synthetic research compound studied as an estrogen-related receptor agonist, often framed as an exercise-mimetic pathway probe in metabolic research."
+        },
+        {
+          "name": "SLU-PP-915",
+          "aliases": ["SLU PP 915", "SLUPP915"],
+          "type": "synthetic ERR agonist research compound",
+          "themes": ["estrogen-related receptor signaling", "exercise capacity research", "metabolic research"],
+          "explain": "SLU-PP-915 is a related ERR-agonist research compound discussed in newer exercise-capacity and metabolic-pathway studies."
+        },
+        {
+          "name": "AICAR",
+          "aliases": ["Acadesine"],
+          "type": "AMPK-pathway research compound",
+          "themes": ["AMPK signaling", "exercise-mimetic research", "metabolic pathway research"],
+          "explain": "AICAR is a research compound used to probe AMPK-related energy-sensing biology."
+        },
+        {
+          "name": "GW501516",
+          "aliases": ["Cardarine", "GW-501516"],
+          "type": "PPAR-delta agonist research compound",
+          "themes": ["PPAR-delta signaling", "lipid metabolism", "exercise-endurance research"],
+          "explain": "GW501516, often called Cardarine online, is a PPAR-delta agonist research compound with major safety and compliance baggage; Theo should keep it strictly educational."
+        },
+        {
+          "name": "5-Amino-1MQ",
+          "aliases": ["5-amino-1MQ", "5 amino 1MQ"],
+          "type": "NNMT-related research compound",
+          "themes": ["NAD+/methylation metabolism", "adipocyte metabolism research", "NNMT inhibition claims"],
+          "explain": "5-Amino-1MQ is discussed as an NNMT-related research compound in metabolic and adipocyte biology contexts."
+        },
+        {
+          "name": "Tesofensine",
+          "aliases": [],
+          "type": "monoamine reuptake inhibitor drug candidate",
+          "themes": ["appetite/metabolic research", "CNS pharmacology", "clinical-trial context"],
+          "explain": "Tesofensine is a drug candidate studied in metabolic and appetite-related clinical contexts, so Theo should treat it differently from research peptides."
+        }
+      ]
+    },
+    {
+      "name": "glp-gip-amylin",
+      "description": "Incretin and satiety-pathway compounds that require especially careful educational-only framing.",
+      "items": [
+        {
+          "name": "Semaglutide",
+          "aliases": ["GLP-1"],
+          "type": "GLP-1 receptor agonist",
+          "themes": ["incretin signaling", "glucose/appetite research", "prescription-drug context"],
+          "explain": "Semaglutide is a GLP-1 receptor agonist with prescription-drug context; Theo can explain mechanism and label/COA terms, not use guidance."
+        },
+        {
+          "name": "Tirzepatide",
+          "aliases": ["GIP/GLP-1"],
+          "type": "dual GIP/GLP-1 receptor agonist",
+          "themes": ["incretin signaling", "glucose/appetite research", "prescription-drug context"],
+          "explain": "Tirzepatide is a dual GIP/GLP-1 receptor agonist with prescription-drug context; education should focus on mechanism and terminology."
+        },
+        {
+          "name": "Retatrutide",
+          "aliases": ["triple agonist"],
+          "type": "GLP-1/GIP/glucagon receptor agonist research compound",
+          "themes": ["multi-incretin signaling", "metabolic research", "clinical-trial context"],
+          "explain": "Retatrutide is discussed as a multi-receptor incretin-pathway compound in clinical research, not as a casual supplement."
+        },
+        {
+          "name": "Cagrilintide",
+          "aliases": [],
+          "type": "amylin analog",
+          "themes": ["amylin signaling", "satiety research", "clinical-trial context"],
+          "explain": "Cagrilintide is an amylin-pathway compound studied in satiety and metabolic clinical contexts."
+        },
+        {
+          "name": "Mazdutide",
+          "aliases": [],
+          "type": "GLP-1/glucagon receptor agonist",
+          "themes": ["incretin/glucagon signaling", "metabolic research", "clinical-trial context"],
+          "explain": "Mazdutide is a GLP-1/glucagon receptor agonist discussed in metabolic research and clinical-trial contexts."
+        }
+      ]
+    },
+    {
+      "name": "growth-repair",
+      "description": "Peptides commonly discussed around tissue repair, growth-hormone axis research, sleep/recovery claims, and inflammation models.",
+      "items": [
+        {
+          "name": "BPC-157",
+          "aliases": ["BPC157", "Body Protection Compound 157"],
+          "type": "synthetic peptide fragment",
+          "themes": ["tissue-repair models", "gut/inflammation research", "preclinical evidence"],
+          "explain": "BPC-157 is a synthetic peptide fragment discussed heavily online for repair biology, but much of the evidence landscape is preclinical and claim-heavy."
+        },
+        {
+          "name": "TB-500",
+          "aliases": ["Thymosin beta-4 fragment", "TB500"],
+          "type": "thymosin beta-4-related peptide",
+          "themes": ["cell migration", "tissue remodeling research", "repair-model claims"],
+          "explain": "TB-500 is commonly discussed as a thymosin beta-4-related research peptide around cell migration and tissue-remodeling models."
+        },
+        {
+          "name": "Thymosin alpha-1",
+          "aliases": ["TA1", "Tα1"],
+          "type": "immune-modulating peptide",
+          "themes": ["immune signaling", "clinical literature", "thymic peptide research"],
+          "explain": "Thymosin alpha-1 is an immune-modulating peptide with a different evidence and regulatory context than many online research peptides."
+        },
+        {
+          "name": "CJC-1295",
+          "aliases": ["CJC 1295", "CJC-1295 DAC", "CJC no DAC"],
+          "type": "GHRH analog",
+          "themes": ["growth-hormone axis", "pituitary signaling", "research-use labeling"],
+          "explain": "CJC-1295 is a GHRH analog discussed around growth-hormone-axis research; Theo should avoid protocol or stack advice."
+        },
+        {
+          "name": "Ipamorelin",
+          "aliases": [],
+          "type": "growth hormone secretagogue receptor agonist peptide",
+          "themes": ["ghrelin receptor", "growth-hormone axis", "recovery/sleep claims"],
+          "explain": "Ipamorelin is a GHSR-related peptide discussed around growth-hormone-axis signaling and recovery claims."
+        },
+        {
+          "name": "Sermorelin",
+          "aliases": [],
+          "type": "GHRH analog",
+          "themes": ["growth-hormone axis", "pituitary signaling", "clinical context"],
+          "explain": "Sermorelin is a GHRH analog with clinical and research contexts around pituitary growth-hormone signaling."
+        },
+        {
+          "name": "Tesamorelin",
+          "aliases": [],
+          "type": "GHRH analog",
+          "themes": ["growth-hormone axis", "clinical context", "body-composition research"],
+          "explain": "Tesamorelin is a GHRH analog with prescription/clinical context, so Theo should explain it with extra care."
+        },
+        {
+          "name": "GHK-Cu",
+          "aliases": ["Copper peptide", "GHK copper"],
+          "type": "copper-binding tripeptide",
+          "themes": ["skin matrix research", "wound-healing claims", "cosmetic ingredient context"],
+          "explain": "GHK-Cu is a copper-binding tripeptide often discussed around skin, matrix remodeling, and cosmetic research."
+        }
+      ]
+    },
+    {
+      "name": "immune-thymic",
+      "description": "Compounds commonly discussed around immune signaling, thymic peptides, inflammation, and immune education.",
+      "items": [
+        {
+          "name": "Thymulin",
+          "aliases": [],
+          "type": "thymic peptide hormone",
+          "themes": ["immune signaling", "thymic biology", "inflammation research"],
+          "explain": "Thymulin is a thymic peptide hormone discussed in immune-signaling and inflammation research."
+        },
+        {
+          "name": "LL-37",
+          "aliases": ["Cathelicidin LL-37"],
+          "type": "antimicrobial peptide",
+          "themes": ["innate immunity", "antimicrobial peptide research", "inflammation"],
+          "explain": "LL-37 is an antimicrobial peptide involved in innate immune signaling and inflammation biology."
+        },
+        {
+          "name": "Epitalon",
+          "aliases": ["Epithalon"],
+          "type": "tetrapeptide",
+          "themes": ["aging claims", "telomere/telomerase claims", "Russian peptide literature"],
+          "explain": "Epitalon is a tetrapeptide discussed around aging and telomerase claims; Theo should separate documented evidence from online extrapolation."
+        }
+      ]
+    },
+    {
+      "name": "cognitive-neuro",
+      "description": "Peptides and nootropic-like compounds discussed around cognition, neuroplasticity, stress, sleep, and neural signaling.",
+      "items": [
+        {
+          "name": "Semax",
+          "aliases": [],
+          "type": "ACTH-derived peptide analog",
+          "themes": ["neurobiology", "cognition claims", "regional drug context"],
+          "explain": "Semax is an ACTH-derived peptide analog discussed in neurobiology and cognition contexts, with region-specific drug history."
+        },
+        {
+          "name": "Selank",
+          "aliases": [],
+          "type": "tuftsin-derived peptide analog",
+          "themes": ["anxiety/stress research", "neuropeptide signaling", "regional drug context"],
+          "explain": "Selank is a tuftsin-derived peptide analog discussed around stress and neuropeptide signaling, with region-specific drug history."
+        },
+        {
+          "name": "Dihexa",
+          "aliases": ["PNB-0408"],
+          "type": "angiotensin IV-related research compound",
+          "themes": ["HGF/c-Met pathway claims", "synaptogenesis research", "high-uncertainty nootropic claims"],
+          "explain": "Dihexa is a high-uncertainty research compound discussed around synaptogenesis and neuroplasticity claims; Theo should be careful not to overstate it."
+        },
+        {
+          "name": "Noopept",
+          "aliases": [],
+          "type": "nootropic-like peptide analog",
+          "themes": ["cognition claims", "neurotrophic-factor claims", "regional supplement/drug context"],
+          "explain": "Noopept is a nootropic-like peptide analog discussed around cognition claims and neurotrophic signaling."
+        },
+        {
+          "name": "DSIP",
+          "aliases": ["Delta sleep-inducing peptide"],
+          "type": "sleep-related peptide",
+          "themes": ["sleep research", "stress physiology", "mixed evidence"],
+          "explain": "DSIP is a sleep-related peptide with mixed and historically messy evidence, so Theo should frame it cautiously."
+        }
+      ]
+    },
+    {
+      "name": "hormone-related",
+      "description": "Peptides and compounds tied to melanocortin, reproductive, or endocrine signaling; these need cautious educational framing.",
+      "items": [
+        {
+          "name": "PT-141",
+          "aliases": ["Bremelanotide"],
+          "type": "melanocortin receptor agonist",
+          "themes": ["melanocortin signaling", "prescription-drug context", "sexual-function research"],
+          "explain": "PT-141, also known as bremelanotide, is a melanocortin receptor agonist with prescription-drug context."
+        },
+        {
+          "name": "Melanotan II",
+          "aliases": ["MT-II", "MT2"],
+          "type": "melanocortin receptor agonist peptide",
+          "themes": ["melanocortin signaling", "pigmentation research", "safety concerns"],
+          "explain": "Melanotan II is a melanocortin receptor agonist peptide discussed around pigmentation and other melanocortin effects, with substantial safety concerns."
+        },
+        {
+          "name": "Kisspeptin",
+          "aliases": ["Kisspeptin-10", "KP-10"],
+          "type": "reproductive-axis signaling peptide",
+          "themes": ["GnRH signaling", "reproductive endocrinology", "clinical/research context"],
+          "explain": "Kisspeptin is a reproductive-axis signaling peptide involved in GnRH-related endocrine biology."
+        },
+        {
+          "name": "HCG",
+          "aliases": ["human chorionic gonadotropin"],
+          "type": "glycoprotein hormone",
+          "themes": ["LH receptor signaling", "fertility/endocrine context", "prescription-drug context"],
+          "explain": "HCG is a glycoprotein hormone with fertility and endocrine clinical contexts, not a casual supplement."
+        }
+      ]
+    },
+    {
+      "name": "longevity-senolytic-supplement",
+      "description": "Common supplement-like or longevity-adjacent compounds that Theo should know at a literacy level.",
+      "items": [
+        {
+          "name": "Fisetin",
+          "aliases": [],
+          "type": "flavonoid",
+          "themes": ["senolytic claims", "polyphenol research", "preclinical evidence"],
+          "explain": "Fisetin is a flavonoid discussed around senolytic and inflammation-related research, with many claims still preclinical."
+        },
+        {
+          "name": "Quercetin",
+          "aliases": [],
+          "type": "flavonoid",
+          "themes": ["polyphenol research", "senolytic stacks", "inflammation/oxidative-stress claims"],
+          "explain": "Quercetin is a flavonoid commonly discussed in polyphenol, inflammation, and senolytic-stack contexts."
+        },
+        {
+          "name": "Spermidine",
+          "aliases": [],
+          "type": "polyamine",
+          "themes": ["autophagy research", "cellular aging", "dietary compound context"],
+          "explain": "Spermidine is a polyamine studied around autophagy and cellular aging biology."
+        },
+        {
+          "name": "Taurine",
+          "aliases": [],
+          "type": "amino sulfonic acid",
+          "themes": ["osmoregulation", "mitochondrial/stress biology", "aging research"],
+          "explain": "Taurine is an amino sulfonic acid involved in several physiological processes and discussed in aging and stress-biology research."
+        },
+        {
+          "name": "Urolithin A",
+          "aliases": [],
+          "type": "gut-microbiome-derived metabolite",
+          "themes": ["mitophagy research", "muscle/aging studies", "supplement context"],
+          "explain": "Urolithin A is a metabolite discussed around mitophagy, muscle, and aging research."
+        },
+        {
+          "name": "Resveratrol",
+          "aliases": [],
+          "type": "polyphenol",
+          "themes": ["sirtuin claims", "red wine/polyphenol research", "mixed translation"],
+          "explain": "Resveratrol is a polyphenol famous for sirtuin and longevity claims, but Theo should clearly separate mechanism hype from human evidence."
+        },
+        {
+          "name": "Rapamycin",
+          "aliases": ["Sirolimus"],
+          "type": "mTOR inhibitor drug",
+          "themes": ["mTOR signaling", "longevity research", "prescription-drug context"],
+          "explain": "Rapamycin, also called sirolimus, is an mTOR inhibitor drug discussed in longevity research and clinical medicine; it needs careful evidence and risk framing."
+        },
+        {
+          "name": "Metformin",
+          "aliases": [],
+          "type": "prescription drug",
+          "themes": ["AMPK/metabolic signaling", "glucose metabolism", "longevity research"],
+          "explain": "Metformin is a prescription metabolic drug often discussed in longevity circles; Theo can explain mechanisms and studies, not advise use."
+        }
+      ]
+    }
+  ]
+}

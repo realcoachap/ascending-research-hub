@@ -64,5 +64,25 @@
 - [x] Add source registry and chunk store
 - [x] Add ingestion helper for transcripts/papers/labels/social notes
 - [x] Wire Theo API to retrieve curated source context
+- [x] Add first-pass compound literacy map for peptide/supplement education answers
+- [x] Add PubMed source packs for SLU-PP-332 and MOTS-c
+- [x] Add public compound coverage endpoint for Ask Theo
+- [x] Strip generic medical boilerplate from non-use compound literacy answers
+- [x] Add peptide purity standards source pack
+- [x] Set MOTS-c premium purity guidance to >=99% HPLC plus MS/LC-MS identity confirmation
+- [x] Allow COA verification "should I verify" questions without tripping dosing boundary
+- [x] Add The Biohacking Specialist channel scan as researcher-media source index
+- [x] Add Vigorous Steve channel scan as researcher-media source index
+- [x] Add Vigorous Steve most-popular and recent-six-month video priority lists
+- [ ] Future: pull transcript claim cards from The Biohacking Specialist priority peptide videos
+- [ ] Future: pull transcript claim cards from Vigorous Steve priority peptide/HGH/bloodwork videos
 - [ ] Future: add transcript fetchers for YouTube/Rumble/X where APIs/exports allow
 - [ ] Future: add source review UI and evidence scoring
+
+
+## 2026-06-01 Task: Ask Theo source-aware chat pass
+- [x] Show returned curated sources under Theo answers
+- [x] Show matched compound chips under Theo answers
+- [x] Escape chat text before formatting to avoid unsafe HTML rendering
+- [x] Add provider timeout fallback so slow model endpoints do not hang the chat
+- [ ] Future: add a dedicated source-review/admin screen for approving claim cards

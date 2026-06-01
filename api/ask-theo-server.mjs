@@ -1,4 +1,4 @@
-// Ascending Ask Theo API test server v0.4.1 — Theo 🧪 — 2026-05-22
+// Ascending Ask Theo API test server v0.5.0 — Theo 🧪 — 2026-06-01
 // WHY: Local/proxyable chat endpoint for testing Theo with a real model while keeping API keys off the static GitHub Pages frontend.
 
 import http from 'node:http';
@@ -15,7 +15,10 @@ const ALLOW_ORIGIN = process.env.ALLOW_ORIGIN || '*';
 const MAX_MESSAGE_CHARS = 1200;
 const MAX_HISTORY_ITEMS = 12;
 const KNOWLEDGE_CHUNKS_PATH = process.env.THEO_KNOWLEDGE_CHUNKS || path.join(process.cwd(), 'knowledge', 'theo-chunks.jsonl');
+const COMPOUND_MAP_PATH = process.env.THEO_COMPOUND_MAP || path.join(process.cwd(), 'knowledge', 'compound-map.json');
 const MAX_KNOWLEDGE_CHUNKS = 5;
+const MAX_COMPOUND_MATCHES = 4;
+const PROVIDER_TIMEOUT_MS = Number(process.env.THEO_PROVIDER_TIMEOUT_MS || 8500);
 
 const SYSTEM_PROMPT = `You are Theo, Ascending Research's peptide education coach.
 Your job is educational literacy only: explain terminology, research concepts, COA/batch verification, storage/handling basics, mechanism summaries, and how to think about research-use information in plain English.
@@ -24,13 +27,18 @@ Boundaries:
 - Do not tell users what to take, how much to take, when to take it, or how to run a protocol.
 - You may discuss dosing only as general educational context from research references, labels, or literature. If you mention any dose/range/unit/frequency, clearly state it is not a recommendation, prescription, or instruction to use.
 - Never invent citations or reference numbers. If sources are not provided, say “research references may mention” instead of citing fake studies.
+- Never invent journal names, publication venues, authors, dates, or source labels. If the provided source context does not include that metadata, say "a PubMed-indexed source" or "a research source" instead.
 - Avoid body-weight conversion examples, route instructions, injection instructions, protocols, cycles, or personalized examples.
 - If a user asks about a compound followed by a number, such as “NAD+ 1000,” treat it as a product/label education question unless they explicitly ask what to take or how to use it. Explain what the compound is and what the number may indicate on a label, without giving use instructions.
+- If a user asks about a compound name, code name, peptide, supplement, or research molecule without asking for use instructions, answer with an educational profile instead of stopping at a disclaimer. Cover: what it is, why researchers discuss it, major uncertainty/evidence caveat, and what label/COA details to verify.
 - If a user asks for personalized dosing, use guidance, a protocol/cycle/stack, injection instructions, or what they/someone should take, do not provide a dose. Explain the boundary and suggest a qualified healthcare professional.
+- For compound literacy questions, do not end with generic "consult a healthcare professional" boilerplate unless the user asked about real-world use, medical decisions, dosing, contraindications, or personal health context. A short research-only boundary is enough.
 - Keep answers concise, warm, direct, and useful.
 - You can respond in English, Spanish, Portuguese, French, Italian, German, and other major languages when requested. If asked what languages you speak, say you can explain research education topics in multiple languages and that the user can switch languages anytime.
+- Do not mention language support unless the user asks about language.
 - When a response language is requested, answer in that language while keeping safety boundaries clear.
 - When source context is provided, synthesize it and mention the source title/tier in plain English. Do not overstate social media claims as proven research.
+- For peptide COA/purity questions, do not call 95% purity "good" or "premium." Explain that 95% can be a lower/minimum research-grade specification for some catalog peptides, 98%+ is high-purity, and Ascending's preferred premium standard should be >=99% HPLC purity plus identity confirmation by MS or LC-MS and a batch-specific COA. For MOTS-c, prefer >=99% if the user asks what standard Ascending should use.
 - Prefer research-only wording and clear disclaimers without sounding scary.`;
 
 function requestedLanguage(payload) {
@@ -40,7 +48,7 @@ function requestedLanguage(payload) {
 }
 
 function languageInstruction(language) {
-  return `\n\nResponse language: ${language.name}. Answer naturally in ${language.name}. If the user asks about languages, say Theo can explain research education topics in multiple languages and the chat language can be switched anytime.`;
+  return `\n\nResponse language: ${language.name}. Answer naturally in ${language.name}. Do not mention language support unless the user asks about languages.`;
 }
 
 function sendJson(response, status, payload) {
@@ -74,6 +82,15 @@ function cleanMessage(value) {
   return String(value || '').replace(/\s+/g, ' ').trim().slice(0, MAX_MESSAGE_CHARS);
 }
 
+async function fetchWithTimeout(url, options = {}, timeoutMs = PROVIDER_TIMEOUT_MS) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
 function loadKnowledgeChunks() {
   try {
@@ -90,20 +107,63 @@ function loadKnowledgeChunks() {
 }
 
 function tokens(text) {
-  return String(text || '').toLowerCase().match(/[a-z0-9+\-]{3,}/g) || [];
+  return String(text || '').toLowerCase().match(/[a-z0-9+\-α]{3,}/g) || [];
+}
+
+const STOPWORDS = new Set(['about', 'after', 'also', 'and', 'are', 'can', 'for', 'from', 'how', 'into', 'more', 'not', 'tell', 'that', 'the', 'this', 'what', 'when', 'with', 'you', 'your']);
+
+function normalizedSearchText(text) {
+  return String(text || '').toLowerCase().replace(/α/g, 'alpha').replace(/[^a-z0-9+]+/g, '');
+}
+
+function loadCompoundMap() {
+  try {
+    if (!fs.existsSync(COMPOUND_MAP_PATH)) return [];
+    const map = JSON.parse(fs.readFileSync(COMPOUND_MAP_PATH, 'utf8'));
+    return (map.categories || []).flatMap(category => (category.items || []).map(item => ({
+      ...item,
+      category: category.name,
+      categoryDescription: category.description,
+    })));
+  } catch (error) {
+    console.warn('[ask-theo] failed to load compound map:', error.message);
+    return [];
+  }
+}
+
+function retrieveCompounds(message) {
+  const normalizedMessage = normalizedSearchText(message);
+  const messageTokens = new Set(tokens(message).map(normalizedSearchText).filter(Boolean));
+  if (!normalizedMessage && !messageTokens.size) return [];
+  return loadCompoundMap()
+    .map(item => {
+      const names = [item.name, ...(item.aliases || [])].filter(Boolean);
+      const nameHit = names.some(name => {
+        const normalizedName = normalizedSearchText(name);
+        return normalizedName && normalizedMessage.includes(normalizedName);
+      });
+      const themeHits = [...tokens(`${item.type || ''} ${(item.themes || []).join(' ')}`)]
+        .map(normalizedSearchText)
+        .filter(token => token && messageTokens.has(token)).length;
+      return { ...item, score: (nameHit ? 10 : 0) + themeHits };
+    })
+    .filter(item => item.score >= 10)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, MAX_COMPOUND_MATCHES);
 }
 
 function retrieveKnowledge(message) {
   const queryTokens = new Set(tokens(message));
+  for (const word of STOPWORDS) queryTokens.delete(word);
   if (!queryTokens.size) return [];
   return loadKnowledgeChunks()
     .map(chunk => {
       const chunkTokens = tokens(`${chunk.title} ${chunk.topic || ''} ${chunk.content}`);
       let score = 0;
       for (const token of chunkTokens) if (queryTokens.has(token)) score += 1;
-      if (chunk.tier === 'peer_reviewed') score += 2;
-      if (chunk.tier === 'clinical_reference') score += 1.5;
-      if (chunk.tier === 'social_claim') score -= 0.5;
+      if (score > 0 && chunk.tier === 'peer_reviewed') score += 2;
+      if (score > 0 && chunk.tier === 'clinical_reference') score += 1.5;
+      if (score > 0 && chunk.tier === 'social_claim') score -= 0.5;
       return { ...chunk, score };
     })
     .filter(chunk => chunk.score > 0)
@@ -117,10 +177,34 @@ function sourceContext(chunks) {
   return `\n\nUse the following curated source context when relevant. Distinguish peer-reviewed evidence from researcher/social/media claims, and do not invent citations beyond these sources.\n\n${blocks.join('\n\n')}`;
 }
 
+function compoundContext(compounds) {
+  if (!compounds.length) return '';
+  const blocks = compounds.map((item, index) => {
+    const aliases = (item.aliases || []).length ? ` | aliases=${item.aliases.join(', ')}` : '';
+    return `[Compound ${index + 1}: ${item.name}${aliases} | type=${item.type} | category=${item.category}]\nThemes: ${(item.themes || []).join(', ')}\nEducation note: ${item.explain}`;
+  });
+  return `\n\nUse the following internal compound literacy map when relevant. This is not a citation source; it is a safe orientation layer. If no peer-reviewed source context is provided, say "research discussions commonly frame it as..." rather than pretending to cite a paper.\n\n${blocks.join('\n\n')}`;
+}
+
+function publicCompoundMap() {
+  try {
+    if (!fs.existsSync(COMPOUND_MAP_PATH)) return [];
+    const map = JSON.parse(fs.readFileSync(COMPOUND_MAP_PATH, 'utf8'));
+    return (map.categories || []).map(category => ({
+      name: category.name,
+      description: category.description,
+      items: (category.items || []).map(({ name, aliases, type, themes }) => ({ name, aliases, type, themes })),
+    }));
+  } catch (error) {
+    console.warn('[ask-theo] failed to load public compound map:', error.message);
+    return [];
+  }
+}
+
 function knowledgeStats() {
   const chunks = loadKnowledgeChunks();
   const sources = new Set(chunks.map(chunk => chunk.sourceId));
-  return { chunks: chunks.length, sources: sources.size };
+  return { chunks: chunks.length, sources: sources.size, compounds: loadCompoundMap().length };
 }
 
 function isDosingTopic(message) {
@@ -133,6 +217,12 @@ function isEducationalDosingContext(message) {
 }
 
 function isPersonalizedDosingOrUseQuestion(message) {
+  if (/\b(what should i|what should we|what do i|what do we|how do i|how do we)\s+(verify|check|look for|read|interpret|understand|confirm)\b/i.test(message)
+    && /\b(coa|certificate of analysis|label|batch|lot|purity|hplc|mass spec|lc-ms|ms|endotoxin)\b/i.test(message)) return false;
+  // Source-review wording can contain "should I" without asking Theo for personal use guidance.
+  // Coach surfaced this with "how should I treat his SLU-PP-332 content?"
+  if (/\b(what should i|what should we|how should i|how should we)\s+(treat|evaluate|interpret|classify|frame|use|handle)\b/i.test(message)
+    && /\b(source|sources|content|channel|video|videos|claim|claims|researcher|media|creator|youtube|transcript|transcripts)\b/i.test(message)) return false;
   return /\b(should i|should you|can i|can you|do i|for me|my dose|my dosage|my weight|my goal|someone take|person take|human take|what should|how much should|tell me how much|protocol|cycle|stack|inject|injection instructions|use it|take it)\b/i.test(message);
 }
 
@@ -142,9 +232,13 @@ function isDosingRangeRequest(message) {
 }
 
 function isProductLabelEducationQuestion(message) {
-  const hasCompoundNumber = /\b[A-Za-z][A-Za-z0-9+\-]{1,24}\s*\+?\s*(?:\d{2,5})\b/.test(message);
+  const hasCompoundNumber = /\b[A-Za-z][A-Za-z0-9+\-]{1,24}(?:\s+|\+)(?:\d{2,5})\b/.test(message);
   const asksInfo = /\b(tell me more|what is|what's|explain|info|information|about|more about|learn|details)\b/i.test(message);
   return hasCompoundNumber && asksInfo && !isPersonalizedDosingOrUseQuestion(message);
+}
+
+function isPurityQuestion(message) {
+  return /\b(purity|pure|hplc|coa|certificate of analysis|mass spec|lc-ms|ms|endotoxin|industry standard|standard|spec|quality)\b/i.test(message);
 }
 
 function productLabelEducationPrompt(message) {
@@ -168,10 +262,68 @@ function educationalDosingPrompt(message) {
   return `Answer this as general educational context only. If you mention dosing ranges, units, or frequencies, frame them as examples from research references/literature or labeling, not instructions. Include a clear warning that it is not medical advice, not a prescription, and not a recommendation to use any compound. Do not personalize. Do not calculate examples for a body weight/person. Do not provide route instructions, injection instructions, protocols, cycles, stacks, or fake citations. If no sources are provided, do not cite numbered references. User question: ${message}`;
 }
 
+function compoundEducationPrompt(message) {
+  return `The user is asking about one or more compounds for educational literacy. Answer helpfully; do not stop at a disclaimer. Use this structure when natural: what it is, why researchers discuss it, evidence/uncertainty caveat, and what to verify on a label or COA. Keep the safety note brief and avoid repeating the same COA checklist for every compound. Do not end with generic healthcare-professional boilerplate unless the user asked about real-world use or personal health context. Do not provide personalized dosing, use instructions, injection instructions, protocol, cycle, or stack advice. User question: ${message}`;
+}
+
+function purityEducationPrompt(message) {
+  return `The user is asking about peptide purity or COA quality standards. Answer directly and conservatively. Do not say 95% purity is "good" for premium MOTS-c-style peptides. Explain the distinction: 95% can exist as a lower/minimum research-grade catalog spec, 98%+ is high purity, and Ascending's premium target should be >=99% HPLC purity with MS or LC-MS identity confirmation, batch-specific COA, and ideally endotoxin/sterility context when relevant. Do not provide dosing, protocol, injection, or use advice. User question: ${message}`;
+}
+
 function sanitizeEducationalDosingReply(reply) {
   const unsafePattern = /\b(mcg\s*\/\s*kg|mg\s*\/\s*kg|body weight|administered|subcutaneous|intravenous|intramuscular|injection|inject|orally|oral administration|twice daily|per day|daily protocol|cycle|stack)\b/i;
   if (!unsafePattern.test(reply)) return reply;
   return 'Educational dosing context: I can discuss dosing references, units, and label language, but I should not invent or present route-specific, body-weight, cycle, injection, or protocol-style guidance without a source. If you paste a study excerpt, product label, or reference range, I can help interpret what it means in plain English. This is not medical advice, not a prescription, and not a recommendation or instruction to use any compound.';
+}
+
+function compoundFallback(compounds) {
+  if (!compounds.length) return '';
+  const lines = compounds.map(item => {
+    const themes = (item.themes || []).slice(0, 3).join(', ');
+    return `**${item.name}** is ${item.type}. ${item.explain} Main research themes: ${themes}.`;
+  });
+  return `${lines.join('\n\n')}\n\nCOA/label checks: match the name or alias, batch/lot, stated amount or concentration, purity/identity method such as HPLC or LC-MS where relevant, test date, and issuing lab. Research-only note: this is educational context, not medical advice, dosing guidance, or instructions to use.`;
+}
+
+function sanitizeCompoundEducationReply(reply, compounds) {
+  if (!compounds.length) return reply;
+  const stripped = String(reply || '')
+    .replace(/\b(A|One|Another) study published in (?:the journal )?[A-Z][A-Za-z& ]+(?=\s+(found|reported|described|showed|suggested))/g, '$1 PubMed-indexed source')
+    .split(/\n{2,}/)
+    .filter(paragraph => !/\b(consult|talk to|speak with).{0,40}\b(healthcare|doctor|clinician|medical professional)\b/i.test(paragraph))
+    .filter(paragraph => !/\b(consult|talk to|speak with).{0,30}\ba qualified professional\b/i.test(paragraph))
+    .filter(paragraph => !/\b(before starting|supplement regimen|their use should be guided|use should not be attempted|their use should be limited|its use should be limited|use should be limited|not intended for human use|without proper medical guidance|proper guidance from a qualified)\b/i.test(paragraph))
+    .filter(paragraph => !/^please keep in mind\b/i.test(paragraph))
+    .filter(paragraph => !/^remember, both\b/i.test(paragraph))
+    .filter(paragraph => !/\bproper handling and storage\b/i.test(paragraph))
+    .join('\n\n')
+    .trim();
+  const finalText = stripped || compoundFallback(compounds);
+  return /\b(research-only|educational|not medical advice|not dosing guidance)\b/i.test(finalText)
+    ? finalText
+    : `${finalText}\n\nResearch-only note: this is educational context, not medical advice, dosing guidance, or instructions to use.`;
+}
+
+function sanitizePurityReply(reply) {
+  let text = String(reply || '');
+  text = text.replace(/\b95%\s+(?:purity\s+)?(?:is|would be|can be|should be)\s+(?:good|great|excellent|ideal|premium|high[- ]quality)\b/gi, '95% purity is a lower/minimum research-grade specification');
+  text = text.replace(/\b(?:good|great|excellent|ideal|premium|high[- ]quality)\s+(?:purity\s+)?(?:is\s+)?95%\b/gi, 'a lower/minimum research-grade specification is 95%');
+  if (/\bMOTS-?c\b/i.test(text) && !/\b99%|>=99|≥99|greater than or equal to 99/i.test(text)) {
+    text += '\n\nFor MOTS-c specifically, Ascending should treat >=99% HPLC purity plus MS/LC-MS identity confirmation and a batch-specific COA as the preferred premium standard.';
+  }
+  return text;
+}
+
+function responseSources(chunks) {
+  const seen = new Set();
+  return chunks
+    .filter(chunk => {
+      const key = `${chunk.title}|${chunk.url}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .map(({ id, title, url, tier, platform }) => ({ id, title, url, tier, platform }));
 }
 
 function geminiKey() {
@@ -191,7 +343,7 @@ async function askGemini(message, history) {
     { role: 'user', parts: [{ text: message }] },
   ];
 
-  const apiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`, {
+  const apiResponse = await fetchWithTimeout(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
@@ -226,7 +378,7 @@ async function askGroq(message, history) {
     { role: 'user', content: message },
   ];
 
-  const apiResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+  const apiResponse = await fetchWithTimeout('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
     headers: {
       authorization: `Bearer ${process.env.GROQ_API_KEY}`,
@@ -236,7 +388,7 @@ async function askGroq(message, history) {
       model: GROQ_MODEL,
       messages,
       temperature: 0.25,
-      max_tokens: 520,
+      max_tokens: 900,
     }),
   });
 
@@ -250,7 +402,8 @@ async function askGroq(message, history) {
   return { text: text || localFallback(message), mode: 'groq' };
 }
 
-function localFallback(message) {
+function localFallback(message, compounds = []) {
+  if (compounds.length && !isDosingTopic(message)) return compoundFallback(compounds);
   const q = message.toLowerCase();
   if (/dose|dosing|dosage|how much|take|cycle|protocol/.test(q)) {
     return isEducationalDosingContext(message)
@@ -278,7 +431,7 @@ async function askOpenAI(message, history) {
     { role: 'user', content: message },
   ];
 
-  const apiResponse = await fetch('https://api.openai.com/v1/responses', {
+  const apiResponse = await fetchWithTimeout('https://api.openai.com/v1/responses', {
     method: 'POST',
     headers: {
       authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
@@ -288,7 +441,7 @@ async function askOpenAI(message, history) {
       model: MODEL,
       input,
       temperature: 0.35,
-      max_output_tokens: 520,
+      max_output_tokens: 900,
     }),
   });
 
@@ -312,7 +465,7 @@ async function askOllama(message, history) {
     { role: 'user', content: message },
   ];
 
-  const apiResponse = await fetch(`${OLLAMA_URL}/api/chat`, {
+  const apiResponse = await fetchWithTimeout(`${OLLAMA_URL}/api/chat`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
@@ -338,7 +491,8 @@ async function askOllama(message, history) {
 
 const server = http.createServer(async (request, response) => {
   if (request.method === 'OPTIONS') return sendJson(response, 204, {});
-  if (request.method === 'GET' && request.url === '/health') return sendJson(response, 200, { ok: true, service: 'ask-theo', model: geminiKey() ? GEMINI_MODEL : (process.env.GROQ_API_KEY ? GROQ_MODEL : (process.env.OPENAI_API_KEY ? MODEL : OLLAMA_MODEL)), provider: geminiKey() ? 'gemini' : (process.env.GROQ_API_KEY ? 'groq' : (process.env.OPENAI_API_KEY ? 'openai' : 'ollama')), knowledge: knowledgeStats() });
+  if (request.method === 'GET' && request.url === '/health') return sendJson(response, 200, { ok: true, service: 'ask-theo', model: geminiKey() ? GEMINI_MODEL : (process.env.GROQ_API_KEY ? GROQ_MODEL : (process.env.OPENAI_API_KEY ? MODEL : OLLAMA_MODEL)), provider: geminiKey() ? 'gemini' : (process.env.GROQ_API_KEY ? 'groq' : (process.env.OPENAI_API_KEY ? 'openai' : 'ollama')), providerTimeoutMs: PROVIDER_TIMEOUT_MS, knowledge: knowledgeStats() });
+  if (request.method === 'GET' && request.url === '/api/theo-compounds') return sendJson(response, 200, { ok: true, categories: publicCompoundMap() });
   if (request.method !== 'POST' || request.url !== '/api/ask-theo') return sendJson(response, 404, { error: 'Not found' });
 
   try {
@@ -354,10 +508,11 @@ const server = http.createServer(async (request, response) => {
       return sendJson(response, 200, { ok: true, reply: dosingUnitsAnswer(), mode: 'education-static', language: language.code });
     }
     const retrieved = retrieveKnowledge(message);
-    const context = sourceContext(retrieved);
-    const baseMessage = isProductLabelEducationQuestion(message)
+    const compounds = retrieveCompounds(message);
+    const context = `${compoundContext(compounds)}${sourceContext(retrieved)}`;
+    const baseMessage = isProductLabelEducationQuestion(message) && !compounds.some(item => /\d/.test(item.name))
       ? productLabelEducationPrompt(message)
-      : (isEducationalDosingContext(message) ? educationalDosingPrompt(message) : message);
+      : (isEducationalDosingContext(message) ? educationalDosingPrompt(message) : (isPurityQuestion(message) ? purityEducationPrompt(message) : (compounds.length ? compoundEducationPrompt(message) : message)));
     const modelMessage = `${baseMessage}${context}${languageInstruction(language)}`;
     let result = null;
     for (const provider of [askGemini, askGroq, askOpenAI, askOllama]) {
@@ -368,11 +523,17 @@ const server = http.createServer(async (request, response) => {
         console.warn('[ask-theo] provider failed, trying next:', providerError.message);
       }
     }
-    if (!result) result = { text: localFallback(message), mode: 'local-fallback' };
+    if (!result) result = { text: localFallback(message, compounds), mode: 'local-fallback' };
     if (isDosingRangeRequest(message)) {
       result.text = sanitizeEducationalDosingReply(result.text);
     }
-    return sendJson(response, 200, { ok: true, reply: result.text, mode: result.mode, language: language.code, sources: retrieved.map(({ id, title, url, tier, platform }) => ({ id, title, url, tier, platform })) });
+    if (isPurityQuestion(message)) {
+      result.text = sanitizePurityReply(result.text);
+    }
+    if (compounds.length && !isPersonalizedDosingOrUseQuestion(message)) {
+      result.text = sanitizeCompoundEducationReply(result.text, compounds);
+    }
+    return sendJson(response, 200, { ok: true, reply: result.text, mode: result.mode, language: language.code, compounds: compounds.map(({ name, type, category }) => ({ name, type, category })), sources: responseSources(retrieved) });
   } catch (error) {
     console.error('[ask-theo]', error);
     return sendJson(response, 500, { error: 'Theo test endpoint failed', detail: error.message });

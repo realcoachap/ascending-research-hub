@@ -1,0 +1,4 @@
+# Ascending Research Hub gitignore v0.1.0 - Theo - 2026-05-22
+# WHY: Keeps local Ask Theo runtime logs and temporary process files out of source control.
+tmp/
+logs/

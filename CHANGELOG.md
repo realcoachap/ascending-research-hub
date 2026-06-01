@@ -1,6 +1,26 @@
 # Changelog
 
 ## [Unreleased]
+### Added
+- Added source and compound evidence cards to Ask Theo answers so retrieved PubMed/reference/media context is visible under the chat response.
+- Added a 47-compound Theo literacy map covering common peptide, mitochondrial, metabolic, incretin, repair, immune, cognitive, hormone, and longevity-adjacent topics.
+- Added initial PubMed-backed source packs for SLU-PP-332 and MOTS-c.
+- Added peptide purity standards source pack for COA/purity guidance.
+- Added The Biohacking Specialist YouTube channel scan as a researcher-media source index for future transcript ingestion.
+- Added Vigorous Steve YouTube channel scan as a researcher-media source index for peptides, HGH, anabolics, TRT, bloodwork, and bodybuilding pharmacology topics.
+- Expanded the Vigorous Steve source index with most-popular overall videos and recent RSS coverage from January-May 2026.
+- Added `GET /api/theo-compounds` for exposing Theo's current compound literacy coverage.
+
+### Changed
+- Hardened Ask Theo client rendering by escaping user/API text before formatting chat bubbles.
+- Added provider request timeouts to the Ask Theo API so a slow local Ollama/model endpoint falls back instead of hanging the chat.
+- Tuned Ask Theo prompting so compound-name questions such as SLU-PP-332 and MOTS-c return educational profiles instead of disclaimer-only responses.
+- Tightened retrieval so peer-reviewed sources are only attached when query terms actually match.
+- Added compound-answer cleanup so non-use literacy questions do not end with generic medical boilerplate.
+- Fixed Ask Theo endpoint persistence so a saved endpoint overrides the temporary hosted tunnel on reload.
+- Updated Theo purity guidance so MOTS-c uses >=99% HPLC purity plus MS/LC-MS identity confirmation as the premium target, while describing 95% as a lower/minimum research-grade spec.
+- Narrowed the personalized-use detector so COA verification questions like “What should I verify?” do not trigger the dosing boundary.
+- Narrowed the personalized-use detector so source-evaluation wording like “how should I treat this creator's SLU-PP-332 content?” does not trigger the dosing boundary.
 
 ## [0.5.12] - 2026-05-22
 ### Added
