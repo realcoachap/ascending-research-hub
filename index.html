@@ -111,13 +111,14 @@
 })();
 </script>
   <script>
-    // Ascending Research Hub v0.5.14 — Theo 🧪 — 2026-05-31
-    // WHY: Lightweight static hub with local-only behavior and optional PWA install prompt.
-    let deferredPrompt;const installBtn=document.getElementById('installBtn');
-    window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;installBtn.classList.remove('hidden')});
-    installBtn.addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;installBtn.classList.add('hidden')});
-    if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}
-  </script>
+	    // Ascending Research Hub v0.8.52 - Theo ☠️ - 2026-06-01
+	    // WHY: Lightweight static hub with local-only behavior. The old root-scope PWA fallback is retired so Aminos can never fall back into Research.
+	    let deferredPrompt;const installBtn=document.getElementById('installBtn');
+	    window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;installBtn.classList.remove('hidden')});
+	    installBtn.addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;installBtn.classList.add('hidden')});
+	    if('serviceWorker' in navigator){window.addEventListener('load',async()=>{try{const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.filter(reg=>reg.scope.includes('/ascending-research-hub/')).map(reg=>reg.unregister()));}catch(e){console.warn('Service worker cleanup failed',e);}});}
+	    if('caches' in window){window.addEventListener('load',async()=>{try{const keys=await caches.keys();await Promise.all(keys.filter(key=>key.startsWith('ascending-research-hub-')).map(key=>caches.delete(key)));}catch(e){console.warn('Cache cleanup failed',e);}});}
+	  </script>
 
 <script>
 // Ascending theme switcher v0.1.0 — Theo 🧪 — 2026-05-22

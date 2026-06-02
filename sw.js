@@ -1,14 +1,17 @@
-// Ascending Research Hub service worker v0.5.16 — Theo 🧪 — 2026-06-01
-// WHY: Enables offline reload/install behavior for the static hub prototype without collecting data.
-const CACHE = 'ascending-research-hub-v0.5.16';
-const ASSETS = ['./', './index.html', './ask-ai.html', './coa.html', './shop.html', './peptide-price-tracker.html', './data/peptide-price-tracker-baseline-v0-1-0.json', './manifest.webmanifest', './icon.svg'];
-self.addEventListener('install', event => {
-  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
+// Ascending Research Hub service worker v0.8.52 - Theo ☠️ - 2026-06-01
+// WHY: Retires the old root-scope offline fallback so Ascending Aminos routes can never fall back into Research index.html.
+const CACHE_PREFIX = "ascending-research-hub-";
+
+self.addEventListener("install", event => {
+  event.waitUntil(self.skipWaiting());
 });
-self.addEventListener('activate', event => {
-  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
-});
-self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') return;
-  event.respondWith(caches.match(event.request).then(cached => cached || fetch(event.request).catch(() => caches.match('./index.html'))));
+
+self.addEventListener("activate", event => {
+  event.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys.filter(key => key.startsWith(CACHE_PREFIX)).map(key => caches.delete(key)));
+    await self.registration.unregister();
+    const clients = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+    clients.forEach(client => client.postMessage({ type: "ASCENDING_RESEARCH_SW_RETIRED" }));
+  })());
 });

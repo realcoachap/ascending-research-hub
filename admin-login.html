@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Shop Admin Login v0.8.51 - Theo ☠️ - 2026-06-01 -->
+<!-- Ascending Shop Admin Login v0.8.52 - Theo ☠️ - 2026-06-01 -->
 <!-- WHY: Separate operator login route backed by Supabase Auth and an allow-listed admin role. -->
 <html lang="en">
 <head>
@@ -202,11 +202,11 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script>
-    // Ascending Shop Admin Login v0.8.51 - Theo ☠️ - 2026-06-01
+    // Ascending Shop Admin Login v0.8.52 - Theo ☠️ - 2026-06-01
     // WHY: Keeps admin separate from customer auth and verifies the Supabase admin allow-list before opening the console.
-    const gateVersion = "v0.8.51";
+    const gateVersion = "v0.8.52";
     const adminSessionKey = "aa-admin-session-v0.8.12";
-    const idleActivityStorageKey = "aa-session-last-activity-v0.8.51";
+    const idleActivityStorageKey = "aa-session-last-activity-v0.8.52";
     const adminForm = document.getElementById("adminForm");
     const resetForm = document.getElementById("resetForm");
     const result = document.getElementById("result");
@@ -218,6 +218,27 @@
     const supabaseConfig = window.ASCENDING_SUPABASE || {};
     const supabaseClient = supabaseIsConfigured() ? window.supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey) : null;
     document.querySelectorAll("[data-store-link]").forEach(link => { link.href = storeHref; });
+    clearSharedResearchWorker();
+
+    async function clearSharedResearchWorker() {
+      // WHY: The public admin portal shares a path with Ascending Research; remove old root SW/cache control before returning to Aminos.
+      try {
+        if ("serviceWorker" in navigator) {
+          const registrations = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(registrations
+            .filter(registration => registration.scope.includes("/ascending-research-hub/"))
+            .map(registration => registration.unregister()));
+        }
+        if ("caches" in window) {
+          const keys = await caches.keys();
+          await Promise.all(keys
+            .filter(key => key.startsWith("ascending-research-hub-"))
+            .map(key => caches.delete(key)));
+        }
+      } catch (error) {
+        console.warn("Shared service worker cleanup failed", error);
+      }
+    }
 
     function supabaseIsConfigured() {
       return Boolean(

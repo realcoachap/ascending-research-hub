@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Aminos Customer Auth v0.8.51 - Theo ☠️ - 2026-06-01 -->
+<!-- Ascending Aminos Customer Auth v0.8.52 - Theo ☠️ - 2026-06-01 -->
 <!-- WHY: Purpose-built Ascending Aminos access portal for guest browsing plus Supabase-backed account-gated checkout holds. -->
 <html lang="en">
 <head>
@@ -758,12 +758,16 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script>
-    // Ascending Aminos Customer Auth v0.8.51 - Theo ☠️ - 2026-06-01
+    // Ascending Aminos Customer Auth v0.8.52 - Theo ☠️ - 2026-06-01
     // WHY: Provides the required store access portal plus Supabase-backed customer register/login.
     const publicStoreHref = "ascending-aminos-store-latest.html";
     const isPublicHubRuntime = location.hostname.includes("github.io") || location.pathname.includes("/ascending-research-hub/");
     const defaultStoreHref = isPublicHubRuntime ? publicStoreHref : "index.html";
     const requestedNext = new URLSearchParams(location.search).get("next");
+    const customerGateStorageKey = "aa-shop-gate-v0.8.52";
+    const customerAuthStorageKey = "aa-shop-auth-v0.8.52";
+    const customerAccountStorageKey = "aa-shop-account-v0.8.52";
+    const legacyCustomerStorageKeys = ["ar-shop-gate", "ar-shop-auth", "ar-shop-account", "aa-store-gate-v0.7.1", "aa-store-gate-v0.5.0"];
     function normalizeStoreReturn(page, search, hash, fallback) {
       if (!isPublicHubRuntime) return `${page || fallback}${search}${hash}`;
       // WHY: On the public hub, `index.html` belongs to Ascending Research. Customer auth must only return into the Aminos store lane.
@@ -894,16 +898,38 @@
     };
 
     const state = {
-      lang: localStorage.getItem("ar-shop-lang") || "en",
+      lang: localStorage.getItem("aa-shop-lang-v0.8.52") || "en",
       mode: "register"
     };
 
     const $ = selector => document.querySelector(selector);
     const $$ = selector => Array.from(document.querySelectorAll(selector));
-    const gateVersion = "v0.8.51";
-    const idleActivityStorageKey = "aa-session-last-activity-v0.8.51";
+    const gateVersion = "v0.8.52";
+    const idleActivityStorageKey = "aa-session-last-activity-v0.8.52";
     const supabaseConfig = window.ASCENDING_SUPABASE || {};
     const supabaseClient = supabaseIsConfigured() ? window.supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey) : null;
+    legacyCustomerStorageKeys.forEach(key => localStorage.removeItem(key));
+
+    async function clearSharedResearchWorker() {
+      // WHY: Auth lives beside the Research hub on GitHub Pages. Remove the shared root SW so auth cannot fail back into Research index.html.
+      try {
+        if ("serviceWorker" in navigator) {
+          const registrations = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(registrations
+            .filter(registration => registration.scope.includes("/ascending-research-hub/"))
+            .map(registration => registration.unregister()));
+        }
+        if ("caches" in window) {
+          const keys = await caches.keys();
+          await Promise.all(keys
+            .filter(key => key.startsWith("ascending-research-hub-"))
+            .map(key => caches.delete(key)));
+        }
+      } catch (error) {
+        console.warn("Shared service worker cleanup failed", error);
+      }
+    }
+    clearSharedResearchWorker();
 
     function supabaseIsConfigured() {
       return Boolean(
@@ -966,8 +992,8 @@
     function saveAccess(mode, user) {
       const now = new Date().toISOString();
       const label = user.provider === "guest" ? "Guest access" : [user.firstName, user.lastName].filter(Boolean).join(" ") || user.email;
-      localStorage.setItem("ar-shop-gate", `accepted-${gateVersion}-${now}`);
-      localStorage.setItem("ar-shop-auth", JSON.stringify({
+      localStorage.setItem(customerGateStorageKey, `accepted-${gateVersion}-${now}`);
+      localStorage.setItem(customerAuthStorageKey, JSON.stringify({
         mode,
         label,
         userId: user.id,
@@ -978,9 +1004,11 @@
         language: state.lang,
         attestations: user.attestations || currentAttestations()
       }));
-      localStorage.setItem("ar-shop-account", JSON.stringify({
+      localStorage.setItem(customerAccountStorageKey, JSON.stringify({
         mode,
         label,
+        email: user.email,
+        userId: user.id,
         provider: user.provider,
         benefit: mode === "guest" ? "Guest browsing unlocked. Request review requires account." : "Member access unlocked.",
         createdAt: now
@@ -1077,7 +1105,7 @@
       try {
         return await callAuth(path, payload);
       } catch (error) {
-        if (location.protocol !== "file:" && !location.hostname.includes("github.io")) throw error;
+        if (location.protocol !== "file:" && !isPublicHubRuntime) throw error;
         const provider = path.includes("guest") ? "guest" : "static-register";
         const email = String(payload.email || "").trim() || `guest-${Date.now()}@preview.local`;
         return {
@@ -1114,7 +1142,7 @@
 
     $("#langToggle").addEventListener("click", () => {
       state.lang = state.lang === "en" ? "es" : "en";
-      localStorage.setItem("ar-shop-lang", state.lang);
+      localStorage.setItem("aa-shop-lang-v0.8.52", state.lang);
       translate();
     });
 
