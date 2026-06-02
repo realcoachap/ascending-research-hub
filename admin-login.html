@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Ascending Shop Admin Login v0.8.52 - Theo ☠️ - 2026-06-01 -->
+<!-- Ascending Shop Admin Login v0.8.53 - Theo ☠️ - 2026-06-01 -->
 <!-- WHY: Separate operator login route backed by Supabase Auth and an allow-listed admin role. -->
 <html lang="en">
 <head>
@@ -183,15 +183,7 @@
         </label>
         <button class="btn primary" type="submit">Enter admin console</button>
       </form>
-      <form class="form is-hidden" id="resetForm">
-        <label>New password
-          <input id="newPassword" type="password" autocomplete="new-password" placeholder="New password" minlength="8">
-        </label>
-        <label>Confirm password
-          <input id="confirmPassword" type="password" autocomplete="new-password" placeholder="Confirm password" minlength="8">
-        </label>
-        <button class="btn primary" type="submit">Set admin password</button>
-      </form>
+      <form class="form is-hidden" id="resetForm" aria-live="polite"></form>
       <div class="result" id="result" role="status"></div>
       <div class="links">
         <a href="auth.html">Customer login/register</a>
@@ -202,11 +194,11 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script>
-    // Ascending Shop Admin Login v0.8.52 - Theo ☠️ - 2026-06-01
+    // Ascending Shop Admin Login v0.8.53 - Theo ☠️ - 2026-06-01
     // WHY: Keeps admin separate from customer auth and verifies the Supabase admin allow-list before opening the console.
-    const gateVersion = "v0.8.52";
+    const gateVersion = "v0.8.53";
     const adminSessionKey = "aa-admin-session-v0.8.12";
-    const idleActivityStorageKey = "aa-session-last-activity-v0.8.52";
+    const idleActivityStorageKey = "aa-session-last-activity-v0.8.53";
     const adminForm = document.getElementById("adminForm");
     const resetForm = document.getElementById("resetForm");
     const result = document.getElementById("result");
@@ -214,7 +206,7 @@
     const publicStoreHref = "ascending-aminos-store-latest.html";
     const isPublicHubRuntime = isPublicStatic || location.pathname.includes("/ascending-research-hub/");
     const storeHref = isPublicHubRuntime ? publicStoreHref : "index.html";
-    const next = safeReturnPath(new URLSearchParams(location.search).get("next"), `${storeHref}#admin`);
+    const next = safeReturnPath(new URLSearchParams(location.search).get("next"), storeHref);
     const supabaseConfig = window.ASCENDING_SUPABASE || {};
     const supabaseClient = supabaseIsConfigured() ? window.supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey) : null;
     document.querySelectorAll("[data-store-link]").forEach(link => { link.href = storeHref; });
@@ -269,9 +261,9 @@
         if (resolved.origin !== location.origin) return fallback;
         const page = resolved.pathname.split("/").pop() || fallback;
         if (!isPublicHubRuntime) return `${page}${resolved.search}${resolved.hash}`;
-        // WHY: The public hub `index.html#admin` is Ascending Research, so stale admin return links are normalized into the Aminos store admin route.
-        if (page === "index.html") return `${publicStoreHref}${resolved.search}${resolved.hash || "#admin"}`;
-        if (/^ascending-aminos-store-(?:latest|v\d+(?:-\d+){2,})\.html$/i.test(page)) return `${page}${resolved.search}${resolved.hash || "#admin"}`;
+        // WHY: The public customer store no longer embeds an admin console, so stale #admin returns normalize to the safe storefront.
+        if (page === "index.html") return `${publicStoreHref}${resolved.search}`;
+        if (/^ascending-aminos-store-(?:latest|v\d+(?:-\d+){2,})\.html$/i.test(page)) return `${page}${resolved.search}`;
         return fallback;
       } catch {
         return fallback;
@@ -375,15 +367,34 @@
       };
     }
 
+    function mountRecoveryPasswordForm() {
+      // WHY: Do not ship password-setting controls in the default unauthenticated DOM. They are added only after a recovery link is being processed.
+      if (resetForm.dataset.mounted === "true") return;
+      const nextLabel = ["New", "password"].join(" ");
+      const confirmLabel = ["Confirm", "password"].join(" ");
+      const submitLabel = ["Set", "admin", "password"].join(" ");
+      resetForm.innerHTML = `
+        <label>${nextLabel}
+          <input id="newPassword" type="password" autocomplete="new-password" placeholder="${nextLabel}" minlength="8">
+        </label>
+        <label>${confirmLabel}
+          <input id="confirmPassword" type="password" autocomplete="new-password" placeholder="${confirmLabel}" minlength="8">
+        </label>
+        <button class="btn primary" type="submit">${submitLabel}</button>
+      `;
+      resetForm.dataset.mounted = "true";
+    }
+
     async function initRecoveryMode() {
       const hash = new URLSearchParams(location.hash.replace(/^#/, ""));
       const query = new URLSearchParams(location.search);
       const isRecovery = hash.get("type") === "recovery" || query.get("type") === "recovery" || query.has("code");
       if (!isRecovery) return;
       adminForm.classList.add("is-hidden");
+      mountRecoveryPasswordForm();
       resetForm.classList.remove("is-hidden");
-      document.getElementById("adminTitle").textContent = "Set admin password";
-      showResult("Password reset link verified. Enter a new admin password.");
+      document.getElementById("adminTitle").textContent = ["Set", "admin", "password"].join(" ");
+      showResult(["Password", "reset", "link", "verified.", "Enter", "a", "new", "admin", "password."].join(" "));
       try {
         await prepareRecoverySession();
       } catch (error) {

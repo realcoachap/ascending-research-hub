@@ -1,6 +1,6 @@
 <!doctype html>
-<!-- Ascending Aminos Customer Auth v0.8.52 - Theo ☠️ - 2026-06-01 -->
-<!-- WHY: Purpose-built Ascending Aminos access portal for guest browsing plus Supabase-backed account-gated checkout holds. -->
+<!-- Ascending Aminos Customer Auth v0.8.53 - Theo ☠️ - 2026-06-01 -->
+<!-- WHY: Purpose-built Ascending Aminos access portal for guest browsing plus Supabase-backed account-gated paused checkout. -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -758,15 +758,15 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script>
-    // Ascending Aminos Customer Auth v0.8.52 - Theo ☠️ - 2026-06-01
+    // Ascending Aminos Customer Auth v0.8.53 - Theo ☠️ - 2026-06-01
     // WHY: Provides the required store access portal plus Supabase-backed customer register/login.
     const publicStoreHref = "ascending-aminos-store-latest.html";
     const isPublicHubRuntime = location.hostname.includes("github.io") || location.pathname.includes("/ascending-research-hub/");
     const defaultStoreHref = isPublicHubRuntime ? publicStoreHref : "index.html";
     const requestedNext = new URLSearchParams(location.search).get("next");
-    const customerGateStorageKey = "aa-shop-gate-v0.8.52";
-    const customerAuthStorageKey = "aa-shop-auth-v0.8.52";
-    const customerAccountStorageKey = "aa-shop-account-v0.8.52";
+    const customerGateStorageKey = "aa-shop-gate-v0.8.53";
+    const customerAuthStorageKey = "aa-shop-auth-v0.8.53";
+    const customerAccountStorageKey = "aa-shop-account-v0.8.53";
     const legacyCustomerStorageKeys = ["ar-shop-gate", "ar-shop-auth", "ar-shop-account", "aa-store-gate-v0.7.1", "aa-store-gate-v0.5.0"];
     function normalizeStoreReturn(page, search, hash, fallback) {
       if (!isPublicHubRuntime) return `${page || fallback}${search}${hash}`;
@@ -898,14 +898,14 @@
     };
 
     const state = {
-      lang: localStorage.getItem("aa-shop-lang-v0.8.52") || "en",
+      lang: localStorage.getItem("aa-shop-lang-v0.8.53") || "en",
       mode: "register"
     };
 
     const $ = selector => document.querySelector(selector);
     const $$ = selector => Array.from(document.querySelectorAll(selector));
-    const gateVersion = "v0.8.52";
-    const idleActivityStorageKey = "aa-session-last-activity-v0.8.52";
+    const gateVersion = "v0.8.53";
+    const idleActivityStorageKey = "aa-session-last-activity-v0.8.53";
     const supabaseConfig = window.ASCENDING_SUPABASE || {};
     const supabaseClient = supabaseIsConfigured() ? window.supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey) : null;
     legacyCustomerStorageKeys.forEach(key => localStorage.removeItem(key));
@@ -1142,7 +1142,7 @@
 
     $("#langToggle").addEventListener("click", () => {
       state.lang = state.lang === "en" ? "es" : "en";
-      localStorage.setItem("aa-shop-lang-v0.8.52", state.lang);
+      localStorage.setItem("aa-shop-lang-v0.8.53", state.lang);
       translate();
     });
 
