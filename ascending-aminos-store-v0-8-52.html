@@ -1,16 +1,22 @@
 <!doctype html>
+<!-- Ascending Aminos legacy Research Hub redirect v0.8.54 - Theo ☠️ - 2026-06-01 -->
+<!-- WHY: Ascending Aminos now has its own public Pages origin; this wrapper preserves old versioned links without serving store code from Ascending Research. -->
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="0; url=ascending-aminos-store-latest.html">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <meta http-equiv="refresh" content="0; url=https://realcoachap.github.io/ascending-research-shop/" />
   <title>Ascending Aminos - Redirecting</title>
-  <!-- Ascending Aminos retired public build redirect v0.8.53 - Theo ☠️ - 2026-06-01 -->
-  <!-- WHY: Historical public storefront builds are retired so stale auth/cart/admin paths cannot preserve older security behavior. -->
-  <script>location.replace('ascending-aminos-store-latest.html' + location.search + location.hash);</script>
+  <script>
+    const target = new URL("https://realcoachap.github.io/ascending-research-shop/");
+    target.search = location.search;
+    target.hash = location.hash;
+    location.replace(target.toString());
+  </script>
 </head>
 <body>
-  <p>Redirecting to the current Ascending Aminos storefront.</p>
-  <p><a href="ascending-aminos-store-latest.html">Open current storefront</a></p>
+  <p>Ascending Aminos has moved to its standalone storefront.</p>
+  <p><a href="https://realcoachap.github.io/ascending-research-shop/">Open Ascending Aminos</a></p>
 </body>
 </html>
