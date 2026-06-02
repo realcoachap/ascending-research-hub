@@ -1,182 +1,30 @@
 <!doctype html>
-<!-- Ascending Shop Alpha v0.1.2 — Theo ☠️ — 2026-05-30 -->
-<!-- WHY: Paper-napkin alpha for the bilingual public storefront, mandatory research gate, cart, and admin control surface. -->
+<!-- Ascending Research retired shop alpha v0.5.15 - Theo ☠️ - 2026-06-01 -->
+<!-- WHY: The old alpha contained cart/account/admin prototype state on the Research Hub origin; it now clears legacy state and returns to the education/data hub. -->
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#07101d" />
-  <title>Ascending Shop Alpha</title>
-  <style>
-    :root{--bg:#07101d;--surface:#0d1728;--panel:rgba(255,255,255,.075);--panel2:rgba(255,255,255,.045);--ink:#f8fbff;--muted:rgba(248,251,255,.7);--faint:rgba(248,251,255,.48);--line:rgba(255,255,255,.14);--gold:#f6b73c;--gold2:#ffe7a4;--cyan:#6ce7ff;--green:#73f2ae;--red:#ff8d8d;--blue:#92b8ff;--shadow:0 28px 95px rgba(0,0,0,.42);--radius:8px}
-    body[data-theme="light"]{--bg:#f5efe3;--surface:#fff9ef;--panel:rgba(255,255,255,.82);--panel2:rgba(255,255,255,.58);--ink:#132032;--muted:rgba(19,32,50,.72);--faint:rgba(19,32,50,.52);--line:rgba(19,32,50,.14);--gold:#b87314;--gold2:#774900;--cyan:#006f91;--green:#007f56;--red:#bd3846;--blue:#275aaf;--shadow:0 22px 70px rgba(80,55,20,.15)}
-    body[data-theme="dark"]{--bg:#02050b;--surface:#070d17;--panel:rgba(255,255,255,.058);--panel2:rgba(255,255,255,.035);--ink:#f9fcff;--muted:rgba(249,252,255,.72);--faint:rgba(249,252,255,.46);--line:rgba(255,255,255,.12);--gold:#f6b73c;--gold2:#ffe7a4;--cyan:#65e6ff;--green:#73f2ae;--red:#ff8d8d;--blue:#92b8ff;--shadow:0 34px 110px rgba(0,0,0,.6)}
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(circle at 10% 0%,rgba(246,183,60,.22),transparent 32%),radial-gradient(circle at 88% 10%,rgba(108,231,255,.14),transparent 30%),linear-gradient(180deg,var(--bg),#050812 72%);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button,a{color:inherit}.grain{position:fixed;inset:0;pointer-events:none;opacity:.2;mix-blend-mode:soft-light;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.34'/%3E%3C/svg%3E")}.wrap{width:min(1220px,calc(100% - 32px));margin:auto}.topbar{position:sticky;top:0;z-index:20;background:rgba(7,16,29,.76);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}body[data-theme="light"] .topbar{background:rgba(255,249,239,.78)}.nav{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0}.brand{display:flex;align-items:center;gap:12px;text-decoration:none}.mark{width:48px;height:48px;border-radius:8px;border:1px solid rgba(255,231,164,.28);background:linear-gradient(135deg,rgba(246,183,60,.3),rgba(108,231,255,.08));display:grid;place-items:center;font-weight:950}.brand small{display:block;color:var(--faint);font-size:12px;margin-top:2px}.tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}.iconBtn,.pillBtn{height:38px;border:1px solid var(--line);background:rgba(255,255,255,.055);border-radius:8px;color:var(--muted);display:inline-flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}.iconBtn{width:42px}.pillBtn{padding:0 12px}.pillBtn.primary{background:var(--gold);border-color:transparent;color:#08111f}.hero{padding:34px 0 24px}.heroGrid{display:grid;grid-template-columns:1fr 420px;gap:22px;align-items:stretch}.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--gold2);font-size:12px;font-weight:950;letter-spacing:.12em;text-transform:uppercase}.eyebrow:before{content:"";width:8px;height:8px;border-radius:99px;background:var(--green);box-shadow:0 0 18px var(--green)}h1{font-size:clamp(48px,7.7vw,92px);line-height:.9;margin:16px 0 0;letter-spacing:-.06em}.lede{max-width:760px;color:var(--muted);font-size:clamp(17px,2vw,21px);line-height:1.55;margin:22px 0 0}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}.btn{border:1px solid var(--line);background:rgba(255,255,255,.055);border-radius:8px;padding:14px 16px;text-decoration:none;cursor:pointer;color:var(--muted);font-size:12px;font-weight:950;text-transform:uppercase;letter-spacing:.1em}.btn.primary{background:var(--gold);color:#08111f;border-color:transparent}.showcase{position:relative;overflow:hidden;border:1px solid rgba(255,231,164,.22);background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035));border-radius:8px;box-shadow:var(--shadow);min-height:420px;padding:18px}.vialScene{height:240px;border-radius:8px;border:1px solid var(--line);background:radial-gradient(circle at 50% 10%,rgba(255,231,164,.22),transparent 26%),linear-gradient(160deg,rgba(108,231,255,.12),rgba(246,183,60,.08));display:flex;align-items:end;justify-content:center;gap:16px;padding:24px}.vial{width:68px;height:150px;border:1px solid rgba(255,255,255,.28);border-radius:10px 10px 12px 12px;background:linear-gradient(90deg,rgba(255,255,255,.18),rgba(255,255,255,.04),rgba(255,255,255,.18));position:relative;box-shadow:0 22px 48px rgba(0,0,0,.28)}.vial:before{content:"";position:absolute;left:12px;right:12px;top:-22px;height:26px;border-radius:7px 7px 2px 2px;background:linear-gradient(180deg,#d7dce8,#8f99aa);border:1px solid rgba(255,255,255,.28)}.vial:after{content:attr(data-label);position:absolute;left:8px;right:8px;bottom:22px;border:1px solid rgba(255,231,164,.3);background:rgba(7,16,29,.72);border-radius:6px;padding:9px 4px;text-align:center;color:var(--gold2);font-size:10px;font-weight:950;letter-spacing:.06em}.vial.small{height:118px;width:56px}.vial.tall{height:178px}.statGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.stat{border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.04);padding:12px}.stat b{display:block;font-size:20px}.stat span{display:block;color:var(--faint);font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:900;margin-top:4px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.tab{border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:8px;padding:10px 12px;color:var(--muted);cursor:pointer;font-weight:900;font-size:12px}.tab.active{background:rgba(246,183,60,.16);border-color:rgba(246,183,60,.38);color:var(--gold2)}.section{padding:28px 0}.sectionHead{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:14px}h2{font-size:clamp(32px,4.5vw,54px);line-height:.98;letter-spacing:-.05em;margin:0}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.product{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel),var(--panel2));border-radius:8px;padding:14px;min-height:312px;display:flex;flex-direction:column;justify-content:space-between}.productVisual{height:128px;border:1px solid var(--line);border-radius:8px;background:linear-gradient(135deg,rgba(246,183,60,.13),rgba(108,231,255,.08));display:flex;align-items:end;justify-content:center;padding:16px;margin-bottom:14px}.product h3,.panel h3{margin:0;font-size:23px;letter-spacing:-.035em}.product p,.panel p,.panel li{color:var(--muted);line-height:1.55}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.price{font-size:24px;font-weight:950}.badge{border:1px solid var(--line);border-radius:999px;padding:7px 9px;color:var(--faint);font-size:10px;font-weight:950;text-transform:uppercase;letter-spacing:.1em}.badge.good{border-color:rgba(115,242,174,.24);background:rgba(115,242,174,.08);color:var(--green)}.badge.gold{border-color:rgba(246,183,60,.28);background:rgba(246,183,60,.1);color:var(--gold2)}.productActions{display:grid;grid-template-columns:1fr 42px;gap:8px}.panel{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel),var(--panel2));border-radius:8px;padding:16px}.split{display:grid;grid-template-columns:.95fr 1.05fr;gap:14px}.adminShell{display:grid;grid-template-columns:280px 1fr;gap:14px}.adminList{display:grid;gap:8px}.adminItem{border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:8px;padding:12px;text-align:left;cursor:pointer;color:var(--muted)}.adminItem.active{border-color:rgba(246,183,60,.4);background:rgba(246,183,60,.1);color:var(--gold2)}.formGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.field{display:grid;gap:6px}.field label{color:var(--faint);font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:900}.field input,.field textarea,.field select{width:100%;border:1px solid var(--line);background:rgba(0,0,0,.16);color:var(--ink);border-radius:8px;padding:11px}.field textarea{min-height:78px;resize:vertical}.cart{position:fixed;right:14px;top:76px;width:min(390px,calc(100% - 28px));max-height:calc(100vh - 94px);overflow:auto;z-index:30;border:1px solid var(--line);border-radius:8px;background:rgba(7,16,29,.94);backdrop-filter:blur(18px);box-shadow:var(--shadow);padding:14px;display:none}body[data-theme="light"] .cart{background:rgba(255,249,239,.96)}.cart.open{display:block}.cartLine{display:grid;grid-template-columns:1fr auto;gap:10px;border-bottom:1px solid var(--line);padding:10px 0}.gate{position:fixed;inset:0;z-index:60;background:rgba(2,5,11,.88);display:grid;place-items:center;padding:18px}.gateCard{width:min(760px,100%);border:1px solid rgba(255,231,164,.26);background:linear-gradient(180deg,rgba(13,23,40,.98),rgba(7,16,29,.98));border-radius:8px;box-shadow:var(--shadow);padding:22px}.gateCard h2{font-size:clamp(30px,5vw,54px)}.checks{display:grid;gap:9px;margin:18px 0}.check{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:12px;color:var(--muted)}.check input{margin-top:4px}.hidden{display:none!important}.footer{color:var(--faint);font-size:12px;padding:28px 0 46px}.notice{border-left:3px solid var(--gold);padding:12px 14px;background:rgba(246,183,60,.08);border-radius:8px;color:var(--muted)}@media(max-width:980px){.heroGrid,.split,.adminShell{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:680px){.wrap{width:min(100% - 22px,1220px)}.grid,.formGrid{grid-template-columns:1fr}.brand small,.hideMobile{display:none}.showcase{min-height:360px}.vialScene{height:206px}.nav{align-items:flex-start}.hero{padding-top:24px}}
-  </style>
-</head>
-<body data-theme="balanced">
-  <div class="grain"></div>
-  <div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
-    <div class="gateCard">
-      <span class="eyebrow" data-i18n="gate_eyebrow">Required research-use acknowledgement</span>
-      <h2 id="gateTitle" data-i18n="gate_title">Before entering Ascending Research</h2>
-      <p class="muted" data-i18n="gate_body">This alpha represents a research-use-only storefront concept. To continue, confirm the terms below. There is intentionally no close button.</p>
-      <div class="checks">
-        <label class="check"><input type="checkbox" data-gate-check /><span data-i18n="gate_check_1">I confirm I am 21 years of age or older.</span></label>
-        <label class="check"><input type="checkbox" data-gate-check /><span data-i18n="gate_check_2">I understand products are for laboratory research use only and are not for human consumption.</span></label>
-        <label class="check"><input type="checkbox" data-gate-check /><span data-i18n="gate_check_3">I understand this site does not provide medical advice, dosing, or protocols.</span></label>
-      </div>
-      <button class="btn primary" id="acceptGate" disabled data-i18n="gate_accept">Agree and enter</button>
-    </div>
-  </div>
-  <header class="topbar">
-    <nav class="wrap nav">
-      <a class="brand" href="index.html">
-        <div class="mark">AR</div>
-        <div><strong>Ascending Shop Alpha</strong><small>v0.1.2 · public + admin napkin</small></div>
-      </a>
-      <div class="tools">
-        <button class="pillBtn" id="langToggle" type="button">ES</button>
-        <button class="pillBtn" id="themeToggle" type="button">BAL</button>
-        <button class="pillBtn" id="loginToggle" type="button" data-i18n="nav_login">Login</button>
-        <button class="pillBtn" data-view="public" type="button" data-i18n="nav_shop">Shop</button>
-        <button class="pillBtn" data-view="admin" type="button" data-i18n="nav_admin">Admin</button>
-        <button class="iconBtn" id="cartToggle" type="button" aria-label="Open cart">Cart</button>
-      </div>
-    </nav>
-  </header>
-  <aside class="cart" id="cart">
-    <div class="row"><h3 data-i18n="cart_title">Research cart</h3><button class="iconBtn" id="cartClose" type="button">X</button></div>
-    <div id="cartLines"></div>
-    <div class="notice" data-i18n="cart_notice">Checkout will repeat the research-use and 21+ attestations before order creation.</div>
-    <div class="row" style="margin-top:14px"><strong data-i18n="cart_total">Total</strong><strong id="cartTotal">$0</strong></div>
-    <button class="btn primary" style="width:100%;margin-top:12px" data-i18n="cart_checkout">Continue to gated checkout</button>
-  </aside>
-  <aside class="cart" id="loginPanel" aria-label="Login panel">
-    <div class="row"><h3 data-i18n="login_title">Member access</h3><button class="iconBtn" id="loginClose" type="button">X</button></div>
-    <p class="muted" data-i18n="login_body">Alpha login model: let guests browse after the gate, but give members discounts, saved addresses, order history, loyalty, and batch/COA records.</p>
-    <div class="actions" style="margin-top:12px">
-      <button class="btn primary" style="width:100%" id="googleLogin" type="button" data-i18n="login_google">Continue with Google</button>
-      <button class="btn" style="width:100%" id="emailLogin" type="button" data-i18n="login_email">Email magic link</button>
-      <button class="btn" style="width:100%" id="guestLogin" type="button" data-i18n="login_guest">Continue as guest</button>
-    </div>
-    <div class="notice" style="margin-top:14px" id="loginStatus" data-i18n="login_status">Not signed in. Guest browsing is allowed after the research-use gate.</div>
-  </aside>
-  <main id="publicView">
-    <section class="wrap hero">
-      <div class="heroGrid">
-        <div>
-          <span class="eyebrow" data-i18n="hero_eyebrow">Bilingual research commerce alpha</span>
-          <h1 data-i18n="hero_title">Premium shop. Clean paper trail.</h1>
-          <p class="lede" data-i18n="hero_body">A TrueStandard-level visual shell with OmegAmino-style operating depth: gate first, COA-first product cards, batch-aware inventory, cart, and an admin panel that changes the storefront instantly.</p>
-          <div class="actions">
-            <button class="btn primary" data-scroll="#catalog" data-i18n="hero_cta">Browse catalog</button>
-            <button class="btn" data-view="admin" data-i18n="hero_admin">Open admin</button>
-            <button class="btn" id="resetGate" data-i18n="hero_gate">Preview gate again</button>
-          </div>
-        </div>
-        <aside class="showcase">
-          <div class="vialScene" aria-label="Premium product concept visual">
-            <div class="vial small" data-label="BPC"></div>
-            <div class="vial tall" data-label="SLU"></div>
-            <div class="vial" data-label="MOTS"></div>
-          </div>
-          <div class="statGrid">
-            <div class="stat"><b>EN / ES</b><span data-i18n="stat_lang">Default languages</span></div>
-            <div class="stat"><b>3 modes</b><span data-i18n="stat_modes">Light balanced dark</span></div>
-            <div class="stat"><b>Batch</b><span data-i18n="stat_batch">COA inventory</span></div>
-            <div class="stat"><b>Admin</b><span data-i18n="stat_admin">On-the-fly edits</span></div>
-          </div>
-        </aside>
-      </div>
-    </section>
-    <section class="wrap section">
-      <div class="split">
-        <article class="panel">
-          <span class="badge gold" data-i18n="model_badge">Recommended model</span>
-          <h3 data-i18n="model_title">Hybrid access, not full lockout.</h3>
-          <p data-i18n="model_body">Guests can pass the gate and see education, COAs, and product previews. Purchasing prefers an account, while strict guest checkout remains possible only with repeated attestations.</p>
-          <div class="actions"><button class="btn primary" id="memberCta" type="button" data-i18n="model_login">Open login model</button></div>
-        </article>
-        <article class="panel">
-          <span class="badge good" data-i18n="compliance_badge">Compliance baked in</span>
-          <h3 data-i18n="compliance_title">No bypass on the first screen.</h3>
-          <p data-i18n="compliance_body">The disclaimer is not a pop-up decoration. It is the first interaction, stores version/timestamp later, and returns again at checkout.</p>
-        </article>
-      </div>
-    </section>
-    <section class="wrap section" id="catalog">
-      <div class="sectionHead">
-        <div><span class="eyebrow" data-i18n="catalog_eyebrow">COA-first catalog</span><h2 data-i18n="catalog_title">Public product preview</h2></div>
-        <span class="badge" id="catalogCount"></span>
-      </div>
-      <div class="grid" id="productGrid"></div>
-    </section>
-  </main>
-  <main class="hidden" id="adminView">
-    <section class="wrap hero">
-      <span class="eyebrow" data-i18n="admin_eyebrow">Operator control panel</span>
-      <h1 data-i18n="admin_title">Change the shop on the fly.</h1>
-      <p class="lede" data-i18n="admin_body">This is the first-run admin concept: edit products, stock, prices, visibility, batches, COAs, discounts, and bilingual copy from one surface.</p>
-    </section>
-    <section class="wrap section adminShell">
-      <aside class="panel">
-        <h3 data-i18n="admin_products">Products</h3>
-        <div class="adminList" id="adminList"></div>
-      </aside>
-      <section class="panel">
-        <div class="row"><h3 id="editingName">Product</h3><button class="btn primary" id="saveProduct" type="button" data-i18n="admin_save">Save changes</button></div>
-        <div class="formGrid" style="margin-top:14px">
-          <div class="field"><label data-i18n="field_name_en">Name EN</label><input id="fNameEn" /></div>
-          <div class="field"><label data-i18n="field_name_es">Name ES</label><input id="fNameEs" /></div>
-          <div class="field"><label data-i18n="field_price">Price</label><input id="fPrice" type="number" min="0" step="1" /></div>
-          <div class="field"><label data-i18n="field_stock">Stock</label><input id="fStock" type="number" min="0" step="1" /></div>
-          <div class="field"><label data-i18n="field_batch">Batch</label><input id="fBatch" /></div>
-          <div class="field"><label data-i18n="field_purity">Purity</label><input id="fPurity" /></div>
-          <div class="field"><label data-i18n="field_coa">COA URL</label><input id="fCoa" /></div>
-          <div class="field"><label data-i18n="field_visible">Visibility</label><select id="fVisible"><option value="true">Visible</option><option value="false">Hidden</option></select></div>
-          <div class="field" style="grid-column:1/-1"><label data-i18n="field_desc_en">Description EN</label><textarea id="fDescEn"></textarea></div>
-          <div class="field" style="grid-column:1/-1"><label data-i18n="field_desc_es">Description ES</label><textarea id="fDescEs"></textarea></div>
-        </div>
-      </section>
-    </section>
-  </main>
-  <footer class="wrap footer">Ascending Shop Alpha v0.1.2 — Theo ☠️ — 2026-05-30. Concept only: no medical advice, dosing, protocols, treatment claims, or product-use instructions.</footer>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="0; url=index.html">
+  <meta name="robots" content="noindex">
+  <title>Retired Shop Alpha | Ascending Research</title>
   <script>
-    // Ascending Shop Alpha v0.1.2 — Theo ☠️ — 2026-05-30
-    // WHY: Static, inspectable alpha that proves the public shop and admin can share one product model before a backend is chosen.
-    const copy={es:{gate_eyebrow:"Reconocimiento obligatorio de uso investigativo",gate_title:"Antes de entrar a Ascending Research",gate_body:"Este alpha representa un concepto de tienda solo para uso investigativo. Para continuar, confirma los términos abajo. Intencionalmente no hay botón de cerrar.",gate_check_1:"Confirmo que tengo 21 años o más.",gate_check_2:"Entiendo que los productos son solo para investigación de laboratorio y no para consumo humano.",gate_check_3:"Entiendo que este sitio no ofrece consejo médico, dosis ni protocolos.",gate_accept:"Aceptar y entrar",nav_login:"Login",nav_shop:"Tienda",nav_admin:"Admin",login_title:"Acceso de miembro",login_body:"Modelo alpha de login: los invitados pueden navegar después de la puerta, pero los miembros reciben descuentos, direcciones guardadas, historial, lealtad y registros de lote/COA.",login_google:"Continuar con Google",login_email:"Email con enlace mágico",login_guest:"Continuar como invitado",login_status:"Sin sesión. La navegación invitada está permitida después de la puerta de uso investigativo.",cart_title:"Carrito de investigación",cart_notice:"El checkout repetirá las declaraciones de uso investigativo y 21+ antes de crear la orden.",cart_total:"Total",cart_checkout:"Continuar a checkout con verificación",hero_eyebrow:"Alpha bilingüe de comercio investigativo",hero_title:"Tienda premium. Papel limpio.",hero_body:"Una base visual tipo TrueStandard con profundidad operativa tipo OmegAmino: puerta primero, tarjetas con COA, inventario por lote, carrito y admin que cambia la tienda al instante.",hero_cta:"Ver catálogo",hero_admin:"Abrir admin",hero_gate:"Ver puerta otra vez",stat_lang:"Idiomas base",stat_modes:"Claro balanceado oscuro",stat_batch:"Inventario COA",stat_admin:"Edición al momento",model_badge:"Modelo recomendado",model_title:"Acceso híbrido, no bloqueo total.",model_body:"Los invitados pueden pasar la puerta y ver educación, COAs y previews de producto. La compra prefiere cuenta, mientras checkout invitado solo si repite declaraciones estrictas.",model_login:"Abrir modelo de login",compliance_badge:"Cumplimiento integrado",compliance_title:"Sin escape en la primera pantalla.",compliance_body:"El aviso no es decoración. Es la primera interacción, luego guardará versión/fecha, y vuelve en checkout.",catalog_eyebrow:"Catálogo COA primero",catalog_title:"Vista pública de productos",admin_eyebrow:"Panel de operador",admin_title:"Cambia la tienda al momento.",admin_body:"Concepto admin de primera corrida: editar productos, stock, precios, visibilidad, lotes, COAs, descuentos y copy bilingüe desde una superficie.",admin_products:"Productos",admin_save:"Guardar cambios",field_name_en:"Nombre EN",field_name_es:"Nombre ES",field_price:"Precio",field_stock:"Stock",field_batch:"Lote",field_purity:"Pureza",field_coa:"URL COA",field_visible:"Visibilidad",field_desc_en:"Descripción EN",field_desc_es:"Descripción ES"}};
-    const seed=[{id:"bpc",name:{en:"BPC-157 Research",es:"BPC-157 Investigación"},desc:{en:"10mg lyophilized research compound with batch COA lane and cold-chain handling notes.",es:"Compuesto liofilizado de 10mg con COA por lote y notas de manejo en frío."},price:59,stock:624,batch:"BPC-A0526",purity:"99.8% HPLC",coa:"COA-BPC-A0526",visible:true,label:"BPC"},{id:"mots",name:{en:"MOTS-c Research",es:"MOTS-c Investigación"},desc:{en:"10mg mitochondrial research compound. Premium target: 99%+ with identity confirmation.",es:"Compuesto mitocondrial de 10mg. Objetivo premium: 99%+ con confirmación de identidad."},price:69,stock:397,batch:"MOTS-M0526",purity:"99.3% HPLC",coa:"COA-MOTS-M0526",visible:true,label:"MOTS"},{id:"slu",name:{en:"SLU-PP-332 Solution",es:"Solución SLU-PP-332"},desc:{en:"10mg/mL research solution preview with storage, lot, and verification fields.",es:"Vista de solución investigativa 10mg/mL con campos de almacenamiento, lote y verificación."},price:89,stock:846,batch:"SLU-S0526",purity:"99.1% LC-MS",coa:"COA-SLU-S0526",visible:true,label:"SLU"}];
-    let lang=localStorage.getItem("ar-shop-lang")||"en",theme=localStorage.getItem("ar-shop-theme")||"balanced",products=JSON.parse(localStorage.getItem("ar-shop-products")||"null")||seed,cart=[],editing=products[0].id,account=JSON.parse(localStorage.getItem("ar-shop-account")||"null");
-    const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
-    function t(key){return lang==="es"&&copy.es[key]?copy.es[key]:null}
-    function applyText(){document.documentElement.lang=lang;$$("[data-i18n]").forEach(el=>{const key=el.dataset.i18n;if(t(key))el.textContent=t(key);});$("#langToggle").textContent=lang==="es"?"EN":"ES"}
-    function applyTheme(){document.body.dataset.theme=theme;$("#themeToggle").textContent=theme==="balanced"?"BAL":theme==="dark"?"DARK":"LIGHT";localStorage.setItem("ar-shop-theme",theme)}
-    function visibleProducts(){return products.filter(p=>p.visible)}
-    function renderProducts(){const list=visibleProducts();$("#catalogCount").textContent=`${list.length} products`;$("#productGrid").innerHTML=list.map(p=>`<article class="product"><div><div class="productVisual"><div class="vial small" data-label="${p.label}"></div></div><div class="row"><span class="badge good">${p.purity}</span><span class="badge gold">${p.batch}</span></div><h3>${p.name[lang]||p.name.en}</h3><p>${p.desc[lang]||p.desc.en}</p></div><div><div class="row"><strong class="price">$${p.price}</strong><span class="badge">${p.stock} stock</span></div><div class="productActions"><button class="btn primary" onclick="addToCart('${p.id}')">${lang==="es"?"Añadir":"Add to cart"}</button><button class="iconBtn" title="${p.coa}">COA</button></div></div></article>`).join("")}
-    function renderCart(){const lines=cart.map(item=>{const p=products.find(x=>x.id===item.id);return p?`<div class="cartLine"><div><strong>${p.name[lang]||p.name.en}</strong><br><span class="muted">${item.qty} x $${p.price}</span></div><strong>$${p.price*item.qty}</strong></div>`:""}).join("");$("#cartLines").innerHTML=lines||`<p class="muted">${lang==="es"?"Carrito vacío.":"Cart is empty."}</p>`;$("#cartTotal").textContent="$"+cart.reduce((sum,item)=>{const p=products.find(x=>x.id===item.id);return sum+(p?p.price*item.qty:0)},0)}
-    function renderAccount(){const label=account?account.mode.toUpperCase():"LOGIN";$("#loginToggle").textContent=label;$("#loginStatus").textContent=account?`${account.label}: ${account.benefit}`:(lang==="es"&&copy.es.login_status?copy.es.login_status:"Not signed in. Guest browsing is allowed after the research-use gate.")}
-    function renderAdmin(){const list=$("#adminList");list.innerHTML=products.map(p=>`<button class="adminItem ${p.id===editing?"active":""}" onclick="selectProduct('${p.id}')"><strong>${p.name.en}</strong><br><span>${p.batch} · $${p.price} · ${p.stock}</span></button>`).join("");const p=products.find(x=>x.id===editing)||products[0];$("#editingName").textContent=p.name.en;$("#fNameEn").value=p.name.en;$("#fNameEs").value=p.name.es;$("#fPrice").value=p.price;$("#fStock").value=p.stock;$("#fBatch").value=p.batch;$("#fPurity").value=p.purity;$("#fCoa").value=p.coa;$("#fVisible").value=String(p.visible);$("#fDescEn").value=p.desc.en;$("#fDescEs").value=p.desc.es}
-    function saveState(){localStorage.setItem("ar-shop-products",JSON.stringify(products));renderProducts();renderAdmin();renderCart()}
-    window.addToCart=id=>{const found=cart.find(x=>x.id===id);found?found.qty++:cart.push({id,qty:1});renderCart();$("#cart").classList.add("open")}
-    window.selectProduct=id=>{editing=id;renderAdmin()}
-    function showView(view){$("#publicView").classList.toggle("hidden",view!=="public");$("#adminView").classList.toggle("hidden",view!=="admin")}
-    $("#saveProduct").addEventListener("click",()=>{const p=products.find(x=>x.id===editing);p.name.en=$("#fNameEn").value;p.name.es=$("#fNameEs").value;p.price=Number($("#fPrice").value);p.stock=Number($("#fStock").value);p.batch=$("#fBatch").value;p.purity=$("#fPurity").value;p.coa=$("#fCoa").value;p.visible=$("#fVisible").value==="true";p.desc.en=$("#fDescEn").value;p.desc.es=$("#fDescEs").value;saveState()});
-    $$("[data-view]").forEach(btn=>btn.addEventListener("click",()=>showView(btn.dataset.view)));
-    $$("[data-scroll]").forEach(btn=>btn.addEventListener("click",()=>document.querySelector(btn.dataset.scroll).scrollIntoView({behavior:"smooth"})));
-    $("#langToggle").addEventListener("click",()=>{lang=lang==="en"?"es":"en";localStorage.setItem("ar-shop-lang",lang);applyText();renderProducts();renderCart()});
-    $("#themeToggle").addEventListener("click",()=>{theme=theme==="balanced"?"dark":theme==="dark"?"light":"balanced";applyTheme()});
-    $("#cartToggle").addEventListener("click",()=>$("#cart").classList.toggle("open"));$("#cartClose").addEventListener("click",()=>$("#cart").classList.remove("open"));
-    $("#loginToggle").addEventListener("click",()=>$("#loginPanel").classList.toggle("open"));$("#loginClose").addEventListener("click",()=>$("#loginPanel").classList.remove("open"));$("#memberCta").addEventListener("click",()=>$("#loginPanel").classList.add("open"));
-    function setAccount(mode,label,benefit){account={mode,label,benefit,createdAt:new Date().toISOString()};localStorage.setItem("ar-shop-account",JSON.stringify(account));renderAccount()}
-    $("#googleLogin").addEventListener("click",()=>setAccount("google","Google member alpha","Discounts, loyalty, saved addresses, order history, and batch/COA records unlocked."));
-    $("#emailLogin").addEventListener("click",()=>setAccount("email","Email magic-link member alpha","Same member benefits, owned by Ascending instead of a social-only identity."));
-    $("#guestLogin").addEventListener("click",()=>setAccount("guest","Guest checkout alpha","Browsing allowed; checkout must repeat research-use attestations."));
-    $("#resetGate").addEventListener("click",()=>{$("#gate").classList.remove("hidden");$$("[data-gate-check]").forEach(c=>c.checked=false);$("#acceptGate").disabled=true});
-    $$("[data-gate-check]").forEach(c=>c.addEventListener("change",()=>$("#acceptGate").disabled=!$$("[data-gate-check]").every(x=>x.checked)));
-    $("#acceptGate").addEventListener("click",()=>{$("#gate").classList.add("hidden");localStorage.setItem("ar-shop-gate","accepted-v0.1.2-"+new Date().toISOString())});
-    if(localStorage.getItem("ar-shop-gate"))$("#gate").classList.add("hidden");
-    applyTheme();applyText();renderProducts();renderCart();renderAdmin();renderAccount();
+    (function(){
+      const legacyKeys=[
+        "ar-shop-account",
+        "ar-shop-auth",
+        "ar-shop-gate",
+        "ar-shop-products",
+        "ar-shop-lang",
+        "ar-shop-theme"
+      ];
+      legacyKeys.forEach(key=>localStorage.removeItem(key));
+      location.replace("index.html" + location.search + location.hash);
+    })();
   </script>
+</head>
+<body>
+  <p>Retired shop alpha. Returning to Ascending Research Hub.</p>
+  <p><a href="index.html">Open Ascending Research Hub</a></p>
 </body>
 </html>
