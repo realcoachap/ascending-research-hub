@@ -1,6 +1,9 @@
 # Changelog
 
 ## [Unreleased]
+### Recovered
+- Republished the Ascending Research Hub after GitHub Pages was disabled and routed every primary Ask Theo entry point away from the dead quick tunnel to the recovered canonical Railway app.
+
 ### Added
 - Added a fresh Ask Theo character pass that positions Theo as Ascending Research's source-aware research analyst, separate from Ascending Aminos and commerce.
 - Added explicit claim-analysis handling for reported/user/creator/media dosing or use claims, with evidence tier, uncertainty, risk context, and verification framing.

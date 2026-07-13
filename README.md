@@ -1,16 +1,13 @@
 # Ascending Research Hub
 
-v0.5.17 — Theo 🧪 — 2026-06-01
+v0.5.18 — Theo ☠️ — 2026-07-13
 
-Premium static hub prototype for separating Ask Theo AI research intelligence, calculation tools, batch verification, reference notes, FAQ/compliance, and a future research-use-only commerce lane. Includes a local/proxyable Theo API test server at `api/ask-theo-server.mjs` with Gemini/Groq cloud-first mode, Ollama/Qwen local fallback, hosted HTTPS tunnel test endpoint, source/compound evidence metadata, provider timeout fallback, public source-bucket rendering for creator/community claims, and API-layer guardrails that allow source-tiered reported-claim analysis while blocking personalized/protocol guidance.
+Premium static hub for separating Ask Theo AI research intelligence, calculation tools, batch verification, reference notes, and public research data from all commerce surfaces. Includes a legacy local/proxyable Theo API test server at `api/ask-theo-server.mjs`; the live Ask Theo experience now runs from the canonical Ascending Research AI Railway service.
 
 ## Current live destinations
 
-- Ask Theo Research Analyst: https://realcoachap.github.io/ascending-research-hub/ask-ai.html
+- Ask Theo Research Analyst: https://ask-theo-production-4453.up.railway.app/
 - Peptide Price Tracker: https://realcoachap.github.io/ascending-research-hub/peptide-price-tracker.html
-- Shop Preview Page: https://realcoachap.github.io/ascending-research-hub/shop.html
-- Shop Alpha Napkin Prototype: `shop-alpha.html`
-- Production Shop Auth Spec: `docs/SHOP-AUTH-SPEC.md`
 - COA Verification Page: https://realcoachap.github.io/ascending-research-hub/coa.html
 - Research Concentration Calculator: https://realcoachap.github.io/research-concentration-calculator/
 - Peptide Education Preview: https://realcoachap.github.io/ascending-peptides-preview/
@@ -44,7 +41,7 @@ PORT=8787 OLLAMA_MODEL=qwen3:8b node api/ask-theo-server.mjs
 
 Then open `ask-ai.html` from a local static server on the same origin/proxy, or use the page's Endpoint button to set `http://127.0.0.1:8787/api/ask-theo`. If no API key is set, the server returns safe local fallback responses so the chat wire can still be tested.
 
-Current hosted test endpoint: `https://crops-reggae-commit-programme.trycloudflare.com/api/ask-theo`
+Current hosted app and API origin: `https://ask-theo-production-4453.up.railway.app`
 
 ## Theo knowledge ingestion
 
